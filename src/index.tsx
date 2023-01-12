@@ -6,8 +6,8 @@ const LINKING_ERROR =
   '- You rebuilt the app after installing the package\n' +
   '- You are not using Expo Go\n';
 
-const ClevertapSignedCallReactNative = NativeModules.ClevertapSignedCallReactNative
-  ? NativeModules.ClevertapSignedCallReactNative
+const CleverTapSignedCall = NativeModules.CleverTapSignedCall
+  ? NativeModules.CleverTapSignedCall
   : new Proxy(
       {},
       {
@@ -18,5 +18,5 @@ const ClevertapSignedCallReactNative = NativeModules.ClevertapSignedCallReactNat
     );
 
 export function multiply(a: number, b: number): Promise<number> {
-  return ClevertapSignedCallReactNative.multiply(a, b);
+  return CleverTapSignedCall.multiply(a, b);
 }

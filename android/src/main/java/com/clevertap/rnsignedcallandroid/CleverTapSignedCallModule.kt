@@ -5,7 +5,7 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 
-class ClevertapSignedCallModule(reactContext: ReactApplicationContext) :
+class CleverTapSignedCallModule(reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
   override fun getName(): String {
@@ -20,6 +20,6 @@ class ClevertapSignedCallModule(reactContext: ReactApplicationContext) :
   }
 
   companion object {
-    const val NAME = "ClevertapSignedCallReactNative"
+    const val NAME = "CleverTapSignedCall"
   }
 }
