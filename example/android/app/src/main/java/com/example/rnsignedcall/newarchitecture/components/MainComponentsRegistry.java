@@ -1,4 +1,4 @@
-package com.clevertapsignedcallreactnativeexample.newarchitecture.components;
+package com.example.rnsignedcall.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

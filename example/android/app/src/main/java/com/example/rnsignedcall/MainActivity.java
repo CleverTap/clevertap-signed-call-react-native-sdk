@@ -1,4 +1,4 @@
-package com.clevertapsignedcallreactnativeexample;
+package com.example.rnsignedcall;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

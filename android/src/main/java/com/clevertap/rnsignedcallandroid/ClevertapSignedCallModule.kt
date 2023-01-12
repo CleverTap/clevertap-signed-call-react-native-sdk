@@ -1,12 +1,12 @@
-package com.clevertapsignedcallreactnative
+package com.clevertap.rnsignedcallandroid
 
+import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.Promise
 
-class ClevertapSignedCallReactNativeModule(reactContext: ReactApplicationContext) :
-  ReactContextBaseJavaModule(reactContext) {
+class ClevertapSignedCallModule(reactContext: ReactApplicationContext) :
+    ReactContextBaseJavaModule(reactContext) {
 
   override fun getName(): String {
     return NAME

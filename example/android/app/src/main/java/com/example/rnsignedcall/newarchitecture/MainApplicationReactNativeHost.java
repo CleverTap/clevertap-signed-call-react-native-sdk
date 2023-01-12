@@ -1,4 +1,4 @@
-package com.clevertapsignedcallreactnativeexample.newarchitecture;
+package com.example.rnsignedcall.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.clevertapsignedcallreactnativeexample.BuildConfig;
-import com.clevertapsignedcallreactnativeexample.newarchitecture.components.MainComponentsRegistry;
-import com.clevertapsignedcallreactnativeexample.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.example.rnsignedcall.BuildConfig;
+import com.example.rnsignedcall.newarchitecture.components.MainComponentsRegistry;
+import com.example.rnsignedcall.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

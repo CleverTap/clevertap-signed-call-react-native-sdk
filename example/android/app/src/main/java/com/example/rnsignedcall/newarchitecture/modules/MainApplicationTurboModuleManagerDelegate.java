@@ -1,4 +1,4 @@
-package com.clevertapsignedcallreactnativeexample.newarchitecture.modules;
+package com.example.rnsignedcall.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
