@@ -1,7 +1,7 @@
 apply plugin: "com.android.application"
+apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
-import org.apache.tools.ant.taskdefs.condition.Os
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -135,7 +135,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.example.rnsignedcall"
+        applicationId "com.clevertap.signedcall_flutter_example"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -253,6 +253,16 @@ dependencies {
 
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+
+    implementation "com.clevertap.android:clevertap-android-sdk:4.6.6"
+
+    implementation "com.clevertap.android:clevertap-signedcall-sdk:0.0.1"
+    implementation('io.socket:socket.io-client:2.1.0') {
+      exclude group: 'org.json', module: 'json'
+    }
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'androidx.work:work-runtime:2.7.1'
+    implementation 'com.google.firebase:firebase-messaging:23.0.7'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

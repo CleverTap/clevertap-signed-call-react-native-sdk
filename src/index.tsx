@@ -20,3 +20,7 @@ const CleverTapSignedCall = NativeModules.CleverTapSignedCall
 export function multiply(a: number, b: number): Promise<number> {
   return CleverTapSignedCall.multiply(a, b);
 }
+
+export function init() {
+  CleverTapSignedCall.init();
+}
