@@ -2,6 +2,9 @@ package com.example.rnsignedcall;
 
 import android.app.Application;
 import android.content.Context;
+
+import com.clevertap.android.sdk.ActivityLifecycleCallback;
+import com.clevertap.android.sdk.CleverTapAPI;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -51,7 +54,9 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
+    ActivityLifecycleCallback.register(this);
     super.onCreate();
+    CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
     // If you opted-in for the New Architecture, we enable the TurboModule system
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);

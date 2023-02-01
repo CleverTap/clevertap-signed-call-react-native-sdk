@@ -1,4 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
+import { SignedCallResponse } from './models/SignedCallResponse';
 
 const LINKING_ERROR =
   `The package 'clevertap-signed-call-react-native' doesn't seem to be linked. Make sure: \n\n` +
@@ -17,10 +18,8 @@ const CleverTapSignedCall = NativeModules.CleverTapSignedCall
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return CleverTapSignedCall.multiply(a, b);
-}
-
-export function init() {
-  CleverTapSignedCall.init();
+export function init(value: any): Promise<SignedCallResponse> {
+  return CleverTapSignedCall.init(value).then((result: any) => {
+    return SignedCallResponse.fromDict(result);
+  });
 }

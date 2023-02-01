@@ -3,6 +3,7 @@ package com.clevertap.rnsignedcallandroid.util
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
+import com.clevertap.rnsignedcallandroid.internal.MissedCallActionClickHandler
 import com.clevertap.rnsignedcallandroid.util.Constants.DARK_THEME
 import com.clevertap.rnsignedcallandroid.util.Constants.KEY_ACCOUNT_ID
 import com.clevertap.rnsignedcallandroid.util.Constants.KEY_API_KEY
@@ -14,12 +15,10 @@ import com.clevertap.rnsignedcallandroid.util.Constants.KEY_FONT_COLOR
 import com.clevertap.rnsignedcallandroid.util.Constants.KEY_LOGO_URL
 import com.clevertap.rnsignedcallandroid.util.Constants.KEY_NAME
 import com.clevertap.rnsignedcallandroid.util.Constants.KEY_RINGTONE
-import com.clevertap.rnsignedcallandroid.internal.MissedCallActionClickHandler
-import com.facebook.react.bridge.ReadableMap
+import com.facebook.react.bridge.*
 import org.json.JSONObject
 
 object Serializer {
-
   /**
    * Retrieves the initOptions details from the readableMap of initProperties and parses into a JSONObject
    */
@@ -97,7 +96,7 @@ object Serializer {
     var initConfiguration: SignedCallInitConfiguration? = null
     readableMap.run {
       try {
-        val initOptions: JSONObject = Serializer.getInitOptionsFromReadableConfig(readableMap)
+        val initOptions: JSONObject = getInitOptionsFromReadableConfig(readableMap)
 
         val allowPersistSocketConnection: Boolean =
           getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION) ?: false
@@ -105,20 +104,20 @@ object Serializer {
         val promptReceiverReadPhoneStatePermission: Boolean =
           getValue(Constants.KEY_PROMPT_RECEIVER_READ_PHONE_STATE_PERMISSION) ?: false
 
-        val callScreenBranding: SignedCallScreenBranding? =
-          Serializer.getBrandingFromReadableMap(readableMap)
+        val callScreenBranding: SignedCallScreenBranding? = getBrandingFromReadableMap(readableMap)
 
         val missedCallActionsList: List<MissedCallAction>? =
-          Serializer.getMissedCallActionsFromReadableConfig(readableMap)
+          getMissedCallActionsFromReadableConfig(readableMap)
 
         val missedCallActionClickHandlerPath: String? =
           MissedCallActionClickHandler::class.java.canonicalName
 
-        initConfiguration = SignedCallInitConfiguration.Builder(initOptions, allowPersistSocketConnection)
-          .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
-          .overrideDefaultBranding(callScreenBranding)
-          .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath)
-          .build()
+        initConfiguration =
+          SignedCallInitConfiguration.Builder(initOptions, allowPersistSocketConnection)
+            .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
+            .overrideDefaultBranding(callScreenBranding)
+            .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath)
+            .build()
       } catch (throwable: Throwable) {
         Utils.log(message = "issue occurs while de-serializing the dynamic sigsock config: ${throwable.localizedMessage}")
         throwable.printStackTrace()

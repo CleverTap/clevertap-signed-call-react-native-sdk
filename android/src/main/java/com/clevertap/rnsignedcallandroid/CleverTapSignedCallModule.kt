@@ -6,7 +6,8 @@ import com.clevertap.android.signedcall.init.SignedCallAPI
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.interfaces.SignedCallInitResponse
 import com.clevertap.rnsignedcallandroid.util.Serializer.getInitConfigFromReadableMap
-import com.clevertap.rnsignedcallandroid.util.Utils
+import com.clevertap.rnsignedcallandroid.util.Utils.getSignedCallResponseWritableMap
+import com.clevertap.rnsignedcallandroid.util.Utils.log
 import com.facebook.react.bridge.*
 
 class CleverTapSignedCallModule(reactContext: ReactApplicationContext) :
@@ -32,27 +33,30 @@ class CleverTapSignedCallModule(reactContext: ReactApplicationContext) :
   }
 
   @ReactMethod
-  fun init(initProperties: ReadableMap?, initCallback: Callback) {
+  fun init(initProperties: ReadableMap?, promise: Promise) {
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     initProperties?.let {
       try {
         val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it)
-        signedCallAPI.init(context, initConfiguration, cleverTapAPI,
+        signedCallAPI.init(
+          context,
+          initConfiguration,
+          cleverTapAPI,
           object : SignedCallInitResponse {
             override fun onSuccess() {
-              Utils.log(message = "SC initialized")
+              promise.resolve(getSignedCallResponseWritableMap(exception = null))
             }
 
             override fun onFailure(initException: InitException) {
-              Utils.log(message = "SC Exception")
+              promise.resolve(getSignedCallResponseWritableMap(initException))
             }
-          })
+          }
+        )
       } catch (throwable: Throwable) {
-        throwable.printStackTrace()
-        Utils.log(message = "Exception while initializing the Signed Call native module: " + throwable.localizedMessage)
+        val errorMessage = "Exception while initializing the Signed Call native module"
+        log(message = errorMessage + ": " + throwable.localizedMessage)
+        promise.reject(errorMessage, throwable)
       }
-    } ?: run {
-      //TODO - handle error
     }
   }
 }
