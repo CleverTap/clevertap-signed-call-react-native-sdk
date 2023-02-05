@@ -1,4 +1,4 @@
-import { init } from 'clevertap-signed-call-react-native';
+import { init, call } from 'clevertap-signed-call-react-native';
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
@@ -20,6 +20,8 @@ export default function App() {
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           console.log('Signed Call SDK initialized: ', response);
+          //initiating a VoIP call
+          initiateCall();
         } else {
           console.log('Signed Call initialization failed: ', response);
         }
@@ -34,6 +36,20 @@ export default function App() {
       <Text>Result: {result ?? 'Signed Call Initialized'}</Text>
     </View>
   );
+}
+
+function initiateCall() {
+  call('test1234', 'test')
+    .then((response: SignedCallResponse) => {
+      if (response.isSuccessful) {
+        console.log('VoIP call is placed successfully', response);
+      } else {
+        console.log('VoIP call is failed: ', response);
+      }
+    })
+    .catch((e: any) => {
+      console.error(e);
+    });
 }
 
 const styles = StyleSheet.create({

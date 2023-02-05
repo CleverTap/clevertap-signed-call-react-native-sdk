@@ -18,8 +18,22 @@ const CleverTapSignedCall = NativeModules.CleverTapSignedCall
       }
     );
 
-export function init(value: any): Promise<SignedCallResponse> {
-  return CleverTapSignedCall.init(value).then((result: any) => {
+export function init(initProperties: object): Promise<SignedCallResponse> {
+  return CleverTapSignedCall.init(initProperties).then((result: any) => {
+    return SignedCallResponse.fromDict(result);
+  });
+}
+
+export function call(
+  receiverCuid: string,
+  callContext: string,
+  callProperties?: object | undefined
+): Promise<SignedCallResponse> {
+  return CleverTapSignedCall.call(
+    receiverCuid,
+    callContext,
+    callProperties
+  ).then((result: any) => {
     return SignedCallResponse.fromDict(result);
   });
 }

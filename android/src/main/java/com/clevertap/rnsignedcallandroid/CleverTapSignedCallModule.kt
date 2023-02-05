@@ -1,13 +1,17 @@
 package com.clevertap.rnsignedcallandroid
 
 import com.clevertap.android.sdk.CleverTapAPI
+import com.clevertap.android.signedcall.enums.VoIPCallStatus
+import com.clevertap.android.signedcall.exception.CallException
 import com.clevertap.android.signedcall.exception.InitException
 import com.clevertap.android.signedcall.init.SignedCallAPI
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
+import com.clevertap.android.signedcall.interfaces.OutgoingCallResponse
 import com.clevertap.android.signedcall.interfaces.SignedCallInitResponse
 import com.clevertap.rnsignedcallandroid.util.Serializer.getInitConfigFromReadableMap
 import com.clevertap.rnsignedcallandroid.util.Utils.getSignedCallResponseWritableMap
 import com.clevertap.rnsignedcallandroid.util.Utils.log
+import com.clevertap.rnsignedcallandroid.util.toJson
 import com.facebook.react.bridge.*
 
 class CleverTapSignedCallModule(reactContext: ReactApplicationContext) :
@@ -38,8 +42,7 @@ class CleverTapSignedCallModule(reactContext: ReactApplicationContext) :
     initProperties?.let {
       try {
         val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it)
-        signedCallAPI.init(
-          context,
+        signedCallAPI.init(context,
           initConfiguration,
           cleverTapAPI,
           object : SignedCallInitResponse {
@@ -50,13 +53,48 @@ class CleverTapSignedCallModule(reactContext: ReactApplicationContext) :
             override fun onFailure(initException: InitException) {
               promise.resolve(getSignedCallResponseWritableMap(initException))
             }
-          }
-        )
+          })
       } catch (throwable: Throwable) {
         val errorMessage = "Exception while initializing the Signed Call native module"
         log(message = errorMessage + ": " + throwable.localizedMessage)
         promise.reject(errorMessage, throwable)
       }
+    }
+  }
+
+  @ReactMethod
+  fun call(
+    receiverCuid: String,
+    callContext: String,
+    callProperties: ReadableMap?,
+    promise: Promise
+  ) {
+    val signedCallAPI: SignedCallAPI = getSignedCallAPI()
+    try {
+      val callOptions = callProperties?.toJson()
+      signedCallAPI.call(
+        context,
+        receiverCuid,
+        callContext,
+        callOptions,
+        object : OutgoingCallResponse {
+          override fun callStatus(voIPCallStatus: VoIPCallStatus?) {
+            //TODO: - add pub-sub signalling here
+            promise.resolve("callStatus:$voIPCallStatus")
+          }
+
+          override fun onSuccess() {
+            promise.resolve(getSignedCallResponseWritableMap(exception = null))
+          }
+
+          override fun onFailure(callException: CallException?) {
+            promise.resolve(getSignedCallResponseWritableMap(callException))
+          }
+        })
+    } catch (throwable: Throwable) {
+      val errorMessage = "Exception while initiating the VoIP Call"
+      log(message = errorMessage + ": " + throwable.localizedMessage)
+      promise.reject(errorMessage, throwable)
     }
   }
 }

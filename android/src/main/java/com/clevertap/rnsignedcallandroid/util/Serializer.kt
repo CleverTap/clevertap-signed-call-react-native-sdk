@@ -15,8 +15,10 @@ import com.clevertap.rnsignedcallandroid.util.Constants.KEY_FONT_COLOR
 import com.clevertap.rnsignedcallandroid.util.Constants.KEY_LOGO_URL
 import com.clevertap.rnsignedcallandroid.util.Constants.KEY_NAME
 import com.clevertap.rnsignedcallandroid.util.Constants.KEY_RINGTONE
+import com.clevertap.rnsignedcallandroid.util.Utils.log
 import com.facebook.react.bridge.*
 import org.json.JSONObject
+
 
 object Serializer {
   /**
@@ -119,7 +121,7 @@ object Serializer {
             .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath)
             .build()
       } catch (throwable: Throwable) {
-        Utils.log(message = "issue occurs while de-serializing the dynamic sigsock config: ${throwable.localizedMessage}")
+        log(message = "issue occurs while de-serializing the dynamic sigsock config: ${throwable.localizedMessage}")
         throwable.printStackTrace()
       }
       return initConfiguration
