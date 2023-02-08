@@ -1,21 +1,22 @@
-package com.clevertap.rnsignedcallandroid.util
+package com.clevertap.rnsignedcallandroid.internal.util
 
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
-import com.clevertap.rnsignedcallandroid.internal.MissedCallActionClickHandler
-import com.clevertap.rnsignedcallandroid.util.Constants.DARK_THEME
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_ACCOUNT_ID
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_API_KEY
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_APP_ID
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_BG_COLOR
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_BUTTON_THEME
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_CUID
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_FONT_COLOR
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_LOGO_URL
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_NAME
-import com.clevertap.rnsignedcallandroid.util.Constants.KEY_RINGTONE
-import com.clevertap.rnsignedcallandroid.util.Utils.log
+import com.clevertap.rnsignedcallandroid.CleverTapSignedCallModule
+import com.clevertap.rnsignedcallandroid.internal.handlers.MissedCallActionClickHandler
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.DARK_THEME
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_ACCOUNT_ID
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_API_KEY
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_APP_ID
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_BG_COLOR
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_BUTTON_THEME
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_CUID
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_FONT_COLOR
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_LOGO_URL
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_NAME
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_RINGTONE
+import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.*
 import org.json.JSONObject
 

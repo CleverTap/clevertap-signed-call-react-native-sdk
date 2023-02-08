@@ -1,11 +1,18 @@
-package com.clevertap.rnsignedcallandroid.internal
+package com.clevertap.rnsignedcallandroid.internal.handlers
 
 import android.content.Context
 import android.util.Log
 import com.clevertap.android.signedcall.interfaces.MissedCallNotificationOpenedHandler
 import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
-import com.clevertap.rnsignedcallandroid.util.Constants.LOG_TAG
-import com.clevertap.rnsignedcallandroid.util.Utils
+import com.clevertap.rnsignedcallandroid.internal.Constants.ON_CALL_STATUS_CHANGED
+import com.clevertap.rnsignedcallandroid.internal.Constants.ON_MISSED_CALL_ACTION_CLICKED
+import com.clevertap.rnsignedcallandroid.internal.EventName
+import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.LOG_TAG
+import com.clevertap.rnsignedcallandroid.internal.util.Utils
+import com.facebook.react.ReactApplication
+import com.facebook.react.ReactNativeHost
+
 
 /**
  * Missed Call CTA handler for SignedCall Missed Call Notifications
@@ -31,6 +38,14 @@ internal class MissedCallActionClickHandler : MissedCallNotificationOpenedHandle
           + ", cuid of callee: " + result.callDetails.calleeCuid
       )
 
+      val application = context.applicationContext as ReactApplication
+      val reactNativeHost: ReactNativeHost = application.reactNativeHost
+      val reactInstanceManager = reactNativeHost.reactInstanceManager
+      val reactContext = reactInstanceManager.currentReactContext
+
+      reactContext?.let {
+        EventEmitter(reactContext).emit(ON_MISSED_CALL_ACTION_CLICKED, result)
+      }
       //Sends the real-time changes in the call-state in an observable event-stream
       //MissedCallActionEventStreamHandler.eventSink?.success(result.toMap())
     } catch (e: Exception) {

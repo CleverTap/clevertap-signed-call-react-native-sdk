@@ -1,8 +1,17 @@
-import { init, call } from 'clevertap-signed-call-react-native';
+import {
+  init,
+  call,
+  addListener,
+  removeListener,
+  SignedCallOnCallStatusChanged,
+  SignedCallOnMissedCallActionClicked,
+} from 'clevertap-signed-call-react-native';
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
+import { CallEvent } from '../../src/models/CallEvents';
 import type { SignedCallResponse } from 'src/models/SignedCallResponse';
+import type { MissedCallActionClickResult } from 'src/models/MissedCallAction';
 
 export default function App() {
   const [result] = React.useState<string | null>();
@@ -20,14 +29,32 @@ export default function App() {
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           console.log('Signed Call SDK initialized: ', response);
+          addListener(SignedCallOnCallStatusChanged, (event: CallEvent) => {
+            console.log('response', CallEvent.Declined);
+
+            if (event === CallEvent.Declined) {
+              console.log('true', event);
+            } else {
+              console.log('false', event);
+            }
+          });
+
+          addListener(
+            SignedCallOnMissedCallActionClicked,
+            (event: MissedCallActionClickResult) => {
+              console.log('SignedCallOnMissedCallActionClicked', event);
+            }
+          );
+
           //initiating a VoIP call
           initiateCall();
         } else {
-          console.log('Signed Call initialization failed: ', response);
+          console.log('Signed Call initialization failed: ', response.error);
         }
       })
       .catch((e: any) => {
         console.error(e);
+        removeListener(SignedCallOnCallStatusChanged);
       });
   }, []);
 
@@ -44,7 +71,7 @@ function initiateCall() {
       if (response.isSuccessful) {
         console.log('VoIP call is placed successfully', response);
       } else {
-        console.log('VoIP call is failed: ', response);
+        console.log('VoIP call is failed: ', response.error);
       }
     })
     .catch((e: any) => {

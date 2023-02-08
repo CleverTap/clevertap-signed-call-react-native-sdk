@@ -1,4 +1,4 @@
-package com.clevertap.rnsignedcallandroid.util
+package com.clevertap.rnsignedcallandroid.internal.util
 
 object Constants {
   const val LOG_TAG = "[CT]:[SignedCall]:[RN]"

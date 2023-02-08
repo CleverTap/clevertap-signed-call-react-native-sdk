@@ -1,4 +1,4 @@
-class SignedCallResponse {
+export class SignedCallResponse {
   isSuccessful: boolean;
   error: SignedCallError | null;
 
@@ -37,5 +37,3 @@ class SignedCallError {
     );
   }
 }
-
-export { SignedCallResponse };
