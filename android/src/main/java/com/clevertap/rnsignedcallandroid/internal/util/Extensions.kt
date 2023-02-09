@@ -5,7 +5,6 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-
 inline fun <reified T> ReadableMap.getValue(key: String): T? {
   if (!this.hasKey(key)) {
     return null

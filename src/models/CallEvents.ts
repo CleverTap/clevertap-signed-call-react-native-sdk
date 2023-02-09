@@ -45,7 +45,9 @@ export namespace CallEvent {
         return CallEvent.ReceiverBusyOnAnotherCall;
       default:
         const errorMessage = `"{event}" is not a valid value for CallEvent.`;
-        SignedCallLogger.debug(errorMessage.replace('{event}', event));
+        SignedCallLogger.debug({
+          message: errorMessage.replace('{event}', event),
+        });
         throw new Error(errorMessage.replace('{event}', event));
     }
   }

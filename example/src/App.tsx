@@ -1,4 +1,5 @@
 import {
+  setDebugLevel,
   init,
   call,
   addListener,
@@ -9,14 +10,17 @@ import {
 import * as React from 'react';
 
 import { StyleSheet, View, Text } from 'react-native';
-import { CallEvent } from '../../src/models/CallEvents';
+import type { CallEvent } from '../../src/models/CallEvents';
 import type { SignedCallResponse } from 'src/models/SignedCallResponse';
 import type { MissedCallActionClickResult } from 'src/models/MissedCallAction';
+import { LogLevel } from '../../src/models/LogLevel';
 
 export default function App() {
   const [result] = React.useState<string | null>();
 
   React.useEffect(() => {
+    setDebugLevel(LogLevel.Off);
+
     init({
       accountId: '61a52046f56a14cb19a1e9cc',
       apiKey:
@@ -30,13 +34,7 @@ export default function App() {
         if (response.isSuccessful) {
           console.log('Signed Call SDK initialized: ', response);
           addListener(SignedCallOnCallStatusChanged, (event: CallEvent) => {
-            console.log('response', CallEvent.Declined);
-
-            if (event === CallEvent.Declined) {
-              console.log('true', event);
-            } else {
-              console.log('false', event);
-            }
+            console.log('SignedCallOnCallStatusChanged', event);
           });
 
           addListener(

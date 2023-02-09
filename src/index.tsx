@@ -1,7 +1,9 @@
 import { NativeEventEmitter, NativeModules, Platform } from 'react-native';
 import { CallEvent } from './models/CallEvents';
+import type { LogLevel } from './models/LogLevel';
 import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
+import { SignedCallLogger } from './utils/SignedCallLogger';
 
 const LINKING_ERROR =
   `The package 'clevertap-signed-call-react-native' doesn't seem to be linked. Make sure: \n\n` +
@@ -21,6 +23,11 @@ const CleverTapSignedCall = NativeModules.CleverTapSignedCall
         },
       }
     );
+
+export function setDebugLevel(logLevel: LogLevel) {
+  SignedCallLogger.setLogLevel(logLevel);
+  CleverTapSignedCall.setDebugLevel(logLevel);
+}
 
 export function init(initProperties: object): Promise<SignedCallResponse> {
   return CleverTapSignedCall.init(initProperties).then((result: any) => {
@@ -42,10 +49,21 @@ export function call(
   });
 }
 
+export function logout() {
+  CleverTapSignedCall.logout();
+}
+
+export function hangupCall() {
+  CleverTapSignedCall.hangupCall();
+}
+
 export function addListener(eventName: string, handler: any): void {
+  //Removes the active listeners of the given event to avoid duplicate listeners
   removeListener(eventName);
+
   if (eventEmitter) {
-    console.log('addListener1', eventName);
+    SignedCallLogger.debug({ message: 'this is msg1' });
+    SignedCallLogger.debug({ message: 'this is msg2', tag: 'tag1' });
 
     eventEmitter.addListener(eventName, (response: any) => {
       switch (eventName) {

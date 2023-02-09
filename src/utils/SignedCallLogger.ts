@@ -3,22 +3,25 @@ import { LogLevel } from '../models/LogLevel';
 export class SignedCallLogger {
   private static readonly defaultTagPrefix = '[CT]:[SignedCall]:[RN]';
 
-  private static currentLogLevel = LogLevel.info;
+  private static currentLogLevel = LogLevel.Info;
 
   static setLogLevel(priority: number): void {
     this.currentLogLevel = priority;
   }
 
-  static verbose(message: string, tag: string = this.defaultTagPrefix): void {
-    this._log(LogLevel.verbose, tag, message);
+  static verbose(options: { tag?: string; message: string }): void {
+    let tag = options.tag || this.defaultTagPrefix;
+    this._log(LogLevel.Verbose, tag, options.message);
   }
 
-  static info(message: string, tag: string = this.defaultTagPrefix): void {
-    this._log(LogLevel.info, tag, message);
+  static info(options: { tag?: string; message: string }): void {
+    let tag = options.tag || this.defaultTagPrefix;
+    this._log(LogLevel.Info, tag, options.message);
   }
 
-  static debug(message: string, tag: string = this.defaultTagPrefix): void {
-    this._log(LogLevel.debug, tag, message);
+  static debug(options: { tag?: string; message: string }): void {
+    let tag = options.tag || this.defaultTagPrefix;
+    this._log(LogLevel.Debug, tag, options.message);
   }
 
   private static _log(priority: LogLevel, tag: string, message: string): void {

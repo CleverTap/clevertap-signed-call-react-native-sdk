@@ -12,6 +12,7 @@ import com.clevertap.rnsignedcallandroid.internal.Constants.ON_CALL_STATUS_CHANG
 import com.clevertap.rnsignedcallandroid.internal.Constants.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.signedCallResponseToWritableMap
+import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toSignedCallLogLevel
 import com.clevertap.rnsignedcallandroid.internal.util.Serializer.getInitConfigFromReadableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.clevertap.rnsignedcallandroid.internal.util.toJson
@@ -36,6 +37,16 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     return NAME
   }
 
+  @ReactMethod
+  fun addListener(eventName: String?) {
+    // Keep: Required for RN built in Event Emitter Calls.
+  }
+
+  @ReactMethod
+  fun removeListeners(count: Int?) {
+    // Keep: Required for RN built in Event Emitter Calls.
+  }
+
   override fun getConstants(): MutableMap<String, String> = hashMapOf(
     ON_CALL_STATUS_CHANGED to ON_CALL_STATUS_CHANGED,
     ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED
@@ -47,6 +58,11 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
       cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
     }
     return mSignedCall!!
+  }
+
+  @ReactMethod
+  fun setDebugLevel(logLevel: Int) {
+    SignedCallAPI.setDebugLevel(logLevel.toSignedCallLogLevel())
   }
 
   @ReactMethod
@@ -107,6 +123,19 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     }
   }
 
+  //Logs out the Signed Call SDK session
+  @ReactMethod
+  fun logout() {
+    getSignedCallAPI().logout(reactContext)
+  }
+
+  //Ends the active call, if any.
+  @ReactMethod
+  fun hangupCall() {
+    getSignedCallAPI().callController?.endCall()
+  }
+
+  //Sends the real-time changes in the call-state to an observable event-stream
   private fun emitCallEvent(callStatus: VoIPCallStatus) {
     val callEventName = when (callStatus) {
       VoIPCallStatus.CALL_CANCELLED -> "Cancelled"
@@ -118,15 +147,5 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
       VoIPCallStatus.CALLEE_BUSY_ON_ANOTHER_CALL -> "ReceiverBusyOnAnotherCall"
     }
     eventEmitter?.emit(ON_CALL_STATUS_CHANGED, callEventName)
-  }
-
-  @ReactMethod
-  fun addListener(eventName: String?) {
-    // Keep: Required for RN built in Event Emitter Calls.
-  }
-
-  @ReactMethod
-  fun removeListeners(count: Int?) {
-    // Keep: Required for RN built in Event Emitter Calls.
   }
 }

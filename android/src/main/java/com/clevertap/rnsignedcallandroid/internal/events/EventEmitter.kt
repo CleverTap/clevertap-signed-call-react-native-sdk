@@ -5,6 +5,7 @@ import com.clevertap.rnsignedcallandroid.internal.Constants.ON_CALL_STATUS_CHANG
 import com.clevertap.rnsignedcallandroid.internal.Constants.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.EventName
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter
+import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.DeviceEventManagerModule
@@ -31,7 +32,7 @@ class EventEmitter(private val reactContext: ReactContext) {
   }
 
   private fun emitOnMissedCallActionClicked(@EventName event: String, missedCallAction: MissedCallNotificationOpenResult) {
-    val payload = PayloadConverter.missedCallActionToWriteableMap(missedCallAction)
+    val payload = missedCallAction.toWriteableMap()
     log(message = "emitOnMissedCallActionClicked() : $event with payload: $payload")
     sendEmit(event, payload)
   }
