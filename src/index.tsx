@@ -62,9 +62,6 @@ export function addListener(eventName: string, handler: any): void {
   removeListener(eventName);
 
   if (eventEmitter) {
-    SignedCallLogger.debug({ message: 'this is msg1' });
-    SignedCallLogger.debug({ message: 'this is msg2', tag: 'tag1' });
-
     eventEmitter.addListener(eventName, (response: any) => {
       switch (eventName) {
         case SignedCallOnCallStatusChanged:

@@ -1,25 +1,26 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   setDebugLevel,
+  logout,
   init,
   call,
   addListener,
-  removeListener,
   SignedCallOnCallStatusChanged,
   SignedCallOnMissedCallActionClicked,
 } from 'clevertap-signed-call-react-native';
 import * as React from 'react';
-
-import { StyleSheet, View, Text } from 'react-native';
 import type { CallEvent } from '../../src/models/CallEvents';
 import type { SignedCallResponse } from 'src/models/SignedCallResponse';
 import type { MissedCallActionClickResult } from 'src/models/MissedCallAction';
 import { LogLevel } from '../../src/models/LogLevel';
+import { StyleSheet, View, Button, Text } from 'react-native';
 
 export default function App() {
-  const [result] = React.useState<string | null>();
+  const [initResult, setInitResult] = React.useState<string | undefined>();
+  const [isCallButtonDisabled, setCallButtonDisabled] = React.useState(true);
 
   React.useEffect(() => {
-    setDebugLevel(LogLevel.Off);
+    setDebugLevel(LogLevel.Verbose);
 
     init({
       accountId: '61a52046f56a14cb19a1e9cc',
@@ -32,39 +33,72 @@ export default function App() {
     })
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
+          setCallButtonDisabled(!isCallButtonDisabled);
+          setInitResult('Signed Call SDK initialized!');
           console.log('Signed Call SDK initialized: ', response);
-          addListener(SignedCallOnCallStatusChanged, (event: CallEvent) => {
-            console.log('SignedCallOnCallStatusChanged', event);
-          });
 
-          addListener(
-            SignedCallOnMissedCallActionClicked,
-            (event: MissedCallActionClickResult) => {
-              console.log('SignedCallOnMissedCallActionClicked', event);
-            }
-          );
-
-          //initiating a VoIP call
-          initiateCall();
+          registerEventListeners();
         } else {
+          setInitResult(
+            'Signed Call SDK init failed:\n' + response.error?.errorMessage
+          );
           console.log('Signed Call initialization failed: ', response.error);
         }
       })
       .catch((e: any) => {
         console.error(e);
-        removeListener(SignedCallOnCallStatusChanged);
+        setInitResult('Signed Call SDK init failed:' + e);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result ?? 'Signed Call Initialized'}</Text>
+      <Text
+        style={{
+          textAlign: 'center',
+          fontSize: 14,
+          padding: 30,
+          color: 'blue',
+        }}
+      >
+        {initResult ? initResult : 'Please wait, Initializing the Signed Call!'}
+      </Text>
+
+      <Button
+        title="Initiate Call"
+        color="red"
+        onPress={() => initiateCall()}
+        disabled={isCallButtonDisabled}
+      />
+
+      <View style={{ margin: 10 }} />
+
+      <Button
+        title="Log Out"
+        color="red"
+        onPress={() => logoutSession()}
+        disabled={isCallButtonDisabled}
+      />
     </View>
   );
 }
 
+function registerEventListeners() {
+  addListener(SignedCallOnCallStatusChanged, (event: CallEvent) => {
+    console.log('SignedCallOnCallStatusChanged', event);
+  });
+
+  addListener(
+    SignedCallOnMissedCallActionClicked,
+    (event: MissedCallActionClickResult) => {
+      console.log('SignedCallOnMissedCallActionClicked', event);
+    }
+  );
+}
+
 function initiateCall() {
-  call('test1234', 'test')
+  call('test123', 'test')
     .then((response: SignedCallResponse) => {
       if (response.isSuccessful) {
         console.log('VoIP call is placed successfully', response);
@@ -75,6 +109,10 @@ function initiateCall() {
     .catch((e: any) => {
       console.error(e);
     });
+}
+
+function logoutSession() {
+  logout();
 }
 
 const styles = StyleSheet.create({
