@@ -23,7 +23,7 @@ export default function App() {
         '0': 'call me back',
       },
     })
-      .then((response: SignedCallResponse | null) => {
+      .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           setCallButtonDisabled(!isCallButtonDisabled);
           setInitResult('Signed Call SDK initialized!');
