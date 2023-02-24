@@ -5,6 +5,10 @@
 #import <React/RCTRootView.h>
 
 #import <React/RCTAppSetupUtils.h>
+//#import <CTSimplePing/CTSimplePingClient.h>
+#import <CleverTapSDK/CleverTap.h>
+//#import <SignedCallSDK/SignedCallSDK-Swift.h>
+
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -18,7 +22,9 @@
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
-@interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate> {
+//@class CTSimplePingClient
+
+@interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate, CTSimplePingClient> {
   RCTTurboModuleManager *_turboModuleManager;
   RCTSurfacePresenterBridgeAdapter *_bridgeAdapter;
   std::shared_ptr<const facebook::react::ReactNativeConfig> _reactNativeConfig;
@@ -56,6 +62,10 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+
+//  [SignedCall setIsLoggingEnabled: YES];
+//  [SignedCall registerVoIPWithRootView:self.window.rootViewController appName:@"Sample App"];
+  
   [self.window makeKeyAndVisible];
   return YES;
 }
