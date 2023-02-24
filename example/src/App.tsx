@@ -1,13 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import {
-  setDebugLevel,
-  logout,
-  init,
-  call,
-  addListener,
-  SignedCallOnCallStatusChanged,
-  SignedCallOnMissedCallActionClicked,
-} from 'clevertap-signed-call-react-native';
+import SignedCall from 'clevertap-signed-call-react-native';
 import * as React from 'react';
 import type { CallEvent } from '../../src/models/CallEvents';
 import type { SignedCallResponse } from 'src/models/SignedCallResponse';
@@ -20,9 +12,9 @@ export default function App() {
   const [isCallButtonDisabled, setCallButtonDisabled] = React.useState(true);
 
   React.useEffect(() => {
-    setDebugLevel(LogLevel.Verbose);
+    SignedCall.setDebugLevel(LogLevel.Verbose);
 
-    init({
+    SignedCall.init({
       accountId: '61a52046f56a14cb19a1e9cc',
       apiKey:
         '9dcced09dae16c5e3606c22346d92361b77efdb360425913850bea4f22d812dd',
@@ -31,7 +23,7 @@ export default function App() {
         '0': 'call me back',
       },
     })
-      .then((response: SignedCallResponse) => {
+      .then((response: SignedCallResponse | null) => {
         if (response.isSuccessful) {
           setCallButtonDisabled(!isCallButtonDisabled);
           setInitResult('Signed Call SDK initialized!');
@@ -85,12 +77,15 @@ export default function App() {
 }
 
 function registerEventListeners() {
-  addListener(SignedCallOnCallStatusChanged, (event: CallEvent) => {
-    console.log('SignedCallOnCallStatusChanged', event);
-  });
+  SignedCall.addListener(
+    SignedCall.SignedCallOnCallStatusChanged,
+    (event: CallEvent) => {
+      console.log('SignedCallOnCallStatusChanged', event);
+    }
+  );
 
-  addListener(
-    SignedCallOnMissedCallActionClicked,
+  SignedCall.addListener(
+    SignedCall.SignedCallOnMissedCallActionClicked,
     (event: MissedCallActionClickResult) => {
       console.log('SignedCallOnMissedCallActionClicked', event);
     }
@@ -98,7 +93,7 @@ function registerEventListeners() {
 }
 
 function initiateCall() {
-  call('test123', 'test')
+  SignedCall.call('test123', 'test')
     .then((response: SignedCallResponse) => {
       if (response.isSuccessful) {
         console.log('VoIP call is placed successfully', response);
@@ -112,7 +107,7 @@ function initiateCall() {
 }
 
 function logoutSession() {
-  logout();
+  SignedCall.logout();
 }
 
 const styles = StyleSheet.create({
