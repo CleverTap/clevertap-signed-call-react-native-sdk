@@ -86,7 +86,7 @@ const DialerScreen = ({ route, navigation }: any) => {
       />
 
       <View style={styles.mainSection}>
-        <Text>Enter CUID</Text>
+        <Text>Enter receiver's cuid</Text>
         <TextInput
           style={styles.inputStyle}
           autoCapitalize="none"
