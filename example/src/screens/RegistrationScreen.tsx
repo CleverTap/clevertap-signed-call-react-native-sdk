@@ -44,8 +44,10 @@ export default function RegistrationPage({ navigation }: any) {
       accountId: Constants.SC_ACCOUNT_ID,
       apiKey: Constants.SC_API_KEY,
       cuid: cuid,
+      allowPersistSocketConnection: true,
+      promptReceiverReadPhoneStatePermission: true,
       missedCallActions: {
-        '0': 'call me back',
+        '123': 'call me back',
       },
     })
       .then((response: SignedCallResponse) => {
