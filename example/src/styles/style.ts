@@ -9,10 +9,11 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '30%',
+    height: '25%',
     resizeMode: 'contain',
   },
   mainSection: {
+    marginTop: 30,
     justifyContent: 'center',
   },
   mainHeader: {
@@ -20,9 +21,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#344055',
     fontWeight: '500',
-    paddingTop: 20,
-    paddingBottom: 15,
-    fontFamily: 'bold',
   },
   inputContainer: {
     marginTop: 20,
