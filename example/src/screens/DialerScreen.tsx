@@ -6,6 +6,7 @@ import {
   Button,
   BackHandler,
   Alert,
+  Keyboard,
 } from 'react-native';
 import React from 'react';
 import styles from '../styles/style';
@@ -14,6 +15,7 @@ import type { SignedCallResponse } from 'src/models/SignedCallResponse';
 import type { CallEvent } from 'src/models/CallEvents';
 import type { MissedCallActionClickResult } from 'src/models/MissedCallAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { requestPermissions } from '../Helpers';
 
 const DialerScreen = ({ route, navigation }: any) => {
   const { registeredCuid } = route.params;
@@ -60,6 +62,7 @@ const DialerScreen = ({ route, navigation }: any) => {
           console.log('VoIP call is placed successfully', response);
         } else {
           console.log('VoIP call is failed: ', response.error);
+          Alert.alert('VoIP call is failed!', response.error?.errorDescription);
         }
       })
       .catch((e: any) => {
@@ -108,7 +111,13 @@ const DialerScreen = ({ route, navigation }: any) => {
           <Button
             title="Initiate VoIP Call"
             color="red"
-            onPress={() => initiateVoIPCall()}
+            onPress={() => {
+              Keyboard.dismiss();
+              requestPermissions(() => {
+                //permissions are granted
+                initiateVoIPCall();
+              });
+            }}
             disabled={receiverCuid.length === 0 || callContext.length === 0}
           />
         </View>
