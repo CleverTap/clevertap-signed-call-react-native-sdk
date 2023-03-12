@@ -24,6 +24,15 @@
         </intent-filter>
       </activity>
 
+      <!-- Out of box solution of CleverTap Android SDK-->
+      <service
+        android:name="com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService"
+        android:exported="false">
+        <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+      </service>
+
       <!-- CleverTap Account Credentials -->
       <meta-data
         android:name="CLEVERTAP_ACCOUNT_ID"
