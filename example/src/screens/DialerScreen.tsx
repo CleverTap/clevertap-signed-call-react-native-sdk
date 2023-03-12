@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import React from 'react';
 import styles from '../styles/style';
-import SignedCall from 'clevertap-signed-call-react-native';
-import type { SignedCallResponse } from 'src/models/SignedCallResponse';
-import type { CallEvent } from 'src/models/CallEvents';
+import SignedCall, {
+  CallEvent,
+  SignedCallResponse,
+} from 'clevertap-signed-call-react-native';
 import type { MissedCallActionClickResult } from 'src/models/MissedCallAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestPermissions } from '../Helpers';

@@ -1,5 +1,5 @@
 import { NativeEventEmitter, NativeModules } from 'react-native';
-import { CallEvent } from './models/CallEvents';
+import { CallEvent, CallEventUtil } from './models/CallEvents';
 import type { LogLevel } from './models/LogLevel';
 import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
@@ -66,7 +66,7 @@ const SignedCall = {
       eventEmitter.addListener(eventName, (response: any) => {
         switch (eventName) {
           case SignedCall.SignedCallOnCallStatusChanged:
-            handler(CallEvent.fromString(response));
+            handler(CallEventUtil.fromString(response));
             break;
           case SignedCall.SignedCallOnMissedCallActionClicked:
             handler(MissedCallActionClickResult.fromDict(response));
@@ -84,3 +84,5 @@ const SignedCall = {
 };
 
 export default SignedCall;
+
+export { SignedCallResponse, CallEvent, MissedCallActionClickResult };
