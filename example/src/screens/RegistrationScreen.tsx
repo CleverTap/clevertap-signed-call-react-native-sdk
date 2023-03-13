@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 import styles from '../styles/style';
-import SignedCall, {
+import {
+  SignedCall,
   SignedCallResponse,
 } from 'clevertap-signed-call-react-native';
 import { Constants } from '../Constants';
