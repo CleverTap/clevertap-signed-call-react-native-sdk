@@ -1,3 +1,6 @@
+/**
+ * Enum representing what level of logs will Android and iOS project be printing on their consoles respectively.
+ */
 export enum LogLevel {
   //disables all debugging
   Off = -1,

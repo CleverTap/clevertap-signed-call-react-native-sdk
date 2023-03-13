@@ -3,6 +3,7 @@ import { LogLevel } from '../models/LogLevel';
 export class SignedCallLogger {
   private static readonly defaultTagPrefix = '[CT]:[SignedCall]:[RN]';
 
+  //Sets LogLevel.Info as default log level
   private static currentLogLevel = LogLevel.Info;
 
   static setLogLevel(priority: number): void {

@@ -1,3 +1,6 @@
+/**
+ * Represents the details associated to a CTA click of the missed call notification.
+ */
 export class MissedCallActionClickResult {
   action: MissedCallNotificationAction;
   callDetails: CallDetails;
@@ -14,6 +17,7 @@ export class MissedCallActionClickResult {
   }
 }
 
+//Contains details about the missed call
 class CallDetails {
   callerCuid: string;
   calleeCuid: string;
@@ -33,6 +37,7 @@ class CallDetails {
   }
 }
 
+//Contains details about the clicked action-button
 class MissedCallNotificationAction {
   actionId: string;
   actionLabel: string;
