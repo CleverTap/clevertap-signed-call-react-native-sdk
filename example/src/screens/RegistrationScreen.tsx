@@ -42,7 +42,7 @@ export default function RegistrationPage({ navigation }: any) {
   const initSignedCallSdk = () => {
     setLoading(true);
 
-    SignedCall.init({
+    SignedCall.initialize({
       accountId: Constants.SC_ACCOUNT_ID,
       apiKey: Constants.SC_API_KEY,
       cuid: cuid,
