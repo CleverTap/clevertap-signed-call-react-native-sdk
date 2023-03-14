@@ -6,11 +6,14 @@ import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableMap
 
+/**
+ * Contains parser methods to change the payload from one type to another.
+ */
 internal object PayloadConverter {
 
   /**
-   * Parses the integer to the [SignedCallAPI.LogLevel]
-   * @return - returns a parsed DCLogLevel value
+   * Parses the integer debug level to the [SignedCallAPI.LogLevel] type
+   * @return - returns a parsed SCLogLevel value
    */
   fun Int.toSignedCallLogLevel(): Int {
     return when (this) {
@@ -23,7 +26,8 @@ internal object PayloadConverter {
   }
 
   /**
-   * Parses the initialization or call response to a map by populating properties
+   * Parses the result of the initialization or call-attempt to a map
+   * @return - returns a parsed WritableMap
    */
   @JvmStatic
   fun signedCallResponseToWritableMap(exception: BaseException?): WritableMap {
@@ -39,6 +43,10 @@ internal object PayloadConverter {
     return responseMap
   }
 
+  /**
+   * Parses the [MissedCallNotificationOpenResult] type to a map
+   * @return - returns a parsed WritableMap
+   */
   @JvmStatic
   fun MissedCallNotificationOpenResult.toWriteableMap(): WritableMap {
     val responseMap = Arguments.createMap()

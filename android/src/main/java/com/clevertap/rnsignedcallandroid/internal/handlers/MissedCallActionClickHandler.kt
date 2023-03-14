@@ -4,15 +4,12 @@ import android.content.Context
 import android.util.Log
 import com.clevertap.android.signedcall.interfaces.MissedCallNotificationOpenedHandler
 import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
-import com.clevertap.rnsignedcallandroid.internal.Constants.ON_CALL_STATUS_CHANGED
-import com.clevertap.rnsignedcallandroid.internal.Constants.ON_MISSED_CALL_ACTION_CLICKED
-import com.clevertap.rnsignedcallandroid.internal.EventName
+import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.LOG_TAG
 import com.clevertap.rnsignedcallandroid.internal.util.Utils
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactNativeHost
-
 
 /**
  * Missed Call CTA handler for SignedCall Missed Call Notifications
