@@ -2,7 +2,6 @@ package com.clevertap.rnsignedcallandroid.internal.util
 
 object Constants {
   const val LOG_TAG = "[CT]:[SignedCall]:[RN]"
-  const val KEY_LOG_LEVEL = "logLevel"
   const val KEY_ACCOUNT_ID = "accountId"
   const val KEY_API_KEY = "apiKey"
   const val KEY_CUID = "cuid"
@@ -18,10 +17,8 @@ object Constants {
   const val KEY_FONT_COLOR = "fontColor"
   const val KEY_LOGO_URL = "logoUrl"
   const val KEY_BUTTON_THEME = "buttonTheme"
-  const val KEY_CALL_PROPERTIES = "callProperties"
   const val KEY_RECEIVER_CUID = "receiverCuid"
   const val KEY_CALL_CONTEXT = "callContext"
-  const val KEY_CALL_OPTIONS = "callOptions"
   const val KEY_ERROR_CODE = "errorCode"
   const val KEY_ERROR_MESSAGE = "errorMessage"
   const val KEY_ERROR_DESCRIPTION = "errorDescription"

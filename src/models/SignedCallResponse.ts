@@ -1,3 +1,6 @@
+/**
+ * Represents the result of the given tasks (init, call etc).
+ */
 export class SignedCallResponse {
   isSuccessful: boolean;
   error: SignedCallError | null;
@@ -14,6 +17,7 @@ export class SignedCallResponse {
   }
 }
 
+//Represents the SignedCall SDK errors
 class SignedCallError {
   errorCode: number;
   errorMessage: string;

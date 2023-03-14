@@ -66,7 +66,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   }
 
   @ReactMethod
-  fun init(initProperties: ReadableMap?, promise: Promise) {
+  fun initialize(initProperties: ReadableMap?, promise: Promise) {
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     initProperties?.let {
       try {
