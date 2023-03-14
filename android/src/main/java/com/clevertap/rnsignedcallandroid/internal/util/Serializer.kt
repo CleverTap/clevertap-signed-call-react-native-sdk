@@ -3,7 +3,6 @@ package com.clevertap.rnsignedcallandroid.internal.util
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
-import com.clevertap.rnsignedcallandroid.CleverTapSignedCallModule
 import com.clevertap.rnsignedcallandroid.internal.handlers.MissedCallActionClickHandler
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.DARK_THEME
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_ACCOUNT_ID
@@ -20,7 +19,9 @@ import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.*
 import org.json.JSONObject
 
-
+/**
+ * Provides utility methods to serialize the ReadableMap to some desired type.
+ */
 object Serializer {
   /**
    * Retrieves the initOptions details from the readableMap of initProperties and parses into a JSONObject
@@ -94,6 +95,10 @@ object Serializer {
     }
   }
 
+  /**
+   * Retrieves the initConfiguration from the input initProperties object and
+   * parses into the [SignedCallInitConfiguration] object.
+   */
   @JvmStatic
   fun getInitConfigFromReadableMap(readableMap: ReadableMap): SignedCallInitConfiguration? {
     var initConfiguration: SignedCallInitConfiguration? = null

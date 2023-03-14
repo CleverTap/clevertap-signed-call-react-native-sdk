@@ -8,8 +8,8 @@ import com.clevertap.android.signedcall.init.SignedCallAPI
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.interfaces.OutgoingCallResponse
 import com.clevertap.android.signedcall.interfaces.SignedCallInitResponse
-import com.clevertap.rnsignedcallandroid.internal.Constants.ON_CALL_STATUS_CHANGED
-import com.clevertap.rnsignedcallandroid.internal.Constants.ON_MISSED_CALL_ACTION_CLICKED
+import com.clevertap.rnsignedcallandroid.internal.Events.ON_CALL_STATUS_CHANGED
+import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.signedCallResponseToWritableMap
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toSignedCallLogLevel
@@ -17,7 +17,6 @@ import com.clevertap.rnsignedcallandroid.internal.util.Serializer.getInitConfigF
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.clevertap.rnsignedcallandroid.internal.util.toJson
 import com.facebook.react.bridge.*
-
 
 class CleverTapSignedCallModule(private val reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -65,8 +64,11 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     SignedCallAPI.setDebugLevel(logLevel.toSignedCallLogLevel())
   }
 
+  /**
+   * Retrieves the init-properties from the readableMap and initializes the Signed Call Android SDK
+   */
   @ReactMethod
-  fun init(initProperties: ReadableMap?, promise: Promise) {
+  fun initialize(initProperties: ReadableMap?, promise: Promise) {
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     initProperties?.let {
       try {
@@ -92,6 +94,9 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     }
   }
 
+  /**
+   * Sends the call-details to initiate a VoIP call
+   */
   @ReactMethod
   fun call(
     receiverCuid: String, callContext: String, callProperties: ReadableMap?, promise: Promise
@@ -123,19 +128,25 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     }
   }
 
-  //Logs out the Signed Call SDK session
+  /**
+   * Logs out the Signed Call SDK session
+   */
   @ReactMethod
   fun logout() {
     getSignedCallAPI().logout(reactContext)
   }
 
-  //Ends the active call, if any.
+  /**
+   * Ends the active call, if any.
+   */
   @ReactMethod
   fun hangupCall() {
     getSignedCallAPI().callController?.endCall()
   }
 
-  //Sends the real-time changes in the call-state to an observable event-stream
+  /**
+   * Sends the real-time changes in the call-state to an observable event-stream
+   */
   private fun emitCallEvent(callStatus: VoIPCallStatus) {
     val callEventName = when (callStatus) {
       VoIPCallStatus.CALL_CANCELLED -> "Cancelled"
