@@ -41,10 +41,12 @@ class SignedCall {
    * Initializes the Signed Call SDK in your app's Javascript or Typescript code.
    * @param {object} initProperties - configuration object for the initialization.
    */
-  static init(initProperties: object): Promise<SignedCallResponse> {
-    return CleverTapSignedCall.init(initProperties).then((result: any) => {
-      return SignedCallResponse.fromDict(result);
-    });
+  static initialize(initProperties: object): Promise<SignedCallResponse> {
+    return CleverTapSignedCall.initialize(initProperties).then(
+      (result: any) => {
+        return SignedCallResponse.fromDict(result);
+      }
+    );
   }
 
   /**
