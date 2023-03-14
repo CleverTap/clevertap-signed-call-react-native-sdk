@@ -3,18 +3,18 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* ClevertapSignedCallReactNativeExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ClevertapSignedCallReactNativeExampleTests.m */; };
-		0EAA027910F1A9F7E5E35B21 /* Pods_ClevertapSignedCallReactNativeExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 057996083B0B42A30D5A7711 /* Pods_ClevertapSignedCallReactNativeExample.framework */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
+		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; settings = {COMPILER_FLAGS = "-fmodules"; }; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		1766D2ABA715923467CB2D89 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C37A96E050438D9A2987DA /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework */; };
 		5791A966299DD42400C46437 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 5791A965299DD42300C46437 /* main.jsbundle */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		BFC509ECBD89A56CC6946922 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE916EAEDE16906F5B86EB1 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework */; };
+		FC7329D9A197165DF1BC8C9D /* Pods_ClevertapSignedCallReactNativeExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CC95541B54715266A0B3F1 /* Pods_ClevertapSignedCallReactNativeExample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,21 +31,22 @@
 		00E356EE1AD99517003FC87E /* ClevertapSignedCallReactNativeExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClevertapSignedCallReactNativeExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ClevertapSignedCallReactNativeExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClevertapSignedCallReactNativeExampleTests.m; sourceTree = "<group>"; };
-		057996083B0B42A30D5A7711 /* Pods_ClevertapSignedCallReactNativeExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClevertapSignedCallReactNativeExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* ClevertapSignedCallReactNativeExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClevertapSignedCallReactNativeExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ClevertapSignedCallReactNativeExample/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ClevertapSignedCallReactNativeExample/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ClevertapSignedCallReactNativeExample/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ClevertapSignedCallReactNativeExample/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ClevertapSignedCallReactNativeExample/main.m; sourceTree = "<group>"; };
+		1FE916EAEDE16906F5B86EB1 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-ClevertapSignedCallReactNativeExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClevertapSignedCallReactNativeExample.debug.xcconfig"; path = "Target Support Files/Pods-ClevertapSignedCallReactNativeExample/Pods-ClevertapSignedCallReactNativeExample.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-ClevertapSignedCallReactNativeExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClevertapSignedCallReactNativeExample.release.xcconfig"; path = "Target Support Files/Pods-ClevertapSignedCallReactNativeExample/Pods-ClevertapSignedCallReactNativeExample.release.xcconfig"; sourceTree = "<group>"; };
 		5791A965299DD42300C46437 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		57C0551229A60546008D1F8E /* ClevertapSignedCallReactNativeExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ClevertapSignedCallReactNativeExample.entitlements; path = ClevertapSignedCallReactNativeExample/ClevertapSignedCallReactNativeExample.entitlements; sourceTree = "<group>"; };
+		57F23C4F29BF8D2900D9552E /* ClevertapSignedCallReactNativeExample-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClevertapSignedCallReactNativeExample-Bridging-Header.h"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests.debug.xcconfig"; path = "Target Support Files/Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests/Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ClevertapSignedCallReactNativeExample/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests.release.xcconfig"; path = "Target Support Files/Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests/Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests.release.xcconfig"; sourceTree = "<group>"; };
-		C9C37A96E050438D9A2987DA /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8CC95541B54715266A0B3F1 /* Pods_ClevertapSignedCallReactNativeExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ClevertapSignedCallReactNativeExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -54,7 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1766D2ABA715923467CB2D89 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework in Frameworks */,
+				BFC509ECBD89A56CC6946922 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0EAA027910F1A9F7E5E35B21 /* Pods_ClevertapSignedCallReactNativeExample.framework in Frameworks */,
+				FC7329D9A197165DF1BC8C9D /* Pods_ClevertapSignedCallReactNativeExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +97,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				57F23C4F29BF8D2900D9552E /* ClevertapSignedCallReactNativeExample-Bridging-Header.h */,
 			);
 			name = ClevertapSignedCallReactNativeExample;
 			sourceTree = "<group>";
@@ -104,8 +106,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				057996083B0B42A30D5A7711 /* Pods_ClevertapSignedCallReactNativeExample.framework */,
-				C9C37A96E050438D9A2987DA /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework */,
+				A8CC95541B54715266A0B3F1 /* Pods_ClevertapSignedCallReactNativeExample.framework */,
+				1FE916EAEDE16906F5B86EB1 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -210,12 +212,12 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1400;
 					};
 				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ClevertapSignedCallReactNativeExample" */;
-			compatibilityVersion = "Xcode 12.0";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -406,11 +408,15 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ClevertapSignedCallReactNativeExampleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -430,11 +436,15 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = ClevertapSignedCallReactNativeExampleTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -458,10 +468,61 @@
 				DEVELOPMENT_TEAM = A5J34NR598;
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/CleverTap-iOS-SDK\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/RCTTypeSafety\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Codegen\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-Core\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-CoreModules\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAnimation\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTAppDelegate\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTBlob\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTLinking\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTNetwork\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTSettings\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTText\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-RCTVibration\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsc\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsi\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsiexecutor\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-jsinspector\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-logger\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/React-perflogger\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Socket.IO-Client-Swift\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Starscream\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Yoga\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/clevertap-signed-call-react-native\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/fmt\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/glog\"",
+					"\"${PODS_ROOT}/CTSimplePing\"",
+					"\"${PODS_ROOT}/CTSoftPhone\"",
+					"\"${PODS_ROOT}/CleverTap-SignedCall-SDK\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/CTSimplePing\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/CTSoftPhone\"",
+					"\"${PODS_XCFRAMEWORKS_BUILD_DIR}/CleverTap-SignedCall-SDK\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon\"",
+				);
 				INFOPLIST_FILE = ClevertapSignedCallReactNativeExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-fcxx-modules",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -470,6 +531,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.clevertap.signedCallDemo;
 				PRODUCT_NAME = ClevertapSignedCallReactNativeExample;
+				SWIFT_OBJC_BRIDGING_HEADER = "ClevertapSignedCallReactNativeExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -491,6 +553,17 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SDKROOT)/usr/lib/swift",
+					"$(inherited)",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DFOLLY_NO_CONFIG",
+					"-DFOLLY_MOBILE=1",
+					"-DFOLLY_USE_LIBCPP=1",
+					"-fcxx-modules",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -498,6 +571,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.clevertap.signedCallDemo;
 				PRODUCT_NAME = ClevertapSignedCallReactNativeExample;
+				SWIFT_OBJC_BRIDGING_HEADER = "ClevertapSignedCallReactNativeExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -552,7 +626,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -572,6 +646,7 @@
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -617,7 +692,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -636,6 +711,7 @@
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
