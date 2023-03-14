@@ -1,7 +1,9 @@
 import { SignedCallLogger } from '../utils/SignedCallLogger';
 
-///Holds all the possible statuses of a VoIP call
-export enum CallEvent {
+/**
+ * Enum representing the possible statuses of a VoIP call
+ */
+enum CallEvent {
   //When a call is cancelled from the initiator's end
   Cancelled = 'Cancelled',
 
@@ -25,9 +27,9 @@ export enum CallEvent {
   ReceiverBusyOnAnotherCall = 'ReceiverBusyOnAnotherCall',
 }
 
-export namespace CallEvent {
-  ///gets the index of the event from [CallEvent]
-  export function fromString(event: string): CallEvent {
+class CallEventUtil {
+  //Returns the enum value based on the passed event string
+  static fromString(event: string): CallEvent {
     switch (event) {
       case 'Cancelled':
         return CallEvent.Cancelled;
@@ -52,3 +54,5 @@ export namespace CallEvent {
     }
   }
 }
+
+export { CallEvent, CallEventUtil };
