@@ -5,6 +5,9 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
+/**
+ * This file lists all the general-purpose extension methods.
+ */
 inline fun <reified T> ReadableMap.getValue(key: String): T? {
   if (!this.hasKey(key)) {
     return null

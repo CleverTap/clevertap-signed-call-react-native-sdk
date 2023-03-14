@@ -10,8 +10,17 @@ import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.modules.core.DeviceEventManagerModule
 
+/**
+ * Emitter class to establish the communication from android to the
+ * typescript or javascript part of this package.
+ */
 class EventEmitter(private val reactContext: ReactContext) {
 
+  /**
+   * Use this method to send the payload to the registered listeners of the passed event.
+   * @param event - target event name
+   * @param payload - payload to be sent
+   */
   fun emit(@EventName event: String, payload: Any) {
     try {
       log(message = "emit() : $event")
