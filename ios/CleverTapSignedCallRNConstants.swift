@@ -1,10 +1,3 @@
-//
-//  CleverTapSignedCallRNConstants.swift
-//  clevertap-signed-call-react-native
-//
-//  Created by Sonal Kachare on 24/02/23.
-//
-
 import Foundation
 
 struct SCConstant {

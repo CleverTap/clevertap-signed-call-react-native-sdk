@@ -5,10 +5,9 @@
 #import <React/RCTRootView.h>
 
 #import <React/RCTAppSetupUtils.h>
-//#import <CTSimplePing/CTSimplePingClient.h>
-#import <CleverTapSDK/CleverTap.h>
-//#import <SignedCallSDK/SignedCallSDK-Swift.h>
 
+@import CleverTapSDK;
+@import SignedCallSDK;
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -21,8 +20,6 @@
 #import <react/config/ReactNativeConfig.h>
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
-
-//@class CTSimplePingClient
 
 @interface AppDelegate () <RCTCxxBridgeDelegate, RCTTurboModuleManagerDelegate, CTSimplePingClient> {
   RCTTurboModuleManager *_turboModuleManager;
@@ -62,10 +59,11 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
-
-//  [SignedCall setIsLoggingEnabled: YES];
-//  [SignedCall registerVoIPWithRootView:self.window.rootViewController appName:@"Sample App"];
   
+  SignedCall.cleverTapInstance = [CleverTap sharedInstance];
+  [SignedCall setIsLoggingEnabled: YES];
+  [SignedCall registerVoIPWithRootView:self.window.rootViewController appName:@"Sample App"];
+    
   [self.window makeKeyAndVisible];
   return YES;
 }

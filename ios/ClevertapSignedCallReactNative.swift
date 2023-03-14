@@ -1,5 +1,6 @@
 import SignedCallSDK
 import CleverTapSDK
+import React
 
 @objc(ClevertapSignedCallReactNative)
 class ClevertapSignedCallReactNative: RCTEventEmitter {
@@ -29,10 +30,10 @@ class ClevertapSignedCallReactNative: RCTEventEmitter {
         if let callDetails = callProperties as? [String: Any?],
            let initiatorImage = callDetails[SCConstant.initiatorImage] as? String,
            let receiverImage = callDetails[SCConstant.receiverImage] as? String {
-            
+
             customMetaData = SCCustomMetadata(initiatorImage: initiatorImage, receiverImage: receiverImage)
         }
-        
+
         let callOptions = SCCallOptionsModel(context: callContext, receiverCuid: "sonalw", customMetaData: customMetaData)
         SignedCall.call(callOptions: callOptions) { result in
             switch result {
@@ -48,15 +49,11 @@ class ClevertapSignedCallReactNative: RCTEventEmitter {
     
     @objc(initSDK:withResolver:withRejecter:)
     func initSDK(initOptions: NSDictionary, resolve: @escaping RCTPromiseResolveBlock,reject: @escaping RCTPromiseRejectBlock) -> Void {
-        DispatchQueue.main.async {
-            SignedCall.registerVoIP(withRootView: UIViewController())
-        }
         
         guard let initOptionsDict = initOptions as? [String: Any?] else {
             return
         }
-        
-        SignedCall.cleverTapInstance = CleverTap.sharedInstance()
+
         SignedCall.initSDK(withInitOptions: initOptionsDict) { result in
             switch result {
             case .success(let value):

@@ -1,6 +1,5 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
-#import <SignedCallSDK/SignedCallSDK.h>
 
 @interface RCT_EXTERN_MODULE(ClevertapSignedCallReactNative, NSObject)
 
