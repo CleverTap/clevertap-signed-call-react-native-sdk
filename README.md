@@ -1,31 +1,42 @@
-# clevertap-signed-call-react-native
+# CleverTap Signed Call React Native SDK
 
-CleverTap Signed Call React Native SDK.
+[![npm version](https://badge.fury.io/js/clevertap-signed-call-react-native.svg)](https://badge.fury.io/js/clevertap-signed-call-react-native)
+<a href="https://github.com/CleverTap/clevertap-signed-call-react-native-sdk/releases">
+<img src="https://img.shields.io/github/release/CleverTap/clevertap-signed-call-react-native-sdk.svg" />
+</a>
+[![npm downloads](https://img.shields.io/npm/dm/clevertap-signed-call-react-native-sdk.svg)](https://www.npmjs.com/package/clevertap-signed-call-react-native-sdk)
 
-## Installation
+## 👋 Introduction
 
-```sh
+The CleverTap's Signed Call React Native SDK provides an in-app calls service to make and receive calls in the mobile apps if the device has an internet connection and Signed Call React Native SDK.
+
+To know more about the Signed Call feature, refer to [Signed Call](https://docs.clevertap.com/docs/signed-call).
+
+To get started, sign up [here](https://clevertap.com/live-product-demo/).
+
+## 🚀 Install and Integration
+
+- To add the **CleverTap Signed Call React Native SDK** to your project, run below command on terminal:
+
+```text
 npm install clevertap-signed-call-react-native
 ```
 
-## Usage
+- Now, in your TypeScript or JavaScript code, you can use:
 
-```js
-import { multiply } from 'clevertap-signed-call-react-native';
-
-// ...
-
-const result = await multiply(3, 7);
+```javascript
+import { SignedCall } from 'clevertap-signed-call-react-native';
 ```
 
-## Contributing
+## 📑 Documentation & Example
 
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+- Checkout our [Technical Documentation](https://developer.clevertap.com/docs/signed-call-react-native-sdk) for instructions on integrating Signed Call into your React Native app.
+- Checkout our [Example React Native project](./example).
 
-## License
+## 🆕 Changelog
 
-MIT
+Refer to the [Signed Call React Native SDK Change Log](./CHANGELOG.md).
 
----
+## ❓Questions
 
-Made with [create-react-native-library](https://github.com/callstack/react-native-builder-bob)
+If you have questions or concerns, you can reach out to the CleverTap support team from the CleverTap Dashboard.
