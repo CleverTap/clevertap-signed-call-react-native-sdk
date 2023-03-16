@@ -32,6 +32,10 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     const val NAME = "CleverTapSignedCall"
   }
 
+  /**
+   * Exports the Name of the Android module.
+   * TypeScript/Javascript part of the package used this name to communicate with this NativeModule class.
+   */
   override fun getName(): String {
     return NAME
   }
@@ -46,6 +50,9 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     // Keep: Required for RN built in Event Emitter Calls.
   }
 
+  /**
+   * Exports constants for Typescript or Javascript part of this package.
+   */
   override fun getConstants(): MutableMap<String, String> = hashMapOf(
     ON_CALL_STATUS_CHANGED to ON_CALL_STATUS_CHANGED,
     ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED

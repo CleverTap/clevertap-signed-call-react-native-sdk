@@ -11,7 +11,7 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
 
 /**
  * Emitter class to establish the communication from android to the
- * typescript or javascript part of this package.
+ * Typescript or Javascript part of this package.
  */
 internal class EventEmitter(private val reactContext: ReactContext) {
 
