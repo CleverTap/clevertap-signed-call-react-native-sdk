@@ -22,17 +22,11 @@ internal class MissedCallActionClickHandler : MissedCallNotificationOpenedHandle
    * @param result  a [MissedCallNotificationOpenResult] object having call related details
    */
   override fun onMissedCallNotificationOpened(
-    context: Context,
-    result: MissedCallNotificationOpenResult
+    context: Context, result: MissedCallNotificationOpenResult
   ) {
     try {
       Utils.log(
-        message = "Missed call action button clicked!" +
-          " Streaming to event-channel with payload: \n actionID: " + result.action.actionID
-          + ", actionLabel: " + result.action.actionLabel
-          + ", context of call: " + result.callDetails.callContext
-          + ", cuid of caller: " + result.callDetails.callerCuid
-          + ", cuid of callee: " + result.callDetails.calleeCuid
+        message = "Missed call action button clicked!" + " Streaming to event-channel with payload: \n actionID: " + result.action.actionID + ", actionLabel: " + result.action.actionLabel + ", context of call: " + result.callDetails.callContext + ", cuid of caller: " + result.callDetails.callerCuid + ", cuid of callee: " + result.callDetails.calleeCuid
       )
 
       val application = context.applicationContext as ReactApplication

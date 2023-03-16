@@ -107,8 +107,9 @@ object Serializer {
         val initOptions: JSONObject = getInitOptionsFromReadableConfig(readableMap)
 
         val allowPersistSocketConnection: Boolean =
-          getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION)
-              ?: throw IllegalArgumentException("allowPersistSocketConnection field is required")
+          getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION) ?: throw IllegalArgumentException(
+            "allowPersistSocketConnection field is required"
+          )
 
         val promptReceiverReadPhoneStatePermission: Boolean =
           getValue(Constants.KEY_PROMPT_RECEIVER_READ_PHONE_STATE_PERMISSION) ?: false
