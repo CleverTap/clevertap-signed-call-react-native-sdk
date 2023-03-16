@@ -6,6 +6,7 @@ import {
   Image,
   Alert,
   Keyboard,
+  Platform,
 } from 'react-native';
 import { useState } from 'react';
 import styles from '../styles/style';
@@ -42,16 +43,7 @@ export default function RegistrationPage({ navigation }: any) {
   const initSignedCallSdk = () => {
     setLoading(true);
 
-    SignedCall.initialize({
-      accountId: Constants.SC_ACCOUNT_ID,
-      apiKey: Constants.SC_API_KEY,
-      cuid: cuid,
-      allowPersistSocketConnection: true,
-      promptReceiverReadPhoneStatePermission: true,
-      missedCallActions: {
-        '123': 'call me back',
-      },
-    })
+    SignedCall.initialize(getInitProperties())
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           console.log('Signed Call SDK initialized: ', response);
@@ -109,4 +101,34 @@ export default function RegistrationPage({ navigation }: any) {
       </View>
     </View>
   );
+
+  function getInitProperties(): any {
+    /*let callScreenBranding = {
+      bgColor: '#000000',
+      fontColor: '#ffffff', ///The color of the text displayed on the call screens
+      logoUrl:
+        'https://sk1-dashboard-staging-21.dashboard.clevertap.com/images/ct-favicon.png', ///The image URL that renders on the call screens.
+      buttonTheme: 'light', ///The theme of the control buttons shown on the ongoing call screen(i.e. Mute, Speaker and Bluetooth)
+    };*/
+
+    let initProperties: { [k: string]: any } = {
+      accountId: Constants.SC_ACCOUNT_ID,
+      apiKey: Constants.SC_API_KEY,
+      cuid: cuid,
+      //overrideDefaultBranding: callScreenBranding,
+    };
+
+    if (Platform.OS === 'android') {
+      initProperties.allowPersistSocketConnection = true;
+      initProperties.promptReceiverReadPhoneStatePermission = true;
+      initProperties.missedCallActions = {
+        '123': 'call me back',
+      };
+    }
+
+    if (Platform.OS === 'ios') {
+      initProperties.production = true;
+    }
+    return initProperties;
+  }
 }
