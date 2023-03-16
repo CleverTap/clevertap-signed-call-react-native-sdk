@@ -40,8 +40,7 @@ internal class EventEmitter(private val reactContext: ReactContext) {
   }
 
   private fun emitOnMissedCallActionClicked(
-    @EventName event: String,
-    missedCallAction: MissedCallNotificationOpenResult
+    @EventName event: String, missedCallAction: MissedCallNotificationOpenResult
   ) {
     val payload = missedCallAction.toWriteableMap()
     log(message = "emitOnMissedCallActionClicked() : $event with payload: $payload")

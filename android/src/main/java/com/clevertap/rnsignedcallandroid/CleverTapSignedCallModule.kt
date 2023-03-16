@@ -80,8 +80,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     initProperties?.let {
       try {
         val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it)
-        signedCallAPI.init(
-          reactContext,
+        signedCallAPI.init(reactContext,
           initConfiguration,
           cleverTapAPI,
           object : SignedCallInitResponse {
@@ -111,7 +110,8 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     try {
       val callOptions = callProperties?.toJson()
-      signedCallAPI.call(reactContext,
+      signedCallAPI.call(
+        reactContext,
         receiverCuid,
         callContext,
         callOptions,
