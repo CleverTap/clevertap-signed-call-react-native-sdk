@@ -4,15 +4,12 @@ import android.content.Context
 import android.util.Log
 import com.clevertap.android.signedcall.interfaces.MissedCallNotificationOpenedHandler
 import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
-import com.clevertap.rnsignedcallandroid.internal.Constants.ON_CALL_STATUS_CHANGED
-import com.clevertap.rnsignedcallandroid.internal.Constants.ON_MISSED_CALL_ACTION_CLICKED
-import com.clevertap.rnsignedcallandroid.internal.EventName
+import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.LOG_TAG
 import com.clevertap.rnsignedcallandroid.internal.util.Utils
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactNativeHost
-
 
 /**
  * Missed Call CTA handler for SignedCall Missed Call Notifications
@@ -25,17 +22,11 @@ internal class MissedCallActionClickHandler : MissedCallNotificationOpenedHandle
    * @param result  a [MissedCallNotificationOpenResult] object having call related details
    */
   override fun onMissedCallNotificationOpened(
-    context: Context,
-    result: MissedCallNotificationOpenResult
+    context: Context, result: MissedCallNotificationOpenResult
   ) {
     try {
       Utils.log(
-        message = "Missed call action button clicked!" +
-          " Streaming to event-channel with payload: \n actionID: " + result.action.actionID
-          + ", actionLabel: " + result.action.actionLabel
-          + ", context of call: " + result.callDetails.callContext
-          + ", cuid of caller: " + result.callDetails.callerCuid
-          + ", cuid of callee: " + result.callDetails.calleeCuid
+        message = "Missed call action button clicked!" + " Streaming to event-channel with payload: \n actionID: " + result.action.actionID + ", actionLabel: " + result.action.actionLabel + ", context of call: " + result.callDetails.callContext + ", cuid of caller: " + result.callDetails.callerCuid + ", cuid of callee: " + result.callDetails.calleeCuid
       )
 
       val application = context.applicationContext as ReactApplication

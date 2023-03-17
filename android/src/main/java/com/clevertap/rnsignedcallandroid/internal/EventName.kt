@@ -2,11 +2,14 @@ package com.clevertap.rnsignedcallandroid.internal
 
 import androidx.annotation.StringDef
 
-object Constants {
+/**
+ * Defines the list of events to be published to the typescript/javascript observers of this package
+ */
+object Events {
   const val ON_CALL_STATUS_CHANGED = "SignedCallOnCallStatusChanged"
   const val ON_MISSED_CALL_ACTION_CLICKED = "SignedCallOnMissedCallActionClicked"
 }
 
-@StringDef(Constants.ON_CALL_STATUS_CHANGED, Constants.ON_MISSED_CALL_ACTION_CLICKED)
+@StringDef(Events.ON_CALL_STATUS_CHANGED, Events.ON_MISSED_CALL_ACTION_CLICKED)
 @Retention(AnnotationRetention.SOURCE)
 annotation class EventName

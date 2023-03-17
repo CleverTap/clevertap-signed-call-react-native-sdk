@@ -1,10 +1,9 @@
 package com.clevertap.rnsignedcallandroid.internal.events
 
 import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
-import com.clevertap.rnsignedcallandroid.internal.Constants.ON_CALL_STATUS_CHANGED
-import com.clevertap.rnsignedcallandroid.internal.Constants.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.EventName
-import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter
+import com.clevertap.rnsignedcallandroid.internal.Events.ON_CALL_STATUS_CHANGED
+import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.ReactContext
@@ -12,9 +11,9 @@ import com.facebook.react.modules.core.DeviceEventManagerModule
 
 /**
  * Emitter class to establish the communication from android to the
- * typescript or javascript part of this package.
+ * Typescript or Javascript part of this package.
  */
-class EventEmitter(private val reactContext: ReactContext) {
+internal class EventEmitter(private val reactContext: ReactContext) {
 
   /**
    * Use this method to send the payload to the registered listeners of the passed event.
@@ -40,7 +39,9 @@ class EventEmitter(private val reactContext: ReactContext) {
     sendEmit(event, callStatus)
   }
 
-  private fun emitOnMissedCallActionClicked(@EventName event: String, missedCallAction: MissedCallNotificationOpenResult) {
+  private fun emitOnMissedCallActionClicked(
+    @EventName event: String, missedCallAction: MissedCallNotificationOpenResult
+  ) {
     val payload = missedCallAction.toWriteableMap()
     log(message = "emitOnMissedCallActionClicked() : $event with payload: $payload")
     sendEmit(event, payload)
