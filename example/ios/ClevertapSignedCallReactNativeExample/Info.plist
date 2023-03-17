@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To make calls</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To make call camera is required</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -23,11 +27,11 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CleverTapAccountID</key>
-	<string>ZWW-WWW-WW4Z</string>
+	<string>679-8Z7-W66Z</string>
 	<key>CleverTapRegion</key>
-	<string>in1</string>
+	<string>sk1</string>
 	<key>CleverTapToken</key>
-	<string>000-001</string>
+	<string>a1b-ca6</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -41,8 +45,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
