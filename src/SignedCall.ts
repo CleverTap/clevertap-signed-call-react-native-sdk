@@ -2,7 +2,7 @@
 
 import { NativeEventEmitter, NativeModules } from 'react-native';
 import { CallEvent, CallEventUtil } from './models/CallEvents';
-import type { LogLevel } from './models/LogLevel';
+import { LogLevel } from './models/LogLevel';
 import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
 import { SignedCallLogger } from './utils/SignedCallLogger';
@@ -119,6 +119,7 @@ class SignedCall {
 export {
   SignedCall,
   SignedCallResponse,
+  LogLevel,
   CallEvent,
   MissedCallActionClickResult,
 };

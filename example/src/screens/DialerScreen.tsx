@@ -58,6 +58,11 @@ const DialerScreen = ({ route, navigation }: any) => {
   }, []);
 
   function initiateVoIPCall() {
+    /*let callProperties = {
+      initiator_image: '<image-url>',
+      receiver_image: '<image-url>',
+    };*/
+
     SignedCall.call(receiverCuid, callContext)
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {

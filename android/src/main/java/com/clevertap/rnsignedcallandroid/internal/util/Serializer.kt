@@ -3,7 +3,6 @@ package com.clevertap.rnsignedcallandroid.internal.util
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
-import com.clevertap.rnsignedcallandroid.CleverTapSignedCallModule
 import com.clevertap.rnsignedcallandroid.internal.handlers.MissedCallActionClickHandler
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.DARK_THEME
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_ACCOUNT_ID
@@ -20,7 +19,9 @@ import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.*
 import org.json.JSONObject
 
-
+/**
+ * Provides utility methods to serialize the ReadableMap to some desired type.
+ */
 object Serializer {
   /**
    * Retrieves the initOptions details from the readableMap of initProperties and parses into a JSONObject
@@ -63,11 +64,11 @@ object Serializer {
       val buttonTheme: String? = it.getValue(KEY_BUTTON_THEME)
 
       return SignedCallScreenBranding(
-        bgColor, fontColor, logoUrl,
-        if (buttonTheme == DARK_THEME)
-          SignedCallScreenBranding.ButtonTheme.DARK
-        else
-          SignedCallScreenBranding.ButtonTheme.LIGHT
+        bgColor,
+        fontColor,
+        logoUrl,
+        if (buttonTheme == DARK_THEME) SignedCallScreenBranding.ButtonTheme.DARK
+        else SignedCallScreenBranding.ButtonTheme.LIGHT
       )
     } ?: run {
       return null
@@ -85,8 +86,7 @@ object Serializer {
     missedCallActionMap?.let { map ->
       return map.toHashMap().toList().map {
         MissedCallAction(
-          it.first,
-          it.second as String?
+          it.first, it.second as String?
         )
       }
     } ?: run {
@@ -94,7 +94,12 @@ object Serializer {
     }
   }
 
+  /**
+   * Retrieves the initConfiguration from the input initProperties object and
+   * parses into the [SignedCallInitConfiguration] object.
+   */
   @JvmStatic
+  @Throws(Throwable::class)
   fun getInitConfigFromReadableMap(readableMap: ReadableMap): SignedCallInitConfiguration? {
     var initConfiguration: SignedCallInitConfiguration? = null
     readableMap.run {
@@ -102,7 +107,9 @@ object Serializer {
         val initOptions: JSONObject = getInitOptionsFromReadableConfig(readableMap)
 
         val allowPersistSocketConnection: Boolean =
-          getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION) ?: false
+          getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION) ?: throw IllegalArgumentException(
+            "allowPersistSocketConnection field is required"
+          )
 
         val promptReceiverReadPhoneStatePermission: Boolean =
           getValue(Constants.KEY_PROMPT_RECEIVER_READ_PHONE_STATE_PERMISSION) ?: false
@@ -119,11 +126,11 @@ object Serializer {
           SignedCallInitConfiguration.Builder(initOptions, allowPersistSocketConnection)
             .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
             .overrideDefaultBranding(callScreenBranding)
-            .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath)
-            .build()
+            .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath).build()
       } catch (throwable: Throwable) {
-        log(message = "issue occurs while de-serializing the dynamic sigsock config: ${throwable.localizedMessage}")
+        log(message = "issue occurs while de-serializing the initProperties: ${throwable.localizedMessage}")
         throwable.printStackTrace()
+        throw throwable
       }
       return initConfiguration
     }
