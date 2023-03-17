@@ -2,8 +2,8 @@ import SignedCallSDK
 import CleverTapSDK
 import React
 
-@objc(ClevertapSignedCallReactNative)
-class ClevertapSignedCallReactNative: RCTEventEmitter {
+@objc(CleverTapSignedCall)
+class CleverTapSignedCall: RCTEventEmitter {
     
     var hasListeners = false
     
@@ -34,7 +34,7 @@ class ClevertapSignedCallReactNative: RCTEventEmitter {
             customMetaData = SCCustomMetadata(initiatorImage: initiatorImage, receiverImage: receiverImage)
         }
 
-        let callOptions = SCCallOptionsModel(context: callContext, receiverCuid: "sonalw", customMetaData: customMetaData)
+        let callOptions = SCCallOptionsModel(context: callContext, receiverCuid: receiverCuid, customMetaData: customMetaData)
         SignedCall.call(callOptions: callOptions) { result in
             switch result {
             case .success(let value):
@@ -47,13 +47,16 @@ class ClevertapSignedCallReactNative: RCTEventEmitter {
         }
     }
     
-    @objc(initSDK:withResolver:withRejecter:)
-    func initSDK(initOptions: NSDictionary, resolve: @escaping RCTPromiseResolveBlock,reject: @escaping RCTPromiseRejectBlock) -> Void {
+    @objc(initialize:withResolver:withRejecter:)
+    func initialize(initOptions: NSDictionary, resolve: @escaping RCTPromiseResolveBlock,reject: @escaping RCTPromiseRejectBlock) -> Void {
         
-        guard let initOptionsDict = initOptions as? [String: Any?] else {
+        guard var initOptionsDict = initOptions as? [String: Any?] else {
             return
         }
-
+        
+        initOptionsDict["accountID"] = initOptions["accountId"]
+        initOptionsDict["production"] = false
+        
         SignedCall.initSDK(withInitOptions: initOptionsDict) { result in
             switch result {
             case .success(let value):

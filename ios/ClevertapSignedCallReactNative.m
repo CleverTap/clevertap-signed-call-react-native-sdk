@@ -1,10 +1,10 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTBridgeModule.h>
 
-@interface RCT_EXTERN_MODULE(ClevertapSignedCallReactNative, NSObject)
+@interface RCT_EXTERN_MODULE(CleverTapSignedCall, NSObject)
 
 RCT_EXTERN_METHOD(
-                  initSDK:(NSDictionary *)initOptions
+                  initialize:(NSDictionary *)initOptions
                  withResolver:(RCTPromiseResolveBlock)resolve
                  withRejecter:(RCTPromiseRejectBlock)reject
                   )
@@ -23,5 +23,16 @@ RCT_EXTERN_METHOD(setDebugLevel:(int)logLevel)
 {
   return NO;
 }
+
+- (NSDictionary *)constantsToExport {
+    return @{
+        @"SignedCallOnCallStatusChanged": @"SignedCallOnCallStatusChanged"
+    };
+}
+
+- (dispatch_queue_t)methodQueue {
+    return dispatch_get_main_queue();
+}
+
 
 @end
