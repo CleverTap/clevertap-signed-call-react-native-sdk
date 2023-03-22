@@ -38,7 +38,7 @@ class CleverTapSignedCall: RCTEventEmitter {
         SignedCall.call(callOptions: callOptions) { result in
             switch result {
             case .success(let value):
-                resolve(value)
+                resolve(["isSuccessful": value])
             case .failure(let error):
                 reject("\(error.errorCode)",
                        error.errorDescription,
@@ -69,6 +69,10 @@ class CleverTapSignedCall: RCTEventEmitter {
         }
     }
     
+    @objc(logout)
+    func logout() -> Void {
+        SignedCall.logout()
+    }
     
 // MARK: - Call Event Handling
     
@@ -85,18 +89,16 @@ class CleverTapSignedCall: RCTEventEmitter {
     }
     
     @objc func callStatus(notification: Notification) {
-        let message = notification.userInfo?[SCConstant.callStatus]
-        
-        guard let callValue = message as? Int,
-              let callEvent = SCCallStatus(rawValue: callValue) else {
-            //  os_log("Unknown call event raised: %{public}@", log: logValue, type: .default, notification.object.debugDescription)
-            return
-        }
+        let callEvent = notification.userInfo?["callStatus"] as? SCCallStatus
         
         switch callEvent {
-            
         case .CALL_CANCEL, .CALL_DECLINED, .CALL_MISSED, .CALL_ANSWERED, .CALL_CONNECTED, .RECEIVER_BUSY_ON_ANOTHER_CALL, .CALL_OVER :
-            handleCallEvent(SCCallEvent(rawValue: callValue).value)
+            
+            guard let callEventValue = callEvent?.rawValue else {
+                return
+            }
+            
+            handleCallEvent(SCCallEvent(rawValue: callEventValue).value)
         default: break
         }
     }
