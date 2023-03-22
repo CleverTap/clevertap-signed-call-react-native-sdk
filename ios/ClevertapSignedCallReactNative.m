@@ -17,6 +17,8 @@ RCT_EXTERN_METHOD(
                   withRejecter:(RCTPromiseRejectBlock)reject
                   )
 
+RCT_EXTERN_METHOD(logout)
+
 RCT_EXTERN_METHOD(setDebugLevel:(int)logLevel)
 
 + (BOOL)requiresMainQueueSetup
