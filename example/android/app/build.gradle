@@ -254,7 +254,7 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation "com.clevertap.android:clevertap-android-sdk:4.6.6"
+    implementation "com.clevertap.android:clevertap-android-sdk:4.6.8"
 
     implementation "com.clevertap.android:clevertap-signedcall-sdk:0.0.1"
     implementation('io.socket:socket.io-client:2.1.0') {
