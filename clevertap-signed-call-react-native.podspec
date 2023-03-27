@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => "13.0" }
+  s.platforms    = { :ios => "10.0" }
   s.source       = { :git => "https://github.com/CleverTap/clevertap-signed-call-react-native-sdk.git", :tag => "#{s.version}" }
 
   s.module_name    = 'ClevertapSignedCallReactNative'
@@ -21,8 +21,8 @@ Pod::Spec.new do |s|
   s.xcconfig = { 'VALID_ARCHS' => 'arm64 x86_64' }
   s.requires_arc = true
   
-  s.dependency 'React',  '>= 0.13.0', '< 1.0.0'
-  s.dependency 'CleverTap-SignedCall-SDK', '0.0.2'
+  s.dependency 'React', '>= 0.13.0', '< 1.0.0'
+  s.dependency 'CleverTap-SignedCall-SDK'
 
   # Don't install the dependencies when we run `pod install` in the old architecture.
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then

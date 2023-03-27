@@ -1,7 +1,7 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-platform :ios, '14.0'
+platform :ios, '13.0'
 install! 'cocoapods', :deterministic_uuids => false
 
 source 'https://github.com/CleverTap/podspecs.git'
@@ -23,8 +23,8 @@ target 'ClevertapSignedCallReactNativeExample' do
   
   use_frameworks!
   pod 'clevertap-signed-call-react-native', :path => '../..'
-  pod 'CleverTap-iOS-SDK', '4.2.0', modular_headers: true
-  pod 'CleverTap-SignedCall-SDK', '0.0.2'
+  pod 'CleverTap-iOS-SDK', modular_headers: true
+  pod 'CleverTap-SignedCall-SDK'
   pod 'Permission-Microphone', :path => '../node_modules/react-native-permissions/ios/Microphone/Permission-Microphone.podspec'
   pod 'Permission-Camera', :path => '../node_modules/react-native-permissions/ios/Camera/Permission-Camera.podspec'
   

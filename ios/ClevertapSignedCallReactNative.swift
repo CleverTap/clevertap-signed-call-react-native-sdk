@@ -1,11 +1,15 @@
 import SignedCallSDK
 import CleverTapSDK
 import React
+import OSLog
 
 @objc(CleverTapSignedCall)
 class CleverTapSignedCall: RCTEventEmitter {
     
     var hasListeners = false
+    private var logValue: OSLog {
+        return SignedCall.isLoggingEnabled ? .default : .disabled
+    }
     
     override init() {
         super.init()
@@ -14,6 +18,7 @@ class CleverTapSignedCall: RCTEventEmitter {
     
     @objc(setDebugLevel:)
     func setDebugLevel(logLevel: Int) -> Void {
+        os_log("[CT]:[SignedCall]:[RN] Handle method setDebugLevel with value: %{public}@", log: .default, type: .default, logLevel)
         guard logLevel >= 0 else {
             SignedCall.isLoggingEnabled = false
             return
@@ -24,17 +29,18 @@ class CleverTapSignedCall: RCTEventEmitter {
     @objc(call:withContext:withCallProperties:withResolver:withRejecter:)
     func call(receiverCuid: String?, callContext: String?, callProperties: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         guard let callContext = callContext, let receiverCuid = receiverCuid else {
+            os_log("[CT]:[SignedCall]:[RN] Handle method call, key: callContext and receiverCuid not available", log: logValue, type: .default)
             return
         }
         var customMetaData: SCCustomMetadata?
         if let callDetails = callProperties as? [String: Any?],
            let initiatorImage = callDetails[SCConstant.initiatorImage] as? String,
            let receiverImage = callDetails[SCConstant.receiverImage] as? String {
-
             customMetaData = SCCustomMetadata(initiatorImage: initiatorImage, receiverImage: receiverImage)
         }
 
         let callOptions = SCCallOptionsModel(context: callContext, receiverCuid: receiverCuid, customMetaData: customMetaData)
+        os_log("[CT]:[SignedCall]:[RN] Handle method call with values: %{public}@, %{public}@, %{public}@", log: logValue, type: .default, callContext, receiverCuid, customMetaData.debugDescription)
         SignedCall.call(callOptions: callOptions) { result in
             switch result {
             case .success(let value):
@@ -51,11 +57,11 @@ class CleverTapSignedCall: RCTEventEmitter {
     func initialize(initOptions: NSDictionary, resolve: @escaping RCTPromiseResolveBlock,reject: @escaping RCTPromiseRejectBlock) -> Void {
         
         guard var initOptionsDict = initOptions as? [String: Any?] else {
+            os_log("[CT]:[SignedCall]:[RN] Handle method initialize, key: initOptions not available", log: logValue, type: .default)
             return
         }
         
         initOptionsDict["accountID"] = initOptions["accountId"]
-        initOptionsDict["production"] = false
         
         SignedCall.initSDK(withInitOptions: initOptionsDict) { result in
             switch result {
@@ -71,6 +77,7 @@ class CleverTapSignedCall: RCTEventEmitter {
     
     @objc(logout)
     func logout() -> Void {
+        os_log("[CT]:[SignedCall]:[RN] Handle method logout", log: logValue, type: .default)
         SignedCall.logout()
     }
     
@@ -104,7 +111,6 @@ class CleverTapSignedCall: RCTEventEmitter {
     }
         
     func handleCallEvent(_ callEvent: String) {
-        print(callEvent)
         if hasListeners {
             sendEvent(withName: SCConstant.onCallStatusChanged, body: callEvent)
         }

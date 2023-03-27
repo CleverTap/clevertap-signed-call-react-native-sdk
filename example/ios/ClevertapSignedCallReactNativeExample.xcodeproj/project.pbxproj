@@ -402,6 +402,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -433,6 +434,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-ClevertapSignedCallReactNativeExample-ClevertapSignedCallReactNativeExampleTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = ClevertapSignedCallReactNativeExampleTests/Info.plist;
@@ -517,6 +519,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(inherited)",
 				);
+				MARKETING_VERSION = 0.0.1;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -557,6 +560,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(inherited)",
 				);
+				MARKETING_VERSION = 0.0.1;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
