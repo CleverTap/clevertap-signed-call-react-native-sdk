@@ -40,5 +40,7 @@
       <meta-data
         android:name="CLEVERTAP_TOKEN"
         android:value="a1b-ca6"/>
+      <meta-data android:name="CLEVERTAP_REGION"
+        android:value="in1"/>
     </application>
 </manifest>
