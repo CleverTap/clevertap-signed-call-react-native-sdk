@@ -22,9 +22,6 @@ target 'ClevertapSignedCallReactNativeExample' do
   end
   
   use_frameworks!
-  pod 'clevertap-signed-call-react-native', :path => '../..'
-  pod 'CleverTap-iOS-SDK', modular_headers: true
-  pod 'CleverTap-SignedCall-SDK'
   pod 'Permission-Microphone', :path => '../node_modules/react-native-permissions/ios/Microphone/Permission-Microphone.podspec'
   pod 'Permission-Camera', :path => '../node_modules/react-native-permissions/ios/Camera/Permission-Camera.podspec'
   
