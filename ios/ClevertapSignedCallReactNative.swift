@@ -89,6 +89,12 @@ class CleverTapSignedCall: RCTEventEmitter {
         SignedCall.logout()
     }
     
+    @objc(hangupCall)
+    func hangupCall() -> Void {
+        os_log("[CT]:[SignedCall]:[RN] Handle method hangupCall", log: logValue, type: .default)
+        SignedCall.hangup()
+    }
+    
     // MARK: - Call Event Handling
     
     override func supportedEvents() -> [String]! {

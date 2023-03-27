@@ -19,6 +19,8 @@ RCT_EXTERN_METHOD(
 
 RCT_EXTERN_METHOD(logout)
 
+RCT_EXTERN_METHOD(hangupCall)
+
 RCT_EXTERN_METHOD(setDebugLevel:(int)logLevel)
 
 + (BOOL)requiresMainQueueSetup
