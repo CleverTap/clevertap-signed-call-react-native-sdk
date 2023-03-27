@@ -63,6 +63,14 @@ class CleverTapSignedCall: RCTEventEmitter {
         
         initOptionsDict["accountID"] = initOptions["accountId"]
         
+        if let brandingDetails = initOptions["overrideDefaultBranding"] as? [String: Any?],
+        let bgColor = brandingDetails["bgColor"] as? String,
+           let fontColor = brandingDetails["fontColor"] as? String,
+           let logoUrl = brandingDetails["logoUrl"] as? String,
+           let buttonTheme = brandingDetails["buttonTheme"] as? String {
+            SignedCall.overrideDefaultBranding = SCCallScreenBranding(bgColor: bgColor, fontColor: fontColor, logo: logoUrl, buttonTheme: buttonTheme == "light" ? .light : .dark)
+        }
+        
         SignedCall.initSDK(withInitOptions: initOptionsDict) { result in
             switch result {
             case .success(let value):

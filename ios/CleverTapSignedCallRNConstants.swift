@@ -2,8 +2,8 @@ import Foundation
 
 struct SCConstant {
     static let messageReceived = "MessageReceived"
-    static let initiatorImage = "initiatorImage"
-    static let receiverImage = "receiverImage"
+    static let initiatorImage = "initiator_image"
+    static let receiverImage = "receiver_image"
     static let onCallStatusChanged = "SignedCallOnCallStatusChanged"
     static let callStatus = "callStatus"
 }
