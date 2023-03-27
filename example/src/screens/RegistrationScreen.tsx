@@ -41,8 +41,17 @@ export default function RegistrationPage({ navigation }: any) {
   }, []);
 
   const initSignedCallSdk = () => {
+    if (
+      Constants.SC_ACCOUNT_ID === 'YOUR_ACCOUNT_ID' ||
+      Constants.SC_API_KEY === 'YOUR_API_KEY'
+    ) {
+      Alert.alert(
+        'Replace the AccountId and ApiKey of your Signed Call Account in the example/src/Constants'
+      );
+      return;
+    }
+
     setLoading(true);
-    
     SignedCall.initialize(getInitProperties())
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {

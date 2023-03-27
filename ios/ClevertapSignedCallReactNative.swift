@@ -18,7 +18,7 @@ class CleverTapSignedCall: RCTEventEmitter {
     
     @objc(setDebugLevel:)
     func setDebugLevel(logLevel: Int) -> Void {
-        os_log("[CT]:[SignedCall]:[RN] Handle method setDebugLevel with value: %{public}@", log: .default, type: .default, logLevel)
+        os_log("[CT]:[SignedCall]:[RN] Handle method setDebugLevel with value: %{public}@", log: .default, type: .default, logLevel.description)
         guard logLevel >= 0 else {
             SignedCall.isLoggingEnabled = false
             return
@@ -38,7 +38,7 @@ class CleverTapSignedCall: RCTEventEmitter {
            let receiverImage = callDetails[SCConstant.receiverImage] as? String {
             customMetaData = SCCustomMetadata(initiatorImage: initiatorImage, receiverImage: receiverImage)
         }
-
+        
         let callOptions = SCCallOptionsModel(context: callContext, receiverCuid: receiverCuid, customMetaData: customMetaData)
         os_log("[CT]:[SignedCall]:[RN] Handle method call with values: %{public}@, %{public}@, %{public}@", log: logValue, type: .default, callContext, receiverCuid, customMetaData.debugDescription)
         SignedCall.call(callOptions: callOptions) { result in
@@ -81,7 +81,7 @@ class CleverTapSignedCall: RCTEventEmitter {
         SignedCall.logout()
     }
     
-// MARK: - Call Event Handling
+    // MARK: - Call Event Handling
     
     override func supportedEvents() -> [String]! {
         [SCConstant.onCallStatusChanged]
@@ -109,10 +109,10 @@ class CleverTapSignedCall: RCTEventEmitter {
         default: break
         }
     }
-        
+    
     func handleCallEvent(_ callEvent: String) {
         if hasListeners {
             sendEvent(withName: SCConstant.onCallStatusChanged, body: callEvent)
         }
-   }
+    }
 }
