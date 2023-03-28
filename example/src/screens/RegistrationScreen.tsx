@@ -46,6 +46,7 @@ export default function RegistrationPage({ navigation }: any) {
       Constants.SC_API_KEY === 'YOUR_API_KEY'
     ) {
       Alert.alert(
+        'Setup Required for SC SDK initialization!',
         'Replace the AccountId and ApiKey of your Signed Call Account in the example/src/Constants'
       );
       return;
