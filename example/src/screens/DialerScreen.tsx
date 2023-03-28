@@ -36,18 +36,19 @@ const DialerScreen = ({ route, navigation }: any) => {
         console.log('SignedCallOnCallStatusChanged', event);
       }
     );
-
-    //To keep track on click over missed call notification
-    SignedCall.addListener(
+    if (Platform.OS === 'android') {
+      //To keep track on click over missed call notification
+      SignedCall.addListener(
       SignedCall.SignedCallOnMissedCallActionClicked,
-      (event: MissedCallActionClickResult) => {
-        console.log('SignedCallOnMissedCallActionClicked', event);
-        Alert.alert(
-          'Missed Call Notification!',
-          event.action.actionLabel + ' is clicked'
-        );
-      }
-    );
+        (event: MissedCallActionClickResult) => {
+          console.log('SignedCallOnMissedCallActionClicked', event);
+          Alert.alert(
+            'Missed Call Notification!',
+            event.action.actionLabel + ' is clicked'
+          );
+        }
+      );
+    }
 
     // below return function gets called on component unmount
     return () => {
