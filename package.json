@@ -1,5 +1,5 @@
 {
-  "name": "clevertap-signed-call-react-native",
+  "name": "@clevertap/clevertap-signed-call-react-native",
   "version": "0.0.1",
   "description": "The CleverTap's Signed Call React Native SDK provides an in-app calls service to make and receive calls in the mobile apps.",
   "main": "lib/commonjs/index",
@@ -43,7 +43,10 @@
     "clevertap",
     "signedcall"
   ],
-  "repository": "https://github.com/CleverTap/clevertap-signed-call-react-native-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CleverTap/clevertap-signed-call-react-native-sdk.git"
+  },
   "author": "CleverTap SDK Team <sdk@clevertap.com> (https://clevertap.com)",
   "license": "MIT",
   "bugs": {
@@ -152,5 +155,8 @@
       ]
     ]
   },
-  "dependencies": {}
+  "directories": {
+    "example": "example",
+    "lib": "lib"
+  }
 }
