@@ -36,11 +36,12 @@
       <!-- CleverTap Account Credentials -->
       <meta-data
         android:name="CLEVERTAP_ACCOUNT_ID"
-        android:value="679-8Z7-W66Z"/>
+        android:value="ZWW-WWW-WW4Z"/>
       <meta-data
         android:name="CLEVERTAP_TOKEN"
-        android:value="a1b-ca6"/>
-      <meta-data android:name="CLEVERTAP_REGION"
+        android:value="000-001"/>
+      <meta-data
+        android:name="CLEVERTAP_REGION"
         android:value="in1"/>
     </application>
 </manifest>
