@@ -44,7 +44,7 @@
     "signedcall"
   ],
   "repository": "https://github.com/CleverTap/clevertap-signed-call-react-native-sdk",
-  "author": "CleverTap",
+  "author": "CleverTap SDK Team <sdk@clevertap.com> (https://clevertap.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/CleverTap/clevertap-signed-call-react-native-sdk/issues"
