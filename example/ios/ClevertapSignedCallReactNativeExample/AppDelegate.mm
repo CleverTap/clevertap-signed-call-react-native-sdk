@@ -6,6 +6,9 @@
 
 #import <React/RCTAppSetupUtils.h>
 
+@import CleverTapSDK;
+@import SignedCallSDK;
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -56,6 +59,11 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
+  
+  SignedCall.cleverTapInstance = [CleverTap sharedInstance];
+  [SignedCall setIsLoggingEnabled: YES];
+  [SignedCall registerVoIPWithRootView:self.window.rootViewController appName:@"Sample App"];
+    
   [self.window makeKeyAndVisible];
   return YES;
 }
