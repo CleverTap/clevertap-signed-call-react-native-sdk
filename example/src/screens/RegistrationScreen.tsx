@@ -130,6 +130,7 @@ export default function RegistrationPage({ navigation }: any) {
 
     if (Platform.OS === 'android') {
       initProperties.allowPersistSocketConnection = true;
+      initProperties.promptPushPrimer = getPushPrimerJson();
       initProperties.promptReceiverReadPhoneStatePermission = true;
       initProperties.missedCallActions = {
         '123': 'call me back',
@@ -140,5 +141,17 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.production = true;
     }
     return initProperties;
+  }
+
+  function getPushPrimerJson(): any {
+    return {
+      inAppType: 'alert',
+      titleText: 'Get Notified',
+      messageText: 'Enable Notification permission',
+      followDeviceOrientation: true,
+      positiveBtnText: 'Allow',
+      negativeBtnText: 'Cancel',
+      fallbackToSettings: true,
+    };
   }
 }
