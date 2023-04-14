@@ -21,9 +21,9 @@ import com.facebook.react.bridge.*
 import org.json.JSONObject
 
 /**
- * Provides utility methods to serialize the ReadableMap to some desired type.
+ * Provides utility methods to serialize the initConfig's readableMap to some desired type.
  */
-object Serializer {
+object InitConfigSerializer {
   /**
    * Retrieves the initOptions details from the readableMap of initProperties and parses into a JSONObject
    */
