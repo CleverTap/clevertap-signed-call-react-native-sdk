@@ -47,7 +47,7 @@ const DialerScreen = ({ route, navigation }: any) => {
           console.log('VoIP call is placed successfully', response);
         } else {
           console.log('VoIP call is failed: ', response.error);
-          Alert.alert('VoIP call is failed!', response.error?.errorDescription);
+          Alert.alert('VoIP call is failed!', response.error?.errorMessage);
         }
       })
       .catch((e: any) => {

@@ -82,7 +82,7 @@ export default function RegistrationPage({ navigation }: any) {
           console.log('Signed Call initialization failed: ', response.error);
           Alert.alert(
             'Signed Call initialization failed!',
-            response.error?.errorDescription
+            response.error?.errorMessage
           );
         }
       })
