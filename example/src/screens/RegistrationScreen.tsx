@@ -61,7 +61,6 @@ export default function RegistrationPage({ navigation }: any) {
     }
 
     const isDeviceVersionTargetsBelow33 = isDeviceVersionTargetsBelow(33);
-    console.log('isDeviceVersionTargetsBelow33', isDeviceVersionTargetsBelow33);
     if (isDeviceVersionTargetsBelow33) {
       setLoading(true);
     } else {
