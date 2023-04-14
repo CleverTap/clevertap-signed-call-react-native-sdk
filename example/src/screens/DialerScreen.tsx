@@ -140,6 +140,13 @@ const DialerScreen = ({ route, navigation }: any) => {
           />
         </View>
         <View style={styles.buttonContainer}>
+          <Button
+            title="Disconnect Signalling Socket"
+            color="blue"
+            onPress={() => SignedCall.disconnectSignallingSocket()}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
           <Button title="Logout" color="red" onPress={() => logoutSession()} />
         </View>
       </View>
