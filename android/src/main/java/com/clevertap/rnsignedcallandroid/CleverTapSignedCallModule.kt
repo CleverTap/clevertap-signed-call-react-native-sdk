@@ -152,6 +152,14 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   }
 
   /**
+   * Disconnects the signalling socket
+   */
+  @ReactMethod
+  fun disconnectSignallingSocket() {
+    getSignedCallAPI().disconnectSignallingSocket(reactContext)
+  }
+
+  /**
    * Sends the real-time changes in the call-state to an observable event-stream
    */
   private fun emitCallEvent(callStatus: VoIPCallStatus) {
