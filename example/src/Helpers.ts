@@ -51,3 +51,7 @@ export async function requestPermissions(callback: Callback) {
     }
   }
 }
+export function isDeviceVersionTargetsBelow(apiLevel: number) {
+  const deviceSdkVersion = Platform.Version as number;
+  return deviceSdkVersion < apiLevel;
+}

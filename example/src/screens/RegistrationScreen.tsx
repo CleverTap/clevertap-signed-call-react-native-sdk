@@ -13,11 +13,13 @@ import styles from '../styles/style';
 import {
   SignedCall,
   SignedCallResponse,
-} from 'clevertap-signed-call-react-native';
+} from '@clevertap/clevertap-signed-call-react-native';
+import CleverTap from 'clevertap-react-native';
 import { Constants } from '../Constants';
 import Loader from '../components/Loader';
 import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isDeviceVersionTargetsBelow } from '../Helpers';
 
 export default function RegistrationPage({ navigation }: any) {
   const [cuid, setCuid] = useState('');
@@ -37,8 +39,14 @@ export default function RegistrationPage({ navigation }: any) {
   };
 
   React.useEffect(() => {
+    activateHandlers();
     initSCSdkIfCuIDSignedIn();
-  }, []);
+
+    // below return function gets called on component unmount
+    return () => {
+      deactivateHandlers();
+    };
+  });
 
   const initSignedCallSdk = () => {
     if (
@@ -52,7 +60,15 @@ export default function RegistrationPage({ navigation }: any) {
       return;
     }
 
-    setLoading(true);
+    const isDeviceVersionTargetsBelow33 = isDeviceVersionTargetsBelow(33);
+    console.log('isDeviceVersionTargetsBelow33', isDeviceVersionTargetsBelow33);
+    if (isDeviceVersionTargetsBelow33) {
+      setLoading(true);
+    } else {
+      //For android 13 and onwards, show loading once the notification permission result is received
+      //in CleverTap.CleverTapPushPermissionResponseReceived handler
+    }
+
     SignedCall.initialize(getInitProperties())
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
@@ -77,6 +93,24 @@ export default function RegistrationPage({ navigation }: any) {
         setLoading(false);
       });
   };
+
+  function activateHandlers() {
+    CleverTap.addListener(
+      CleverTap.CleverTapPushPermissionResponseReceived,
+      (result: boolean) => {
+        console.log('Push Permission response is received --->', result);
+        if (result) {
+          setLoading(true);
+        } else {
+          CleverTap.promptPushPrimer(getPushPrimerJson);
+        }
+      }
+    );
+  }
+
+  function deactivateHandlers() {
+    CleverTap.removeListener(CleverTap.CleverTapPushPermissionResponseReceived);
+  }
 
   return (
     <View style={styles.mainContainer}>
