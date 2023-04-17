@@ -84,6 +84,24 @@ class SignedCall {
   }
 
   /**
+   * Disconnects the signalling socket.
+   *
+   * Call this method when all the expected/pending transactions are over
+   * and there is no use case of initiating or receiving the VoIP call.
+   *
+   * Following is the expected behavior:
+   * - Calls can not be initiated without the signalling socket connection and
+   *   Signed Call returns an exception when call-request is attempted.
+   * - Call still be received as Signed Call uses FCM for android platform
+   *   and APNs for iOS platform as a Fallback channel.
+   *
+   * Once this method is called, SDK re-initialization is required to undo its behavior.
+   */
+  static disconnectSignallingSocket() {
+    CleverTapSignedCall.disconnectSignallingSocket();
+  }
+
+  /**
    * Adds the event handler to the event name
    * @param {string} eventName - name of the event
    * @param {any} handler - callback handler
