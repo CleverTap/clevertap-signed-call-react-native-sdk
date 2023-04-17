@@ -15,14 +15,15 @@ import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_FONT_COLOR
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_LOGO_URL
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_NAME
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_RINGTONE
+import com.clevertap.rnsignedcallandroid.internal.util.PushPrimerSerializer.parsePushPrimerConfigFromInitOptions
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.*
 import org.json.JSONObject
 
 /**
- * Provides utility methods to serialize the ReadableMap to some desired type.
+ * Provides utility methods to serialize the initConfig's readableMap to some desired type.
  */
-object Serializer {
+object InitConfigSerializer {
   /**
    * Retrieves the initOptions details from the readableMap of initProperties and parses into a JSONObject
    */
@@ -122,8 +123,14 @@ object Serializer {
         val missedCallActionClickHandlerPath: String? =
           MissedCallActionClickHandler::class.java.canonicalName
 
+        val pushPrimerReadableConfig: ReadableMap? = readableMap.getValue(Constants.KEY_PROMPT_PUSH_PRIMER)
+        val pushPrimerJson: JSONObject? = pushPrimerReadableConfig?.let {
+          parsePushPrimerConfigFromInitOptions(pushPrimerReadableConfig)
+        }
+
         initConfiguration =
           SignedCallInitConfiguration.Builder(initOptions, allowPersistSocketConnection)
+            .promptPushPrimer(pushPrimerJson)
             .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
             .overrideDefaultBranding(callScreenBranding)
             .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath).build()

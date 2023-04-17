@@ -14,7 +14,7 @@
 		5791A966299DD42400C46437 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 5791A965299DD42300C46437 /* main.jsbundle */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		BFC509ECBD89A56CC6946922 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE916EAEDE16906F5B86EB1 /* Pods_ClevertapSignedCallReactNativeExample_ClevertapSignedCallReactNativeExampleTests.framework */; };
-		FC7329D9A197165DF1BC8C9D /* Pods_ClevertapSignedCallReactNativeExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CC95541B54715266A0B3F1 /* Pods_ClevertapSignedCallReactNativeExample.framework */; };
+		FC7329D9A197165DF1BC8C9D /* Pods_ClevertapSignedCallReactNativeExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CC95541B54715266A0B3F1 /* Pods_ClevertapSignedCallReactNativeExample.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -511,6 +511,7 @@
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon\"",
 				);
 				INFOPLIST_FILE = ClevertapSignedCallReactNativeExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -552,6 +553,7 @@
 				DEVELOPMENT_TEAM = A5J34NR598;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = ClevertapSignedCallReactNativeExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

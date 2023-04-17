@@ -13,11 +13,13 @@ import styles from '../styles/style';
 import {
   SignedCall,
   SignedCallResponse,
-} from 'clevertap-signed-call-react-native';
+} from '@clevertap/clevertap-signed-call-react-native';
+import CleverTap from 'clevertap-react-native';
 import { Constants } from '../Constants';
 import Loader from '../components/Loader';
 import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isDeviceVersionTargetsBelow } from '../Helpers';
 
 export default function RegistrationPage({ navigation }: any) {
   const [cuid, setCuid] = useState('');
@@ -37,8 +39,14 @@ export default function RegistrationPage({ navigation }: any) {
   };
 
   React.useEffect(() => {
+    activateHandlers();
     initSCSdkIfCuIDSignedIn();
-  }, []);
+
+    // below return function gets called on component unmount
+    return () => {
+      deactivateHandlers();
+    };
+  });
 
   const initSignedCallSdk = () => {
     if (
@@ -52,7 +60,14 @@ export default function RegistrationPage({ navigation }: any) {
       return;
     }
 
-    setLoading(true);
+    //For android 13 and onwards, show loading once the notification permission result is received
+    //in CleverTap.CleverTapPushPermissionResponseReceived handler
+    const shouldShowLoader =
+      isDeviceVersionTargetsBelow(33) || Platform.OS === 'ios';
+    if (shouldShowLoader) {
+      setLoading(true);
+    }
+
     SignedCall.initialize(getInitProperties())
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
@@ -66,7 +81,7 @@ export default function RegistrationPage({ navigation }: any) {
           console.log('Signed Call initialization failed: ', response.error);
           Alert.alert(
             'Signed Call initialization failed!',
-            response.error?.errorDescription
+            response.error?.errorMessage
           );
         }
       })
@@ -77,6 +92,24 @@ export default function RegistrationPage({ navigation }: any) {
         setLoading(false);
       });
   };
+
+  function activateHandlers() {
+    CleverTap.addListener(
+      CleverTap.CleverTapPushPermissionResponseReceived,
+      (result: boolean) => {
+        console.log('Push Permission response is received --->', result);
+        if (result) {
+          setLoading(true);
+        } else {
+          CleverTap.promptPushPrimer(getPushPrimerJson);
+        }
+      }
+    );
+  }
+
+  function deactivateHandlers() {
+    CleverTap.removeListener(CleverTap.CleverTapPushPermissionResponseReceived);
+  }
 
   return (
     <View style={styles.mainContainer}>
@@ -130,6 +163,7 @@ export default function RegistrationPage({ navigation }: any) {
 
     if (Platform.OS === 'android') {
       initProperties.allowPersistSocketConnection = true;
+      initProperties.promptPushPrimer = getPushPrimerJson();
       initProperties.promptReceiverReadPhoneStatePermission = true;
       initProperties.missedCallActions = {
         '123': 'call me back',
@@ -140,5 +174,17 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.production = true;
     }
     return initProperties;
+  }
+
+  function getPushPrimerJson(): any {
+    return {
+      inAppType: 'alert',
+      titleText: 'Get Notified',
+      messageText: 'Enable Notification permission',
+      followDeviceOrientation: true,
+      positiveBtnText: 'Allow',
+      negativeBtnText: 'Cancel',
+      fallbackToSettings: true,
+    };
   }
 }
