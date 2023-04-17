@@ -13,7 +13,7 @@ import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_C
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.signedCallResponseToWritableMap
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toSignedCallLogLevel
-import com.clevertap.rnsignedcallandroid.internal.util.Serializer.getInitConfigFromReadableMap
+import com.clevertap.rnsignedcallandroid.internal.util.InitConfigSerializer.getInitConfigFromReadableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.clevertap.rnsignedcallandroid.internal.util.toJson
 import com.facebook.react.bridge.*
@@ -149,6 +149,14 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   @ReactMethod
   fun hangupCall() {
     getSignedCallAPI().callController?.endCall()
+  }
+
+  /**
+   * Disconnects the signalling socket
+   */
+  @ReactMethod
+  fun disconnectSignallingSocket() {
+    getSignedCallAPI().disconnectSignallingSocket(reactContext)
   }
 
   /**

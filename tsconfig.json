@@ -2,7 +2,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "clevertap-signed-call-react-native": ["./src/index"]
+      "@clevertap/clevertap-signed-call-react-native": ["./src/index"],
+      "react": [ "./node_modules/@types/react" ]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
