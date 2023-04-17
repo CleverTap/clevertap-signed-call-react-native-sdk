@@ -92,7 +92,9 @@ const DialerScreen = ({ route, navigation }: any) => {
   function deactivateHandlers() {
     //cleanup to remove event listeners
     SignedCall.removeListener(SignedCall.SignedCallOnCallStatusChanged);
-    SignedCall.removeListener(SignedCall.SignedCallOnMissedCallActionClicked);
+    if (Platform.OS === 'android') {
+      SignedCall.removeListener(SignedCall.SignedCallOnMissedCallActionClicked);
+    }
   }
 
   return (
