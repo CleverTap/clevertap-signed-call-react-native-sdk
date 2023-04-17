@@ -25,7 +25,7 @@ npm install @clevertap/clevertap-signed-call-react-native
 - Now, in your TypeScript or JavaScript code, you can use:
 
 ```javascript
-import SignedCall from 'clevertap-signed-call-react-native';
+import SignedCall from '@clevertap/clevertap-signed-call-react-native';
 ```
 
 ## 📑 Documentation & Example
