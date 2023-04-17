@@ -1,4 +1,7 @@
-import { LogLevel, SignedCall } from 'clevertap-signed-call-react-native';
+import {
+  LogLevel,
+  SignedCall,
+} from '@clevertap/clevertap-signed-call-react-native';
 import * as React from 'react';
 import RegistrationPage from './screens/RegistrationScreen';
 import { NavigationContainer } from '@react-navigation/native';
