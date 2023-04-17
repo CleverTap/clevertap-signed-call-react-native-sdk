@@ -60,12 +60,12 @@ export default function RegistrationPage({ navigation }: any) {
       return;
     }
 
-    const isDeviceVersionTargetsBelow33 = isDeviceVersionTargetsBelow(33);
-    if (isDeviceVersionTargetsBelow33) {
+    //For android 13 and onwards, show loading once the notification permission result is received
+    //in CleverTap.CleverTapPushPermissionResponseReceived handler
+    const shouldShowLoader =
+      isDeviceVersionTargetsBelow(33) || Platform.OS === 'ios';
+    if (shouldShowLoader) {
       setLoading(true);
-    } else {
-      //For android 13 and onwards, show loading once the notification permission result is received
-      //in CleverTap.CleverTapPushPermissionResponseReceived handler
     }
 
     SignedCall.initialize(getInitProperties())

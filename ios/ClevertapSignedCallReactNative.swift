@@ -89,6 +89,12 @@ class CleverTapSignedCall: RCTEventEmitter {
         SignedCall.logout()
     }
     
+    @objc(disconnectSignallingSocket)
+    func disconnectSignallingSocket() -> Void {
+        os_log("[CT]:[SignedCall]:[RN] Handle method disconnectSignallingSocket", log: logValue, type: .default)
+        SignedCall.disconnectSignallingSocket()
+    }
+    
     @objc(hangupCall)
     func hangupCall() -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method hangupCall", log: logValue, type: .default)
