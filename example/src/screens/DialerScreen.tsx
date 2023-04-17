@@ -7,6 +7,7 @@ import {
   BackHandler,
   Alert,
   Keyboard,
+  Platform,
 } from 'react-native';
 import React from 'react';
 import styles from '../styles/style';
@@ -14,8 +15,8 @@ import {
   SignedCall,
   CallEvent,
   SignedCallResponse,
-} from 'clevertap-signed-call-react-native';
-import type { MissedCallActionClickResult } from 'src/models/MissedCallAction';
+  MissedCallActionClickResult,
+} from '@clevertap/clevertap-signed-call-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestPermissions } from '../Helpers';
 
@@ -26,35 +27,11 @@ const DialerScreen = ({ route, navigation }: any) => {
   const [callContext, setCallContext] = React.useState('');
 
   React.useEffect(() => {
-    //Disables the back button click handling
-    BackHandler.addEventListener('hardwareBackPress', () => true);
-
-    //To keep track on changes in the VoIP call's state
-    SignedCall.addListener(
-      SignedCall.SignedCallOnCallStatusChanged,
-      (event: CallEvent) => {
-        console.log('SignedCallOnCallStatusChanged', event);
-      }
-    );
-    if (Platform.OS === 'android') {
-      //To keep track on click over missed call notification
-      SignedCall.addListener(
-      SignedCall.SignedCallOnMissedCallActionClicked,
-        (event: MissedCallActionClickResult) => {
-          console.log('SignedCallOnMissedCallActionClicked', event);
-          Alert.alert(
-            'Missed Call Notification!',
-            event.action.actionLabel + ' is clicked'
-          );
-        }
-      );
-    }
+    activateHandlers();
 
     // below return function gets called on component unmount
     return () => {
-      //cleanup to remove event listeners
-      SignedCall.removeListener(SignedCall.SignedCallOnCallStatusChanged);
-      SignedCall.removeListener(SignedCall.SignedCallOnMissedCallActionClicked);
+      deactivateHandlers();
     };
   }, []);
 
@@ -70,7 +47,7 @@ const DialerScreen = ({ route, navigation }: any) => {
           console.log('VoIP call is placed successfully', response);
         } else {
           console.log('VoIP call is failed: ', response.error);
-          Alert.alert('VoIP call is failed!', response.error?.errorDescription);
+          Alert.alert('VoIP call is failed!', response.error?.errorMessage);
         }
       })
       .catch((e: any) => {
@@ -83,6 +60,41 @@ const DialerScreen = ({ route, navigation }: any) => {
     AsyncStorage.clear();
     //navigates to the Registration Screen
     navigation.replace('Registration', {});
+  }
+
+  function activateHandlers() {
+    //Disables the back button click handling
+    BackHandler.addEventListener('hardwareBackPress', () => true);
+
+    //To keep track on changes in the VoIP call's state
+    SignedCall.addListener(
+      SignedCall.SignedCallOnCallStatusChanged,
+      (event: CallEvent) => {
+        console.log('SignedCallOnCallStatusChanged', event);
+      }
+    );
+
+    if (Platform.OS === 'android') {
+      //To keep track on click over missed call notification
+      SignedCall.addListener(
+        SignedCall.SignedCallOnMissedCallActionClicked,
+        (event: MissedCallActionClickResult) => {
+          console.log('SignedCallOnMissedCallActionClicked', event);
+          Alert.alert(
+            'Missed Call Notification!',
+            event.action.actionLabel + ' is clicked'
+          );
+        }
+      );
+    }
+  }
+
+  function deactivateHandlers() {
+    //cleanup to remove event listeners
+    SignedCall.removeListener(SignedCall.SignedCallOnCallStatusChanged);
+    if (Platform.OS === 'android') {
+      SignedCall.removeListener(SignedCall.SignedCallOnMissedCallActionClicked);
+    }
   }
 
   return (
@@ -127,6 +139,13 @@ const DialerScreen = ({ route, navigation }: any) => {
               });
             }}
             disabled={receiverCuid.length === 0 || callContext.length === 0}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Disconnect Signalling Socket"
+            color="blue"
+            onPress={() => SignedCall.disconnectSignallingSocket()}
           />
         </View>
         <View style={styles.buttonContainer}>
