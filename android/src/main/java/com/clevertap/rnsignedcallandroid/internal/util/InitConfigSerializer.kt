@@ -15,6 +15,7 @@ import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_FONT_COLOR
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_LOGO_URL
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_NAME
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_RINGTONE
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_SHOW_POWERED_BY_SIGNED_CALL
 import com.clevertap.rnsignedcallandroid.internal.util.PushPrimerSerializer.parsePushPrimerConfigFromInitOptions
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.*
@@ -63,14 +64,19 @@ object InitConfigSerializer {
       val fontColor: String? = it.getValue(KEY_FONT_COLOR)
       val logoUrl: String? = it.getValue(KEY_LOGO_URL)
       val buttonTheme: String? = it.getValue(KEY_BUTTON_THEME)
+      val showPoweredBySignedCall: Boolean? = it.getValue(KEY_SHOW_POWERED_BY_SIGNED_CALL)
 
-      return SignedCallScreenBranding(
+      val callScreenBranding = SignedCallScreenBranding(
         bgColor,
         fontColor,
         logoUrl,
         if (buttonTheme == DARK_THEME) SignedCallScreenBranding.ButtonTheme.DARK
         else SignedCallScreenBranding.ButtonTheme.LIGHT
       )
+      if (showPoweredBySignedCall != null) {
+        callScreenBranding.showPoweredBySignedCall = showPoweredBySignedCall
+      }
+      return callScreenBranding
     } ?: run {
       return null
     }
