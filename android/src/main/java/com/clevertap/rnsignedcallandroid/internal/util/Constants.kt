@@ -18,6 +18,7 @@ object Constants {
   const val KEY_FONT_COLOR = "fontColor"
   const val KEY_LOGO_URL = "logoUrl"
   const val KEY_BUTTON_THEME = "buttonTheme"
+  const val KEY_SHOW_POWERED_BY_SIGNED_CALL = "showPoweredBySignedCall"
   const val KEY_RECEIVER_CUID = "receiverCuid"
   const val KEY_CALL_CONTEXT = "callContext"
   const val KEY_ERROR_CODE = "errorCode"
