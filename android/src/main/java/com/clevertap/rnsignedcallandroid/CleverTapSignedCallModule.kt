@@ -27,6 +27,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
 
   init {
     eventEmitter = EventEmitter(reactContext)
+    cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
   }
 
   companion object {
@@ -63,7 +64,6 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   private fun getSignedCallAPI(): SignedCallAPI {
     if (mSignedCall == null) {
       mSignedCall = SignedCallAPI.getInstance()
-      cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
     }
     return mSignedCall!!
   }
@@ -74,7 +74,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     cleverTapAPI?.let {
       cleverTapAPI!!.setCustomSdkVersion(sdkName, sdkVersion)
     } ?: run {
-      log(message = "$ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED to track SDK Version");
+      log(message = "$ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED to track the SDK Version");
     }
   }
 
