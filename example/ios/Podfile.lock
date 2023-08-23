@@ -5,7 +5,7 @@ PODS:
   - clevertap-react-native (1.0.2):
     - CleverTap-iOS-SDK (= 4.2.2)
     - React-Core
-  - clevertap-signed-call-react-native (0.0.2):
+  - clevertap-signed-call-react-native (0.0.3):
     - CleverTap-SignedCall-SDK (= 0.0.2)
     - React (< 1.0.0, >= 0.13.0)
   - CleverTap-SignedCall-SDK (0.0.2):
@@ -373,7 +373,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/CleverTap/podspecs:
+  https://github.com/CleverTap/podspecs.git:
     - CleverTap-SignedCall-SDK
     - CTSimplePing
     - CTSoftPhone
@@ -472,7 +472,7 @@ SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CleverTap-iOS-SDK: 36c21b8a671d87a0f9c7b389b339d02528bbe4d7
   clevertap-react-native: 5b73c22b6d6aa384eb4de7cc23fba5437074a5c8
-  clevertap-signed-call-react-native: e91b54551cd82f52e448c2e89429ab0064a68030
+  clevertap-signed-call-react-native: 5d3abcc6b4b3241adaca1400df2fb6363a6cd13f
   CleverTap-SignedCall-SDK: f5c56d7a686cc253ef8ffe74225091bafe8db3c2
   CTSimplePing: b982a6095f50e8a6fffa1049c0f548e545d6f1a5
   CTSoftPhone: dd535d72050641b55cafea4adca2ce3bd1b26415
@@ -521,4 +521,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 2eb995621129209434c200ad5ab1dd04d54990fb
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.11.2
