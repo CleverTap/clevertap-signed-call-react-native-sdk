@@ -1,16 +1,16 @@
 PODS:
   - boost (1.76.0)
-  - CleverTap-iOS-SDK (4.2.2):
+  - CleverTap-iOS-SDK (5.2.0):
     - SDWebImage (~> 5.11)
-  - clevertap-react-native (1.0.2):
-    - CleverTap-iOS-SDK (= 4.2.2)
+  - clevertap-react-native (1.2.0):
+    - CleverTap-iOS-SDK (= 5.2.0)
     - React-Core
   - clevertap-signed-call-react-native (0.0.3):
-    - CleverTap-SignedCall-SDK (= 0.0.2)
+    - CleverTap-SignedCall-SDK (= 0.0.5)
     - React (< 1.0.0, >= 0.13.0)
-  - CleverTap-SignedCall-SDK (0.0.2):
+  - CleverTap-SignedCall-SDK (0.0.5):
     - CleverTap-iOS-SDK
-    - CTSimplePing
+    - CTSimplePing (= 1.0.1)
     - CTSoftPhone (= 0.0.6-alpha)
     - Socket.IO-Client-Swift (= 16.0.1)
   - CTSimplePing (1.0.1)
@@ -26,9 +26,9 @@ PODS:
     - ReactCommon/turbomodule/core (= 0.70.6)
   - fmt (6.2.1)
   - glog (0.3.5)
-  - Permission-Camera (3.8.0):
+  - Permission-Camera (3.9.0):
     - RNPermissions
-  - Permission-Microphone (3.8.0):
+  - Permission-Microphone (3.9.0):
     - RNPermissions
   - RCT-Folly (2021.07.22.00):
     - boost
@@ -239,12 +239,8 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
-  - react-native-safe-area-context (4.5.1):
-    - RCT-Folly
-    - RCTRequired
-    - RCTTypeSafety
+  - react-native-safe-area-context (4.7.2):
     - React-Core
-    - ReactCommon/turbomodule/core
   - React-perflogger (0.70.6)
   - React-RCTActionSheet (0.70.6):
     - React-Core/RCTActionSheetHeaders (= 0.70.6)
@@ -311,21 +307,21 @@ PODS:
     - React-jsi (= 0.70.6)
     - React-logger (= 0.70.6)
     - React-perflogger (= 0.70.6)
-  - RNCAsyncStorage (1.18.1):
+  - RNCAsyncStorage (1.19.3):
     - React-Core
-  - RNPermissions (3.8.0):
+  - RNPermissions (3.9.0):
     - React-Core
-  - RNScreens (3.20.0):
+  - RNScreens (3.25.0):
     - React-Core
     - React-RCTImage
   - RNVectorIcons (9.2.0):
     - React-Core
-  - SDWebImage (5.15.5):
-    - SDWebImage/Core (= 5.15.5)
-  - SDWebImage/Core (5.15.5)
+  - SDWebImage (5.18.0):
+    - SDWebImage/Core (= 5.18.0)
+  - SDWebImage/Core (5.18.0)
   - Socket.IO-Client-Swift (16.0.1):
     - Starscream (~> 4.0)
-  - Starscream (4.0.4)
+  - Starscream (4.0.6)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -470,10 +466,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
-  CleverTap-iOS-SDK: 36c21b8a671d87a0f9c7b389b339d02528bbe4d7
-  clevertap-react-native: 5b73c22b6d6aa384eb4de7cc23fba5437074a5c8
-  clevertap-signed-call-react-native: 5d3abcc6b4b3241adaca1400df2fb6363a6cd13f
-  CleverTap-SignedCall-SDK: f5c56d7a686cc253ef8ffe74225091bafe8db3c2
+  CleverTap-iOS-SDK: 6a38eea6d2f0c336fb142baadcca2cd8aafd2290
+  clevertap-react-native: 3acdd0abca15a23e9339e19fa26abf0635ac4bd2
+  clevertap-signed-call-react-native: d41ead64130a4df63e85c62f11077ba4bab7b0db
+  CleverTap-SignedCall-SDK: 419fa35be344d1e65ab035dbbc4c2f827c8509d3
   CTSimplePing: b982a6095f50e8a6fffa1049c0f548e545d6f1a5
   CTSoftPhone: dd535d72050641b55cafea4adca2ce3bd1b26415
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -481,8 +477,8 @@ SPEC CHECKSUMS:
   FBReactNativeSpec: dd1186fd05255e3457baa2f4ca65e94c2cd1e3ac
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: 04b94705f318337d7ead9e6d17c019bd9b1f6b1b
-  Permission-Camera: e6d142d7d8b714afe0a83e5e6ae17eb949f1e3e9
-  Permission-Microphone: 644b1de8bcc2afcaf934e09a22bee507a95796a7
+  Permission-Camera: 5c332b27becccf9d5467210aa6cf25f4572dca4a
+  Permission-Microphone: 5d2ebb45b8626610c36889b525c1030792df87ba
   RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
   RCTRequired: e1866f61af7049eb3d8e08e8b133abd38bc1ca7a
   RCTTypeSafety: 27c2ac1b00609a432ced1ae701247593f07f901e
@@ -497,7 +493,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-safe-area-context: f5549f36508b1b7497434baa0cd97d7e470920d4
+  react-native-safe-area-context: 7aa8e6d9d0f3100a820efb1a98af68aa747f9284
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
   React-RCTActionSheet: 7316773acabb374642b926c19aef1c115df5c466
   React-RCTAnimation: 5341e288375451297057391227f691d9b2326c3d
@@ -510,15 +506,15 @@ SPEC CHECKSUMS:
   React-RCTVibration: c75ceef7aa60a33b2d5731ebe5800ddde40cefc4
   React-runtimeexecutor: 15437b576139df27635400de0599d9844f1ab817
   ReactCommon: 349be31adeecffc7986a0de875d7fb0dcf4e251c
-  RNCAsyncStorage: b90b71f45b8b97be43bc4284e71a6af48ac9f547
-  RNPermissions: 215c54462104b3925b412b0fb3c9c497b21c358b
-  RNScreens: 218801c16a2782546d30bd2026bb625c0302d70f
+  RNCAsyncStorage: c913ede1fa163a71cea118ed4670bbaaa4b511bb
+  RNPermissions: 2e68b2e82a93ad09327dee8822846fead91ca3ad
+  RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
-  SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
+  SDWebImage: 182830bcddc30cde95fbc60dfe4badc3553d94ba
   Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
-  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
+  Starscream: fb2c4510bebf908c62bd383bcf05e673720e91fd
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
 
 PODFILE CHECKSUM: 2eb995621129209434c200ad5ab1dd04d54990fb
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.1
