@@ -26,6 +26,8 @@
 	<string>ZWW-WWW-WW4Z</string>
 	<key>CleverTapToken</key>
 	<string>000-001</string>
+	<key>CleverTapRegion</key>
+	<string>in1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
