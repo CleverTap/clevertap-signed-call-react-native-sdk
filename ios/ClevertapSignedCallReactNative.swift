@@ -16,9 +16,9 @@ class CleverTapSignedCall: RCTEventEmitter {
         NotificationCenter.default.addObserver(self, selector: #selector(self.callStatus(notification:)), name: NSNotification.Name(rawValue: SCConstant.messageReceived), object: nil)
     }
     @objc(trackSdkVersion:withsdkVersion:)
-    func trackSdkVersion(sdkName: String?, sdkVersion: Int) -> Void {
+    func trackSdkVersion(sdkName: String, sdkVersion: Int) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method trackSDKVersion to track the SDK Version", log: .default, type: .default)
-        CleverTap().setCustomSdkVersion(sdkName!, version: Int32(sdkVersion))
+        CleverTap().setCustomSdkVersion(sdkName, version: Int32(sdkVersion))
     }
     
     @objc(setDebugLevel:)
