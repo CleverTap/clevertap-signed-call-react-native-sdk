@@ -7,6 +7,7 @@ import {
   Alert,
   Keyboard,
   Platform,
+  Switch,
 } from 'react-native';
 import { useState } from 'react';
 import styles from '../styles/style';
@@ -24,6 +25,20 @@ import { isDeviceVersionTargetsBelow } from '../Helpers';
 export default function RegistrationPage({ navigation }: any) {
   const [cuid, setCuid] = useState('');
   const [loading, setLoading] = useState(false);
+  let callScreenBranding = {
+    bgColor: '#000000',
+    fontColor: '#ffffff', ///The color of the text displayed on the call screens
+    logoUrl:
+      'https://sk1-dashboard-staging-21.dashboard.clevertap.com/images/ct-favicon.png', ///The image URL that renders on the call screens.
+    buttonTheme: 'light', ///The theme of the control buttons shown on the ongoing call screen(i.e. Mute, Speaker and Bluetooth)
+    showPoweredBySignedCall: false, //optional
+  };
+
+  const [isEnabled, setIsEnabled] = useState(callScreenBranding.showPoweredBySignedCall);
+  const toggleSwitch = () => {
+    setIsEnabled((previousState) => !previousState);
+    getInitProperties(!isEnabled);
+  };
 
   const initSCSdkIfCuIDSignedIn = async () => {
     try {
@@ -68,7 +83,7 @@ export default function RegistrationPage({ navigation }: any) {
       setLoading(true);
     }
 
-    SignedCall.initialize(getInitProperties())
+    SignedCall.initialize(getInitProperties(isEnabled))
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           console.log('Signed Call SDK initialized: ', response);
@@ -129,6 +144,14 @@ export default function RegistrationPage({ navigation }: any) {
             setCuid(text);
           }}
         />
+        <Text>Show Powered By Signed Call</Text>
+        <Switch
+        trackColor={{false: '#767577', true: '#008000'}}
+        thumbColor={isEnabled ? '#FFFFFF' : '#f4f3f4'}
+        ios_backgroundColor="#3e3e3e"
+        onValueChange={toggleSwitch}
+        value={isEnabled}
+      />
         {loading && <Loader />}
         <View style={styles.buttonContainer}>
           <Button
@@ -145,21 +168,13 @@ export default function RegistrationPage({ navigation }: any) {
     </View>
   );
 
-  function getInitProperties(): any {
-    /*let callScreenBranding = {
-      bgColor: '#000000',
-      fontColor: '#ffffff', ///The color of the text displayed on the call screens
-      logoUrl:
-        'https://sk1-dashboard-staging-21.dashboard.clevertap.com/images/ct-favicon.png', ///The image URL that renders on the call screens.
-      buttonTheme: 'light', ///The theme of the control buttons shown on the ongoing call screen(i.e. Mute, Speaker and Bluetooth)
-      showPoweredBySignedCall: false, //optional
-    };*/
-
+  function getInitProperties(switchValue: boolean): any { 
+    callScreenBranding.showPoweredBySignedCall = switchValue;
     let initProperties: { [k: string]: any } = {
       accountId: Constants.SC_ACCOUNT_ID,
       apiKey: Constants.SC_API_KEY,
       cuid: cuid,
-      //overrideDefaultBranding: callScreenBranding,
+      overrideDefaultBranding: callScreenBranding,
     };
 
     if (Platform.OS === 'android') {
