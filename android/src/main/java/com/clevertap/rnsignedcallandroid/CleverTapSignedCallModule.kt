@@ -1,5 +1,6 @@
 package com.clevertap.rnsignedcallandroid
 
+import android.annotation.SuppressLint
 import com.clevertap.android.sdk.CleverTapAPI
 import com.clevertap.android.signedcall.enums.VoIPCallStatus
 import com.clevertap.android.signedcall.exception.CallException
@@ -26,10 +27,12 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
 
   init {
     eventEmitter = EventEmitter(reactContext)
+    cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
   }
 
   companion object {
     const val NAME = "CleverTapSignedCall"
+    const val ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED = "CleverTap Instance is not initialized"
   }
 
   /**
@@ -61,9 +64,18 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   private fun getSignedCallAPI(): SignedCallAPI {
     if (mSignedCall == null) {
       mSignedCall = SignedCallAPI.getInstance()
-      cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
     }
     return mSignedCall!!
+  }
+
+  @SuppressLint("RestrictedApi")
+  @ReactMethod
+  fun trackSdkVersion(sdkName: String, sdkVersion: Int) {
+    cleverTapAPI?.let {
+      cleverTapAPI!!.setCustomSdkVersion(sdkName, sdkVersion)
+    } ?: run {
+      log(message = "$ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED to track the SDK Version");
+    }
   }
 
   @ReactMethod
