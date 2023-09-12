@@ -15,6 +15,11 @@ class CleverTapSignedCall: RCTEventEmitter {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(self.callStatus(notification:)), name: NSNotification.Name(rawValue: SCConstant.messageReceived), object: nil)
     }
+    @objc(trackSdkVersion:withsdkVersion:)
+    func trackSdkVersion(sdkName: String, sdkVersion: Int) -> Void {
+        os_log("[CT]:[SignedCall]:[RN] Handle method trackSDKVersion to track the SDK Version", log: .default, type: .default)
+        CleverTap().setCustomSdkVersion(sdkName, version: Int32(sdkVersion))
+    }
     
     @objc(setDebugLevel:)
     func setDebugLevel(logLevel: Int) -> Void {
@@ -67,9 +72,12 @@ class CleverTapSignedCall: RCTEventEmitter {
         let bgColor = brandingDetails["bgColor"] as? String,
            let fontColor = brandingDetails["fontColor"] as? String,
            let logoUrl = brandingDetails["logoUrl"] as? String,
+           let showPoweredBySignedCall = brandingDetails["showPoweredBySignedCall"] as? Bool,
            let buttonTheme = brandingDetails["buttonTheme"] as? String {
             SignedCall.overrideDefaultBranding = SCCallScreenBranding(bgColor: bgColor, fontColor: fontColor, logo: logoUrl, buttonTheme: buttonTheme == "light" ? .light : .dark)
+            SignedCall.overrideDefaultBranding?.setDisplayPoweredBySignedCall(showPoweredBySignedCall)
         }
+        
         
         SignedCall.initSDK(withInitOptions: initOptionsDict) { result in
             switch result {
