@@ -62,7 +62,8 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   
   SignedCall.cleverTapInstance = [CleverTap sharedInstance];
   [SignedCall setIsLoggingEnabled: YES];
-  [SignedCall registerVoIPWithRootView:self.window.rootViewController appName:@"Sample App"];
+  [SignedCall registerVoIPWithAppName:@"Sample App"];
+  [SignedCall setRootViewController:self.window.rootViewController];
     
   [self.window makeKeyAndVisible];
   return YES;

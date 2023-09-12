@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginTop: 20,
   },
+  horizontalAlignment: {
+    flexDirection: 'row',
+    marginTop: 15,
+    alignItems: 'center',
+  },
   inputStyle: {
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.3)',

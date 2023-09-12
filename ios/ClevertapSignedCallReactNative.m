@@ -25,6 +25,11 @@ RCT_EXTERN_METHOD(disconnectSignallingSocket)
 
 RCT_EXTERN_METHOD(setDebugLevel:(int)logLevel)
 
+RCT_EXTERN_METHOD(
+                  trackSdkVersion:(NSString *)sdkName
+                  withsdkVersion: (int)sdkVersion
+                  )
+
 + (BOOL)requiresMainQueueSetup
 {
   return NO;
