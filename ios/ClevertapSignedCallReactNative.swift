@@ -75,7 +75,7 @@ class CleverTapSignedCall: RCTEventEmitter {
            let showPoweredBySignedCall = brandingDetails["showPoweredBySignedCall"] as? Bool,
            let buttonTheme = brandingDetails["buttonTheme"] as? String {
             SignedCall.overrideDefaultBranding = SCCallScreenBranding(bgColor: bgColor, fontColor: fontColor, logo: logoUrl, buttonTheme: buttonTheme == "light" ? .light : .dark)
-            SignedCall.overrideDefaultBranding?.setDisplayPoweredBySignedCall(!showPoweredBySignedCall)
+            SignedCall.overrideDefaultBranding?.setDisplayPoweredBySignedCall(showPoweredBySignedCall)
         }
         
         
