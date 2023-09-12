@@ -1,6 +1,6 @@
 # Change Log
 
-### Version 0.0.3 (September 12, 2023)
+### Version 0.0.4 (September 12, 2023)
 -------------------------------------------
 
 **What's new**
