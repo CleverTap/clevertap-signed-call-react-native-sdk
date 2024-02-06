@@ -31,6 +31,6 @@ export class CallEventResult {
 
 // Enumeration representing the direction of a call (incoming or outgoing).
 enum CallDirection {
-  Incoming,
-  Outgoing,
+  Incoming = 'Incoming',
+  Outgoing = 'Outgoing',
 }

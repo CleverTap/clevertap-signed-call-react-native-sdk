@@ -1,5 +1,7 @@
 import {
+  CallEventResult,
   LogLevel,
+  MissedCallActionClickResult,
   SignedCall,
 } from '@clevertap/clevertap-signed-call-react-native';
 import * as React from 'react';
@@ -7,6 +9,7 @@ import RegistrationPage from './screens/RegistrationScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import DialerScreen from './screens/DialerScreen';
+import { Platform } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
