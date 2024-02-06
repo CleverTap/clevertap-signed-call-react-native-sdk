@@ -13,7 +13,7 @@ class CleverTapSignedCall: RCTEventEmitter {
     
     override init() {
         super.init()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.callStatus(notification:)), name: NSNotification.Name(rawValue: SCConstant.messageReceived), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.callStatus(notification:)), name: SCConstant.SCCallStatusDidUpdate, object: nil)
     }
     @objc(trackSdkVersion:withsdkVersion:)
     func trackSdkVersion(sdkName: String, sdkVersion: Int) -> Void {
@@ -124,23 +124,30 @@ class CleverTapSignedCall: RCTEventEmitter {
     }
     
     @objc func callStatus(notification: Notification) {
-        let callEvent = notification.userInfo?["callStatus"] as? SCCallStatus
+        let callDetails = notification.userInfo?["callDetails"] as? SCCallStatusDetails
         
-        switch callEvent {
-        case .CALL_CANCEL, .CALL_DECLINED, .CALL_MISSED, .CALL_ANSWERED, .CALL_CONNECTED, .RECEIVER_BUSY_ON_ANOTHER_CALL, .CALL_OVER :
-            
-            guard let callEventValue = callEvent?.rawValue else {
-                return
-            }
-            
-            handleCallEvent(SCCallEvent(rawValue: callEventValue).value)
-        default: break
-        }
+        let status: SCCallStatus? = callDetails?.status
+        let callDirection: String = callDetails?.callDirection.rawValue ?? ""
+        let callEvent = notification.userInfo?["callStatus"] as? SCCallStatus
+        let calleeCuid: String = callDetails?.callDetails.calleeCuid ?? ""
+        let callerCuid: String = callDetails?.callDetails.callerCuid ?? ""
+        let initiatorImage: String = callDetails?.callDetails.initiatorImage ?? ""
+        let receiverImage: String = callDetails?.callDetails.receiverImage ?? ""
+        let callContext: String = callDetails?.callDetails.context ?? ""
+        
+        let callDetailsDict: [String : Any] = ["direction": callDirection.uppercased(),
+                                               "callDetails": ["callerCuid": callerCuid, 
+                                                               "calleeCuid": calleeCuid,
+                                                               "callContext": callContext,
+                                                               "initiatorImage": initiatorImage,
+                                                               "receiverImage": receiverImage],
+                                               "callEvent": SCCallEventMapping(callStatus: status).value]
+        handleCallEvent(callDetailsDict)
     }
     
-    func handleCallEvent(_ callEvent: String) {
+    func handleCallEvent(_ callDetails: [String : Any]) {
         if hasListeners {
-            sendEvent(withName: SCConstant.onCallStatusChanged, body: callEvent)
+            sendEvent(withName: SCConstant.onCallStatusChanged, body: callDetails)
         }
     }
 }
