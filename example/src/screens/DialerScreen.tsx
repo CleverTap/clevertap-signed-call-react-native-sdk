@@ -13,7 +13,7 @@ import React from 'react';
 import styles from '../styles/style';
 import {
   SignedCall,
-  CallEvent,
+  CallEventResult,
   SignedCallResponse,
   MissedCallActionClickResult,
 } from '@clevertap/clevertap-signed-call-react-native';
@@ -69,7 +69,7 @@ const DialerScreen = ({ route, navigation }: any) => {
     //To keep track on changes in the VoIP call's state
     SignedCall.addListener(
       SignedCall.SignedCallOnCallStatusChanged,
-      (event: CallEvent) => {
+      (event: CallEventResult) => {
         console.log('SignedCallOnCallStatusChanged', event);
       }
     );

@@ -9,7 +9,7 @@ import {
   SignedCall,
   SignedCallResponse,
   LogLevel,
-  CallEvent,
+  CallEventResult,
   MissedCallActionClickResult,
 } from './SignedCall';
 
@@ -17,6 +17,6 @@ export {
   SignedCall,
   SignedCallResponse,
   LogLevel,
-  CallEvent,
+  CallEventResult,
   MissedCallActionClickResult,
 };

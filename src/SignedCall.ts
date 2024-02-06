@@ -1,12 +1,12 @@
 'use strict';
 
 import { NativeEventEmitter, NativeModules } from 'react-native';
-import { CallEvent, CallEventUtil } from './models/CallEvents';
 import { LogLevel } from './models/LogLevel';
 import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
 import { SignedCallLogger } from './utils/SignedCallLogger';
 import { Constants } from './Constants';
+import { CallEventResult } from './models/CallEventResult';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -124,7 +124,7 @@ class SignedCall {
     eventEmitter.addListener(eventName, (response: any) => {
       switch (eventName) {
         case SignedCall.SignedCallOnCallStatusChanged:
-          handler(CallEventUtil.fromString(response));
+          handler(CallEventResult.fromDict(response));
           break;
         case SignedCall.SignedCallOnMissedCallActionClicked:
           handler(MissedCallActionClickResult.fromDict(response));
@@ -147,6 +147,6 @@ export {
   SignedCall,
   SignedCallResponse,
   LogLevel,
-  CallEvent,
+  CallEventResult,
   MissedCallActionClickResult,
 };
