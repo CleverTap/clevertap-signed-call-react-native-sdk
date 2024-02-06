@@ -23,10 +23,8 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   ReactContextBaseJavaModule(reactContext) {
   private var mSignedCall: SignedCallAPI? = null
   private var cleverTapAPI: CleverTapAPI? = null
-  private var eventEmitter: EventEmitter? = null
 
   init {
-    eventEmitter = EventEmitter(reactContext)
     cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
   }
 
@@ -128,10 +126,6 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
         callContext,
         callOptions,
         object : OutgoingCallResponse {
-          override fun callStatus(callStatus: VoIPCallStatus) {
-            emitCallEvent(callStatus)
-          }
-
           override fun onSuccess() {
             promise.resolve(signedCallResponseToWritableMap(exception = null))
           }
@@ -169,21 +163,5 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   @ReactMethod
   fun disconnectSignallingSocket() {
     getSignedCallAPI().disconnectSignallingSocket(reactContext)
-  }
-
-  /**
-   * Sends the real-time changes in the call-state to an observable event-stream
-   */
-  private fun emitCallEvent(callStatus: VoIPCallStatus) {
-    val callEventName = when (callStatus) {
-      VoIPCallStatus.CALL_CANCELLED -> "Cancelled"
-      VoIPCallStatus.CALL_DECLINED -> "Declined"
-      VoIPCallStatus.CALL_MISSED -> "Missed"
-      VoIPCallStatus.CALL_ANSWERED -> "Answered"
-      VoIPCallStatus.CALL_IN_PROGRESS -> "CallInProgress"
-      VoIPCallStatus.CALL_OVER -> "Ended"
-      VoIPCallStatus.CALLEE_BUSY_ON_ANOTHER_CALL -> "ReceiverBusyOnAnotherCall"
-    }
-    eventEmitter?.emit(ON_CALL_STATUS_CHANGED, callEventName)
   }
 }

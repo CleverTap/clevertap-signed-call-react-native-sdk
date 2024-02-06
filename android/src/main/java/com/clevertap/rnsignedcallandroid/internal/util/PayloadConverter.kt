@@ -1,8 +1,13 @@
 package com.clevertap.rnsignedcallandroid.internal.util
 
+import com.clevertap.android.signedcall.Constants.KEY_INITIATOR_IMAGE
+import com.clevertap.android.signedcall.Constants.KEY_RECEIVER_IMAGE
+import com.clevertap.android.signedcall.enums.VoIPCallStatus
 import com.clevertap.android.signedcall.exception.BaseException
 import com.clevertap.android.signedcall.init.SignedCallAPI
+import com.clevertap.android.signedcall.models.CallDetails
 import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
+import com.clevertap.android.signedcall.models.SCCallStatusDetails
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.WritableMap
 
@@ -55,13 +60,67 @@ internal object PayloadConverter {
       actionMap.putString(Constants.KEY_ACTION_ID, action.actionID)
       actionMap.putString(Constants.KEY_ACTION_LABEL, action.actionLabel)
 
-      val callDetailsMap = Arguments.createMap()
-      callDetailsMap.putString(Constants.KEY_CALLER_CUID, callDetails.callerCuid)
-      callDetailsMap.putString(Constants.KEY_CALLEE_CUID, callDetails.calleeCuid)
-      callDetailsMap.putString(Constants.KEY_CALL_CONTEXT, callDetails.callContext)
-
       this.putMap(Constants.KEY_ACTION, actionMap)
-      this.putMap(Constants.KEY_CALL_DETAILS, callDetailsMap)
+      this.putMap(Constants.KEY_CALL_DETAILS, callDetails.toWriteableMap())
     } ?: responseMap
+  }
+
+  /**
+   * Converts SCCallStatusDetails to a Map.
+   *
+   * @return A Map representation of SCCallStatusDetails.
+   */
+  fun SCCallStatusDetails.toWriteableMap(): WritableMap {
+    return Arguments.createMap().apply {
+      this.putString("direction", direction.toString())
+      this.putMap("callDetails", callDetails.toWriteableMap())
+      this.putString("callEvent", callStatus.formattedCallEvent())
+    }
+  }
+
+  /**
+   * Converts [VoIPCallStatus] to a formatted string.
+   *
+   * @return A formatted call event string.
+   */
+  private fun VoIPCallStatus.formattedCallEvent(): String {
+    return when (this) {
+      VoIPCallStatus.CALL_IS_PLACED -> "CallIsPlaced"
+      VoIPCallStatus.CALL_CANCELLED -> "Cancelled"
+      VoIPCallStatus.CALL_DECLINED -> "Declined"
+      VoIPCallStatus.CALL_MISSED -> "Missed"
+      VoIPCallStatus.CALL_ANSWERED -> "Answered"
+      VoIPCallStatus.CALL_IN_PROGRESS -> "CallInProgress"
+      VoIPCallStatus.CALL_OVER -> "Ended"
+      VoIPCallStatus.CALLEE_BUSY_ON_ANOTHER_CALL -> "ReceiverBusyOnAnotherCall"
+      VoIPCallStatus.CALL_DECLINED_DUE_TO_LOGGED_OUT_CUID -> "DeclinedDueToLoggedOutCuid"
+      VoIPCallStatus.CALL_DECLINED_DUE_TO_NOTIFICATIONS_DISABLED -> "DeclinedDueToNotificationsDisabled"
+      VoIPCallStatus.CALLEE_MICROPHONE_PERMISSION_NOT_GRANTED -> "DeclinedDueToMicrophonePermissionsNotGranted"
+    }
+  }
+
+  /**
+   * Converts CallDetails to a Map.
+   *
+   * @return A Map representation of CallDetails.
+   */
+  private fun CallDetails.toMap(): Map<String, Any> {
+    return mapOf(
+      Constants.KEY_CALLER_CUID to (callerCuid ?: ""),
+      Constants.KEY_CALLEE_CUID to (calleeCuid ?: ""),
+      Constants.KEY_CALL_CONTEXT to (callContext ?: ""),
+      Constants.KEY_INITIATOR_IMAGE to initiatorImage,
+      Constants.KEY_RECEIVER_IMAGE to receiverImage
+    )
+  }
+
+  fun CallDetails.toWriteableMap(): WritableMap {
+    return Arguments.createMap().apply {
+      putString(Constants.KEY_CALLER_CUID, (callerCuid ?: ""))
+      putString(Constants.KEY_CALLEE_CUID, (calleeCuid ?: ""))
+      putString(Constants.KEY_CALL_CONTEXT, (callContext ?: ""))
+      putString(Constants.KEY_INITIATOR_IMAGE, initiatorImage)
+      putString(Constants.KEY_RECEIVER_IMAGE, receiverImage)
+    }
   }
 }
