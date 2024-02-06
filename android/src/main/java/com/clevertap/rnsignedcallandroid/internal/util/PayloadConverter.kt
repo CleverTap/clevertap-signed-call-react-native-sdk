@@ -1,7 +1,5 @@
 package com.clevertap.rnsignedcallandroid.internal.util
 
-import com.clevertap.android.signedcall.Constants.KEY_INITIATOR_IMAGE
-import com.clevertap.android.signedcall.Constants.KEY_RECEIVER_IMAGE
 import com.clevertap.android.signedcall.enums.VoIPCallStatus
 import com.clevertap.android.signedcall.exception.BaseException
 import com.clevertap.android.signedcall.init.SignedCallAPI
@@ -55,14 +53,14 @@ internal object PayloadConverter {
   @JvmStatic
   fun MissedCallNotificationOpenResult.toWriteableMap(): WritableMap {
     val responseMap = Arguments.createMap()
-    return responseMap?.apply {
+    return responseMap.apply {
       val actionMap = Arguments.createMap()
       actionMap.putString(Constants.KEY_ACTION_ID, action.actionID)
       actionMap.putString(Constants.KEY_ACTION_LABEL, action.actionLabel)
 
       this.putMap(Constants.KEY_ACTION, actionMap)
       this.putMap(Constants.KEY_CALL_DETAILS, callDetails.toWriteableMap())
-    } ?: responseMap
+    }
   }
 
   /**
@@ -104,16 +102,6 @@ internal object PayloadConverter {
    *
    * @return A Map representation of CallDetails.
    */
-  private fun CallDetails.toMap(): Map<String, Any> {
-    return mapOf(
-      Constants.KEY_CALLER_CUID to (callerCuid ?: ""),
-      Constants.KEY_CALLEE_CUID to (calleeCuid ?: ""),
-      Constants.KEY_CALL_CONTEXT to (callContext ?: ""),
-      Constants.KEY_INITIATOR_IMAGE to initiatorImage,
-      Constants.KEY_RECEIVER_IMAGE to receiverImage
-    )
-  }
-
   fun CallDetails.toWriteableMap(): WritableMap {
     return Arguments.createMap().apply {
       putString(Constants.KEY_CALLER_CUID, (callerCuid ?: ""))

@@ -1,17 +1,14 @@
 package com.clevertap.rnsignedcallandroid.internal.events
 
 import android.content.Context
-import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
-import com.clevertap.android.signedcall.models.SCCallStatusDetails
+import android.util.Log
 import com.clevertap.rnsignedcallandroid.internal.EventName
-import com.clevertap.rnsignedcallandroid.internal.Events.ON_CALL_STATUS_CHANGED
-import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
-import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceEventListener
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.bridge.ReactContext
+import com.facebook.react.bridge.WritableMap
 import com.facebook.react.modules.core.DeviceEventManagerModule
 
 /**
@@ -25,49 +22,40 @@ internal object EventEmitter {
    * @param event - target event name
    * @param payload - payload to be sent
    */
-  fun emit(context: Context, @EventName event: String, payload: Any) {
-    // Construct and load our normal React JS code bundle
-    val application = context.applicationContext as ReactApplication
-    val reactNativeHost: ReactNativeHost = application.reactNativeHost
-
-    if (reactNativeHost.hasInstance()) {
+  fun emit(context: Context, @EventName event: String, payload: WritableMap) {
+    try {
+      // Construct and load our normal React JS code bundle
+      val application = context.applicationContext as ReactApplication
+      val reactNativeHost: ReactNativeHost = application.reactNativeHost
       val reactContext = reactNativeHost.reactInstanceManager.currentReactContext
-      processEmit(reactContext, event, payload)
-    } else {
-      val reactInstanceManager = reactNativeHost.reactInstanceManager
-      // Otherwise wait for construction, then send the notification
-      reactInstanceManager.addReactInstanceEventListener(object : ReactInstanceEventListener {
-        override fun onReactContextInitialized(context: ReactContext) {
-          processEmit(context, event, payload)
-          reactInstanceManager.removeReactInstanceEventListener(this)
+
+      if (reactContext != null) {
+        sendEmit(reactContext, event, payload)
+      } else {
+        val reactInstanceManager = reactNativeHost.reactInstanceManager
+        // Otherwise wait for construction, then send the notification
+        reactInstanceManager.addReactInstanceEventListener(object : ReactInstanceEventListener {
+          override fun onReactContextInitialized(context: ReactContext) {
+            sendEmit(context, event, payload)
+            reactInstanceManager.removeReactInstanceEventListener(this)
+          }
+        })
+        if (!reactInstanceManager.hasStartedCreatingInitialContext()) {
+          // Construct it in the background
+          reactInstanceManager.createReactContextInBackground()
         }
-      })
-      if (!reactInstanceManager.hasStartedCreatingInitialContext()) {
-        // Construct it in the background
-        reactInstanceManager.createReactContextInBackground()
       }
+    } catch (t: Throwable) {
+      log(message = "An exception while emitting the $event with params: $payload" + t.localizedMessage)
     }
   }
 
-  private fun processEmit(reactContext: ReactContext?, @EventName event: String, payload: Any) {
+  private fun sendEmit(reactContext: ReactContext?, @EventName eventName: String, payload: Any) {
     try {
-      log(message = "emit : $event event with payload: $payload")
-      when (event) {
-        ON_CALL_STATUS_CHANGED -> sendEmit(reactContext, event, (payload as SCCallStatusDetails).toWriteableMap())
-        ON_MISSED_CALL_ACTION_CLICKED -> sendEmit(
-          reactContext, event, (payload as MissedCallNotificationOpenResult).toWriteableMap()
-        )
-      }
+      log(message = "emit : $eventName event with payload: $payload")
+      reactContext!!.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)?.emit(eventName, payload)
     } catch (t: Throwable) {
-      log(message = "An exception occurred while emitting $event: " + t.localizedMessage)
-    }
-  }
-
-  private fun sendEmit(reactContext: ReactContext?, @EventName eventName: String, params: Any) {
-    try {
-      reactContext!!.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)?.emit(eventName, params)
-    } catch (t: Throwable) {
-      log(message = "An exception while signalling the $eventName: " + t.localizedMessage)
+      log(message = "An exception while operating on eventEmitter instance: " + t.localizedMessage)
     }
   }
 }

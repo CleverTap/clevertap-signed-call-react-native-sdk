@@ -7,6 +7,7 @@ import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.LOG_TAG
+import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactNativeHost
@@ -29,7 +30,7 @@ internal class MissedCallActionClickHandler : MissedCallNotificationOpenedHandle
         message = "Missed call action button clicked!" + " Streaming to event-channel with payload: \n actionID: " + result.action.actionID + ", actionLabel: " + result.action.actionLabel + ", context of call: " + result.callDetails.callContext + ", cuid of caller: " + result.callDetails.callerCuid + ", cuid of callee: " + result.callDetails.calleeCuid
       )
 
-      EventEmitter.emit(context, ON_MISSED_CALL_ACTION_CLICKED, result)
+      EventEmitter.emit(context, ON_MISSED_CALL_ACTION_CLICKED, result.toWriteableMap())
 
       //Sends the real-time changes in the call-state in an observable event-stream
       //MissedCallActionEventStreamHandler.eventSink?.success(result.toMap())

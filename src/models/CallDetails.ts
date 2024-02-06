@@ -1,0 +1,25 @@
+//Contains details about the missed call
+export class CallDetails {
+  callerCuid: string;
+  calleeCuid: string;
+  callContext: string;
+  initiatorImage: string | undefined;
+  receiverImage: string | undefined;
+
+  constructor(callerCuid: string, calleeCuid: string, callContext: string) {
+    this.callerCuid = callerCuid;
+    this.calleeCuid = calleeCuid;
+    this.callContext = callContext;
+  }
+
+  static fromDict(dict: any) {
+    const callerCuid = dict.callerCuid;
+    const calleeCuid = dict.calleeCuid;
+    const callContext = dict.callContext;
+
+    const callDetails = new CallDetails(callerCuid, calleeCuid, callContext);
+    callDetails.initiatorImage = dict.initiatorImage;
+    callDetails.receiverImage = dict.receiverImage;
+    return callDetails;
+  }
+}

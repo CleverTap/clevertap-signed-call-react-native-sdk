@@ -4,6 +4,7 @@ import android.content.Context
 import com.clevertap.android.signedcall.init.SignedCallAPI
 import com.clevertap.rnsignedcallandroid.internal.Events
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
+import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 
 open class SCBackgroundCallEventHandler {
@@ -16,7 +17,7 @@ open class SCBackgroundCallEventHandler {
 
       SignedCallAPI.getInstance().registerVoIPCallStatusListener { data ->
         log(message = "SCBackgroundCallEventHandler is invoked with payload: $data")
-        EventEmitter.emit(context, Events.ON_CALL_STATUS_CHANGED, data)
+        EventEmitter.emit(context, Events.ON_CALL_STATUS_CHANGED, data.toWriteableMap())
       }
     }
   }
