@@ -4,6 +4,7 @@ import { name as appName } from './app.json';
 import {
   SignedCall,
   CallDirection,
+  CallEventResult,
 } from '@clevertap/clevertap-signed-call-react-native';
 import Toast from 'react-native-simple-toast';
 import { Platform } from 'react-native';
