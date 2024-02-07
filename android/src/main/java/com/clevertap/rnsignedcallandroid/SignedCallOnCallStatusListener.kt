@@ -16,7 +16,7 @@ open class SignedCallOnCallStatusListener {
       log(message = "SignedCallOnCallStatusListener is registered!")
 
       SignedCallAPI.getInstance().registerVoIPCallStatusListener { data ->
-        log(message = "SignedCallOnCallStatusListener is invoked with payload: $data")
+        log(message = "SignedCallOnCallStatusListener is invoked in killed state: $data")
         EventEmitter.emit(context, Events.ON_CALL_STATUS_CHANGED, data.toWriteableMap())
       }
     }
