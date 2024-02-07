@@ -131,9 +131,9 @@ class CleverTapSignedCall: RCTEventEmitter {
         let callEvent = notification.userInfo?["callStatus"] as? SCCallStatus
         let calleeCuid: String = callDetails?.callDetails.calleeCuid ?? ""
         let callerCuid: String = callDetails?.callDetails.callerCuid ?? ""
-        let initiatorImage: String = callDetails?.callDetails.initiatorImage ?? ""
-        let receiverImage: String = callDetails?.callDetails.receiverImage ?? ""
         let callContext: String = callDetails?.callDetails.context ?? ""
+        let initiatorImage: String? = callDetails?.callDetails.initiatorImage
+        let receiverImage: String? = callDetails?.callDetails.receiverImage
         
         let callDetailsDict: [String : Any] = ["direction": callDirection.uppercased(),
                                                "callDetails": ["callerCuid": callerCuid, 
