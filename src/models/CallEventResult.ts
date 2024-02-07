@@ -2,7 +2,7 @@ import { CallDetails } from './CallDetails';
 import { CallEventUtil, type CallEvent } from './CallEvent';
 
 // Represents the result of a call event.
-export class CallEventResult {
+class CallEventResult {
   direction: CallDirection;
   callDetails: CallDetails;
   callEvent: CallEvent;
@@ -34,3 +34,5 @@ enum CallDirection {
   Incoming = 'Incoming',
   Outgoing = 'Outgoing',
 }
+
+export { CallEventResult, CallDirection };

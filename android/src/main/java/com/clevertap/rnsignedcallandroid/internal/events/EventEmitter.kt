@@ -1,7 +1,6 @@
 package com.clevertap.rnsignedcallandroid.internal.events
 
 import android.content.Context
-import android.util.Log
 import com.clevertap.rnsignedcallandroid.internal.EventName
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.ReactApplication
@@ -24,7 +23,6 @@ internal object EventEmitter {
    */
   fun emit(context: Context, @EventName event: String, payload: WritableMap) {
     try {
-      // Construct and load our normal React JS code bundle
       val application = context.applicationContext as ReactApplication
       val reactNativeHost: ReactNativeHost = application.reactNativeHost
       val reactContext = reactNativeHost.reactInstanceManager.currentReactContext
@@ -33,7 +31,6 @@ internal object EventEmitter {
         sendEmit(reactContext, event, payload)
       } else {
         val reactInstanceManager = reactNativeHost.reactInstanceManager
-        // Otherwise wait for construction, then send the notification
         reactInstanceManager.addReactInstanceEventListener(object : ReactInstanceEventListener {
           override fun onReactContextInitialized(context: ReactContext) {
             sendEmit(context, event, payload)
@@ -41,21 +38,20 @@ internal object EventEmitter {
           }
         })
         if (!reactInstanceManager.hasStartedCreatingInitialContext()) {
-          // Construct it in the background
           reactInstanceManager.createReactContextInBackground()
         }
       }
     } catch (t: Throwable) {
-      log(message = "An exception while emitting the $event with params: $payload" + t.localizedMessage)
+      log(message = "An exception occurred while emitting the $event with params: $payload: " + t.localizedMessage)
     }
   }
 
   private fun sendEmit(reactContext: ReactContext?, @EventName eventName: String, payload: Any) {
     try {
-      log(message = "emit : $eventName event with payload: $payload")
+      log(message = "Emitting : $eventName event with payload: $payload")
       reactContext!!.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)?.emit(eventName, payload)
     } catch (t: Throwable) {
-      log(message = "An exception while operating on eventEmitter instance: " + t.localizedMessage)
+      log(message = "An exception occurred while operating on eventEmitter instance: " + t.localizedMessage)
     }
   }
 }

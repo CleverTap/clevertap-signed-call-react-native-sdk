@@ -7,16 +7,16 @@ import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 
-open class SCBackgroundCallEventHandler {
+open class SignedCallOnCallStatusListener {
 
   companion object {
 
     @JvmStatic
-    fun initialize(context: Context) {
-      log(message = "SCBackgroundCallEventHandler is initialized!")
+    fun register(context: Context) {
+      log(message = "SignedCallOnCallStatusListener is registered!")
 
       SignedCallAPI.getInstance().registerVoIPCallStatusListener { data ->
-        log(message = "SCBackgroundCallEventHandler is invoked with payload: $data")
+        log(message = "SignedCallOnCallStatusListener is invoked with payload: $data")
         EventEmitter.emit(context, Events.ON_CALL_STATUS_CHANGED, data.toWriteableMap())
       }
     }

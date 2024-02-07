@@ -6,7 +6,7 @@ import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
 import { SignedCallLogger } from './utils/SignedCallLogger';
 import { Constants } from './Constants';
-import { CallEventResult } from './models/CallEventResult';
+import { CallDirection, CallEventResult } from './models/CallEventResult';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -148,5 +148,6 @@ export {
   SignedCallResponse,
   LogLevel,
   CallEventResult,
+  CallDirection,
   MissedCallActionClickResult,
 };

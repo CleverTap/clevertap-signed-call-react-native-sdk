@@ -1,7 +1,10 @@
 import { AppRegistry } from 'react-native';
 import App from './src/App';
 import { name as appName } from './app.json';
-import { SignedCall } from '@clevertap/clevertap-signed-call-react-native';
+import {
+  SignedCall,
+  CallDirection,
+} from '@clevertap/clevertap-signed-call-react-native';
 import Toast from 'react-native-simple-toast';
 import { Platform } from 'react-native';
 
@@ -11,8 +14,13 @@ const activateHandlers = () => {
     SignedCall.SignedCallOnCallStatusChanged,
     (result: CallEventResult) => {
       Toast.show(result.callEvent + ' is called!', Toast.SHORT);
-
       console.log('SignedCallOnCallStatusChanged', result);
+
+      if (result.direction === CallDirection.Incoming) {
+        console.log('Call direction is Incoming!');
+      } else if (result.direction === CallDirection.Outgoing) {
+        console.log('Call direction is Outgoing!');
+      }
     }
   );
 
