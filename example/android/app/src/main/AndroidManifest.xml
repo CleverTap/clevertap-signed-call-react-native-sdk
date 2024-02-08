@@ -34,14 +34,14 @@
       </service>
 
       <!-- CleverTap Account Credentials -->
-      <meta-data
+             <meta-data
             android:name="CLEVERTAP_ACCOUNT_ID"
-            android:value="CLEVERTAP_ACCOUNT_ID"/>
+            android:value="679-8Z7-W66Z"/>
         <meta-data
             android:name="CLEVERTAP_TOKEN"
-            android:value="CLEVERTAP_ACCOUNT_TOKEN"/>
+            android:value="a1b-ca6"/>
         <meta-data
             android:name="CLEVERTAP_REGION"
-            android:value="CLEVERTAP_ACCOUNT_REGION"/>
+            android:value="sk1"/>
     </application>
 </manifest>
