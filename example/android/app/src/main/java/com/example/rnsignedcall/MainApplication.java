@@ -7,6 +7,7 @@ import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CleverTapAPI;
 import com.clevertap.android.signedcall.fcm.SignedCallNotificationHandler;
 import com.clevertap.android.signedcall.init.SignedCallAPI;
+import com.clevertap.rnsignedcallandroid.SignedCallOnCallStatusListener;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -58,6 +59,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
     SignedCallAPI.setDebugLevel(SignedCallAPI.LogLevel.VERBOSE);
+    SignedCallOnCallStatusListener.register(this);
     CleverTapAPI.setSignedCallNotificationHandler(new SignedCallNotificationHandler());
     ActivityLifecycleCallback.register(this);
     super.onCreate();
