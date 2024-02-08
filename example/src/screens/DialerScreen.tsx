@@ -13,9 +13,7 @@ import React from 'react';
 import styles from '../styles/style';
 import {
   SignedCall,
-  CallEvent,
   SignedCallResponse,
-  MissedCallActionClickResult,
 } from '@clevertap/clevertap-signed-call-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestPermissions } from '../Helpers';
@@ -27,13 +25,22 @@ const DialerScreen = ({ route, navigation }: any) => {
   const [callContext, setCallContext] = React.useState('');
 
   React.useEffect(() => {
-    activateHandlers();
+    //Disables the back button click handling
+    BackHandler.addEventListener('hardwareBackPress', () => true);
 
-    // below return function gets called on component unmount
+    // deactivateHandlers gets called on component unmount
     return () => {
       deactivateHandlers();
     };
   }, []);
+
+  function deactivateHandlers() {
+    //cleanup to remove event listeners
+    SignedCall.removeListener(SignedCall.SignedCallOnCallStatusChanged);
+    if (Platform.OS === 'android') {
+      SignedCall.removeListener(SignedCall.SignedCallOnMissedCallActionClicked);
+    }
+  }
 
   function initiateVoIPCall() {
     /*let callProperties = {
@@ -60,41 +67,6 @@ const DialerScreen = ({ route, navigation }: any) => {
     AsyncStorage.clear();
     //navigates to the Registration Screen
     navigation.replace('Registration', {});
-  }
-
-  function activateHandlers() {
-    //Disables the back button click handling
-    BackHandler.addEventListener('hardwareBackPress', () => true);
-
-    //To keep track on changes in the VoIP call's state
-    SignedCall.addListener(
-      SignedCall.SignedCallOnCallStatusChanged,
-      (event: CallEvent) => {
-        console.log('SignedCallOnCallStatusChanged', event);
-      }
-    );
-
-    if (Platform.OS === 'android') {
-      //To keep track on click over missed call notification
-      SignedCall.addListener(
-        SignedCall.SignedCallOnMissedCallActionClicked,
-        (event: MissedCallActionClickResult) => {
-          console.log('SignedCallOnMissedCallActionClicked', event);
-          Alert.alert(
-            'Missed Call Notification!',
-            event.action.actionLabel + ' is clicked'
-          );
-        }
-      );
-    }
-  }
-
-  function deactivateHandlers() {
-    //cleanup to remove event listeners
-    SignedCall.removeListener(SignedCall.SignedCallOnCallStatusChanged);
-    if (Platform.OS === 'android') {
-      SignedCall.removeListener(SignedCall.SignedCallOnMissedCallActionClicked);
-    }
   }
 
   return (

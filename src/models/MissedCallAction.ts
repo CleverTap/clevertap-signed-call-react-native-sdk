@@ -1,3 +1,5 @@
+import { CallDetails } from './CallDetails';
+
 /**
  * Represents the details associated to a CTA click of the missed call notification.
  */
@@ -14,26 +16,6 @@ export class MissedCallActionClickResult {
     const action = MissedCallNotificationAction.fromDict(dict.action);
     const callDetails = CallDetails.fromDict(dict.callDetails);
     return new MissedCallActionClickResult(action, callDetails);
-  }
-}
-
-//Contains details about the missed call
-class CallDetails {
-  callerCuid: string;
-  calleeCuid: string;
-  callContext: string;
-
-  constructor(callerCuid: string, calleeCuid: string, callContext: string) {
-    this.callerCuid = callerCuid;
-    this.calleeCuid = calleeCuid;
-    this.callContext = callContext;
-  }
-
-  static fromDict(dict: any) {
-    const callerCuid = dict.callerCuid;
-    const calleeCuid = dict.calleeCuid;
-    const callContext = dict.callContext;
-    return new CallDetails(callerCuid, calleeCuid, callContext);
   }
 }
 
