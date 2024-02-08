@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   
   s.dependency 'React', '>= 0.13.0', '< 1.0.0'
-  s.dependency 'CleverTap-SignedCall-SDK', '0.0.5'
+  s.dependency 'CleverTap-SignedCall-SDK', '0.0.6'
 
   # Don't install the dependencies when we run `pod install` in the old architecture.
   if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
