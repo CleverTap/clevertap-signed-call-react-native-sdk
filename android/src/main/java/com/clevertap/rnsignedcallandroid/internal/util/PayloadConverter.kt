@@ -94,6 +94,10 @@ internal object PayloadConverter {
       VoIPCallStatus.CALL_DECLINED_DUE_TO_LOGGED_OUT_CUID -> "DeclinedDueToLoggedOutCuid"
       VoIPCallStatus.CALL_DECLINED_DUE_TO_NOTIFICATIONS_DISABLED -> "DeclinedDueToNotificationsDisabled"
       VoIPCallStatus.CALLEE_MICROPHONE_PERMISSION_NOT_GRANTED -> "DeclinedDueToMicrophonePermissionsNotGranted"
+      VoIPCallStatus.CALL_DECLINED_DUE_TO_BUSY_ON_VOIP -> "DeclinedDueToBusyOnVoIP"
+      VoIPCallStatus.CALL_DECLINED_DUE_TO_BUSY_ON_PSTN -> "DeclinedDueToBusyOnPSTN"
+      VoIPCallStatus.CALL_CANCELLED_DUE_TO_RING_TIMEOUT -> "CancelledDueToRingTimeout"
+      else -> "Unknown"
     }
   }
 
