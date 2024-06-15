@@ -80,6 +80,10 @@ class SignedCall {
     });
   }
 
+  static getBackToCall(): boolean {
+    return CleverTapSignedCall.getBackToCall();
+  }
+
   static async getCallState(): Promise<SCCallState | null> {
     const callState = await CleverTapSignedCall.getCallState();
     return SCCallStateUtil.fromString(callState);
