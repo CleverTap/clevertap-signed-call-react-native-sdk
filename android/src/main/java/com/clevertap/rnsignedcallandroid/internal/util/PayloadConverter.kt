@@ -1,5 +1,6 @@
 package com.clevertap.rnsignedcallandroid.internal.util
 
+import com.clevertap.android.signedcall.enums.SCCallState
 import com.clevertap.android.signedcall.enums.VoIPCallStatus
 import com.clevertap.android.signedcall.exception.BaseException
 import com.clevertap.android.signedcall.init.SignedCallAPI
@@ -81,7 +82,7 @@ internal object PayloadConverter {
    *
    * @return A formatted call event string.
    */
-  private fun VoIPCallStatus.formattedCallEvent(): String {
+  private fun VoIPCallStatus.formattedCallEvent(): String? {
     return when (this) {
       VoIPCallStatus.CALL_IS_PLACED -> "CallIsPlaced"
       VoIPCallStatus.CALL_CANCELLED -> "Cancelled"
@@ -97,7 +98,22 @@ internal object PayloadConverter {
       VoIPCallStatus.CALL_DECLINED_DUE_TO_BUSY_ON_VOIP -> "DeclinedDueToBusyOnVoIP"
       VoIPCallStatus.CALL_DECLINED_DUE_TO_BUSY_ON_PSTN -> "DeclinedDueToBusyOnPSTN"
       VoIPCallStatus.CALL_CANCELLED_DUE_TO_RING_TIMEOUT -> "CancelledDueToRingTimeout"
-      else -> "Unknown"
+      else -> null
+    }
+  }
+
+  /**
+   * Converts [SCCallState] to a formatted string.
+   *
+   * @return A formatted call state string.
+   */
+  fun SCCallState.formattedCallState(): String? {
+    return when (this) {
+      SCCallState.OUTGOING_CALL -> "OutgoingCall"
+      SCCallState.INCOMING_CALL -> "IncomingCall"
+      SCCallState.ONGOING_CALL -> "OngoingCall"
+      SCCallState.NO_CALL -> "NoCall"
+      else -> null
     }
   }
 
