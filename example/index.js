@@ -4,6 +4,7 @@ import { name as appName } from './app.json';
 import {
   CallDirection,
   CallEvent,
+  SCCallState,
   SignedCall,
 } from '@clevertap/clevertap-signed-call-react-native';
 import Toast from 'react-native-simple-toast';
@@ -13,6 +14,14 @@ const activateHandlers = () => {
   //To keep track on changes in the VoIP call's state
   SignedCall.addListener(SignedCall.SignedCallOnCallStatusChanged, (result) => {
     console.log('SignedCallOnCallStatusChanged', result);
+
+    SignedCall.getCallState()
+      .then((response) => {
+        console.log('CallState is: ' + response);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
 
     if (result.direction === CallDirection.Incoming) {
       console.log('Call direction is Incoming!');
