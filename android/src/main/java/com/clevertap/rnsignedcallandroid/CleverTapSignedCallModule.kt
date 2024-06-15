@@ -157,6 +157,17 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   }
 
   /**
+   * Attempts to return to the active call screen.
+   *
+   * This method checks if there is an active call and if the client is on VoIP call.
+   * If both conditions are met, it starts the call screen activity.
+   */
+  @ReactMethod
+  fun getBackToCall(promise: Promise) {
+    promise.resolve(getSignedCallAPI().callController?.getBackToCall(reactContext))
+  }
+
+  /**
    * Retrieves the current call state.
    * @return The current call state.
    */
