@@ -37,8 +37,6 @@ enum CallEvent {
 
   // Indicates that the microphone permission is not granted for the call.
   DeclinedDueToMicrophonePermissionsNotGranted = 'DeclinedDueToMicrophonePermissionsNotGranted',
-
-  Unknown = 'Unknown',
 }
 
 class CallEventUtil {
@@ -72,7 +70,7 @@ class CallEventUtil {
         SignedCallLogger.debug({
           message: errorMessage.replace('{event}', event),
         });
-        return CallEvent.Unknown;
+        return null;
     }
   }
 }

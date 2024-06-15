@@ -13,6 +13,7 @@ import com.clevertap.rnsignedcallandroid.internal.Events.ON_CALL_STATUS_CHANGED
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.InitConfigSerializer.getInitConfigFromReadableMap
+import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.formattedCallState
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.signedCallResponseToWritableMap
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toSignedCallLogLevel
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
@@ -153,6 +154,15 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
       log(message = errorMessage + ": " + throwable.localizedMessage)
       promise.reject(errorMessage, throwable)
     }
+  }
+
+  /**
+   * Retrieves the current call state.
+   * @return The current call state.
+   */
+  @ReactMethod
+  fun getCallState(promise: Promise) {
+    promise.resolve(getSignedCallAPI().callController?.callState?.formattedCallState())
   }
 
   /** Logs out the Signed Call SDK session */

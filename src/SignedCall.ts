@@ -8,6 +8,7 @@ import { SignedCallLogger } from './utils/SignedCallLogger';
 import { Constants } from './Constants';
 import { CallDirection, CallEventResult } from './models/CallEventResult';
 import { CallEvent } from './models/CallEvent';
+import { SCCallState, SCCallStateUtil } from './models/SCCallState';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -77,6 +78,11 @@ class SignedCall {
     ).then((result: any) => {
       return SignedCallResponse.fromDict(result);
     });
+  }
+
+  static async getCallState(): Promise<SCCallState | null> {
+    const callState = await CleverTapSignedCall.getCallState();
+    return SCCallStateUtil.fromString(callState);
   }
 
   /**
@@ -149,6 +155,7 @@ export {
   SignedCallResponse,
   LogLevel,
   CallEvent,
+  SCCallState,
   CallEventResult,
   CallDirection,
   MissedCallActionClickResult,
