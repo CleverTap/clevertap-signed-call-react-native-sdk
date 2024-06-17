@@ -134,10 +134,13 @@ object InitConfigSerializer {
           parsePushPrimerConfigFromInitOptions(pushPrimerReadableConfig)
         }
 
+        val notificationPermissionRequired: Boolean = getValue(Constants.KEY_NOTIFICATION_PERMISSION_REQUIRED) ?: true
+
         initConfiguration =
           SignedCallInitConfiguration.Builder(initOptions, allowPersistSocketConnection)
             .promptPushPrimer(pushPrimerJson)
             .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
+            .setNotificationPermissionRequired(notificationPermissionRequired)
             .overrideDefaultBranding(callScreenBranding)
             .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath).build()
       } catch (throwable: Throwable) {
