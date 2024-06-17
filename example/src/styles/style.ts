@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   mainSection: {
-    marginTop: 25,
+    marginTop: 10,
     justifyContent: 'center',
   },
   mainHeader: {
