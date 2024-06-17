@@ -124,6 +124,7 @@ internal object PayloadConverter {
    */
   fun CallDetails.toWriteableMap(): WritableMap {
     return Arguments.createMap().apply {
+      putString(Constants.KEY_CALL_ID, (callId))
       putString(Constants.KEY_CALLER_CUID, (callerCuid ?: ""))
       putString(Constants.KEY_CALLEE_CUID, (calleeCuid ?: ""))
       putString(Constants.KEY_CALL_CONTEXT, (callContext ?: ""))
