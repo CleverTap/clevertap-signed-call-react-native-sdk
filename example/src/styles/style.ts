@@ -8,16 +8,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   image: {
-    width: '100%',
+    width: '80%',
     height: '25%',
     resizeMode: 'contain',
+    alignSelf: 'center',
   },
   mainSection: {
-    marginTop: 30,
+    marginTop: 25,
     justifyContent: 'center',
   },
   mainHeader: {
-    fontSize: 25,
+    fontSize: 24,
     textAlign: 'center',
     color: '#344055',
     fontWeight: '500',
