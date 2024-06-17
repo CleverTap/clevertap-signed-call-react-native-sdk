@@ -12,6 +12,7 @@ import {
 import { useState } from 'react';
 import styles from '../styles/style';
 import {
+  SCSwipeOffBehaviour,
   SignedCall,
   SignedCallResponse,
 } from '@clevertap/clevertap-signed-call-react-native';
@@ -202,6 +203,9 @@ export default function RegistrationPage({ navigation }: any) {
       };
       initProperties.notificationPermissionRequired =
         notificationPermissionRequired;
+
+      initProperties.swipeOffBehaviourInForegroundService =
+        SCSwipeOffBehaviour.EndCall;
     }
 
     if (Platform.OS === 'ios') {
