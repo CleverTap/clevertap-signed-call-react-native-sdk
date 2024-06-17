@@ -184,6 +184,7 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.missedCallActions = {
         '123': 'call me back',
       };
+      initProperties.notificationPermissionRequired = false;
     }
 
     if (Platform.OS === 'ios') {
