@@ -8,6 +8,7 @@ import {
   Alert,
   Keyboard,
   Platform,
+  Switch,
 } from 'react-native';
 import React from 'react';
 import styles from '../styles/style';
@@ -23,6 +24,8 @@ const DialerScreen = ({ route, navigation }: any) => {
 
   const [receiverCuid, setReceiverCuid] = React.useState('');
   const [callContext, setCallContext] = React.useState('');
+  const [isForegroundServiceRunning, setForegroundServiceRunning] =
+    React.useState(false);
 
   React.useEffect(() => {
     //Disables the back button click handling
@@ -99,6 +102,21 @@ const DialerScreen = ({ route, navigation }: any) => {
             setCallContext(text);
           }}
         />
+        <View style={styles.horizontalAlignment}>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Start self-managed FG service
+          </Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#008000' }}
+            thumbColor={isForegroundServiceRunning ? '#f4f3f4' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(isRunning) =>
+              setForegroundServiceRunning(isRunning)
+            }
+            value={isForegroundServiceRunning}
+          />
+        </View>
+
         <View style={styles.buttonContainer}>
           <Button
             title="Initiate VoIP Call"
