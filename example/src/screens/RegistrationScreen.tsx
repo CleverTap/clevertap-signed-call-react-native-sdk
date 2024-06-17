@@ -31,6 +31,9 @@ export default function RegistrationPage({ navigation }: any) {
     useState(false);
   const [notificationPermissionRequired, setNotificationPermissionRequired] =
     useState(true);
+  const [swipeOffBehaviour, setSwipeOffBehaviour] = useState(
+    SCSwipeOffBehaviour.EndCall
+  );
 
   const initSCSdkIfCuIDSignedIn = async () => {
     try {
@@ -139,7 +142,9 @@ export default function RegistrationPage({ navigation }: any) {
           }}
         />
         <View style={styles.horizontalAlignment}>
-          <Text>Hide Powered By Signed Call</Text>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Hide Powered By Signed Call
+          </Text>
           <Switch
             trackColor={{ false: '#767577', true: '#008000' }}
             thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
@@ -150,7 +155,9 @@ export default function RegistrationPage({ navigation }: any) {
         </View>
 
         <View style={styles.horizontalAlignment}>
-          <Text>Required Notification Permission</Text>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Required Notification Permission
+          </Text>
           <Switch
             trackColor={{ false: '#767577', true: '#008000' }}
             thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
@@ -159,6 +166,29 @@ export default function RegistrationPage({ navigation }: any) {
               setNotificationPermissionRequired(required)
             }
             value={notificationPermissionRequired}
+          />
+        </View>
+
+        <View style={styles.horizontalAlignment}>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Persist Call on Swipe Off in self-managed FG Service?
+          </Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#008000' }}
+            thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(required) =>
+              setSwipeOffBehaviour(
+                required
+                  ? SCSwipeOffBehaviour.PersistCall
+                  : SCSwipeOffBehaviour.EndCall
+              )
+            }
+            value={
+              swipeOffBehaviour === SCSwipeOffBehaviour.PersistCall
+                ? true
+                : false
+            }
           />
         </View>
         {loading && <Loader />}
