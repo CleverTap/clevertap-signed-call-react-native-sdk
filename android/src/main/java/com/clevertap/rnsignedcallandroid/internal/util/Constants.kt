@@ -14,6 +14,8 @@ object Constants {
     "promptReceiverReadPhoneStatePermission"
   const val KEY_NOTIFICATION_PERMISSION_REQUIRED =
     "notificationPermissionRequired"
+  const val KEY_SWIPE_OFF_BEHAVIOUR_IN_FOREGROUND_SERVICE =
+    "swipeOffBehaviourInForegroundService"
   const val KEY_OVERRIDE_DEFAULT_BRANDING = "overrideDefaultBranding"
   const val KEY_MISSED_CALL_ACTIONS = "missedCallActions"
   const val KEY_BG_COLOR = "bgColor"
