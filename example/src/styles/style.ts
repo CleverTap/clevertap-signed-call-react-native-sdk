@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   buttonContainer: {
-    marginTop: 30,
+    marginTop: 20,
   },
   labels: {
     fontSize: 18,
