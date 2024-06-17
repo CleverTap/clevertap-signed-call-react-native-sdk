@@ -28,6 +28,8 @@ export default function RegistrationPage({ navigation }: any) {
 
   const [canHidePoweredBySignedCall, setHidePoweredBySignedCall] =
     useState(false);
+  const [notificationPermissionRequired, setNotificationPermissionRequired] =
+    useState(true);
 
   const initSCSdkIfCuIDSignedIn = async () => {
     try {
@@ -67,7 +69,9 @@ export default function RegistrationPage({ navigation }: any) {
     //For android 13 and onwards, show loading once the notification permission result is received
     //in CleverTap.CleverTapPushPermissionResponseReceived handler
     const shouldShowLoader =
-      isDeviceVersionTargetsBelow(33) || Platform.OS === 'ios';
+      isDeviceVersionTargetsBelow(33) ||
+      Platform.OS === 'ios' ||
+      !notificationPermissionRequired;
     if (shouldShowLoader) {
       setLoading(true);
     }
@@ -144,6 +148,18 @@ export default function RegistrationPage({ navigation }: any) {
           />
         </View>
 
+        <View style={styles.horizontalAlignment}>
+          <Text>Required Notification Permission</Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#008000' }}
+            thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(required) =>
+              setNotificationPermissionRequired(required)
+            }
+            value={notificationPermissionRequired}
+          />
+        </View>
         {loading && <Loader />}
         <View style={styles.buttonContainer}>
           <Button
@@ -184,7 +200,8 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.missedCallActions = {
         '123': 'call me back',
       };
-      initProperties.notificationPermissionRequired = false;
+      initProperties.notificationPermissionRequired =
+        notificationPermissionRequired;
     }
 
     if (Platform.OS === 'ios') {
