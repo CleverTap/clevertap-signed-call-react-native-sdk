@@ -1,6 +1,7 @@
 package com.clevertap.rnsignedcallandroid.internal.util
 
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
+import com.clevertap.android.signedcall.init.SignedCallInitConfiguration.SCSwipeOffBehaviour
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
 import com.clevertap.rnsignedcallandroid.internal.handlers.MissedCallActionClickHandler
@@ -102,6 +103,24 @@ object InitConfigSerializer {
   }
 
   /**
+   * Retrieves the swipeOffBehaviour from the given initProperties object and parses to the instance of [SCSwipeOffBehaviour]
+   */
+  @JvmStatic
+  @Throws(Exception::class)
+  fun getSwipeOffBehaviourFromReadableConfig(readableMap: ReadableMap): SCSwipeOffBehaviour {
+    val swipeOffBehaviour: String? = readableMap.getValue(Constants.KEY_SWIPE_OFF_BEHAVIOUR_IN_FOREGROUND_SERVICE)
+    swipeOffBehaviour?.let {
+      return if (it == "EndCall") {
+        SCSwipeOffBehaviour.END_CALL
+      } else {
+        SCSwipeOffBehaviour.PERSIST_CALL
+      }
+    } ?: run {
+      return SCSwipeOffBehaviour.END_CALL
+    }
+  }
+
+  /**
    * Retrieves the initConfiguration from the input initProperties object and
    * parses into the [SignedCallInitConfiguration] object.
    */
@@ -136,13 +155,17 @@ object InitConfigSerializer {
 
         val notificationPermissionRequired: Boolean = getValue(Constants.KEY_NOTIFICATION_PERMISSION_REQUIRED) ?: true
 
+        val swipeOffBehaviour: SCSwipeOffBehaviour = getSwipeOffBehaviourFromReadableConfig(readableMap)
+
         initConfiguration =
           SignedCallInitConfiguration.Builder(initOptions, allowPersistSocketConnection)
             .promptPushPrimer(pushPrimerJson)
             .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
             .setNotificationPermissionRequired(notificationPermissionRequired)
             .overrideDefaultBranding(callScreenBranding)
-            .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath).build()
+            .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath)
+            .setSwipeOffBehaviourInForegroundService(swipeOffBehaviour)
+            .build()
       } catch (throwable: Throwable) {
         log(message = "issue occurs while de-serializing the initProperties: ${throwable.localizedMessage}")
         throwable.printStackTrace()
