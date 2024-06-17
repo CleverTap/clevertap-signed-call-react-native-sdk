@@ -4,7 +4,6 @@ import { name as appName } from './app.json';
 import {
   CallDirection,
   CallEvent,
-  SCCallState,
   SignedCall,
 } from '@clevertap/clevertap-signed-call-react-native';
 import Toast from 'react-native-simple-toast';
@@ -17,7 +16,7 @@ const activateHandlers = () => {
 
     SignedCall.getCallState()
       .then((response) => {
-        console.log('CallState is: ' + response);
+        console.log('Current callState is: ' + response);
       })
       .catch((e) => {
         console.error(e);
@@ -33,6 +32,8 @@ const activateHandlers = () => {
       // Indicates that the call is successfully placed
     } else if (result.callEvent === CallEvent.Cancelled) {
       // Indicates that the call is cancelled from the initiator's end
+    } else if (result.callEvent === CallEvent.CancelledDueToRingTimeout) {
+      // Indicates that the call is cancelled due to a ring timeout(35 secs)
     } else if (result.callEvent === CallEvent.Declined) {
       // Indicates that the call is declined from the receiver's end
     } else if (result.callEvent === CallEvent.Missed) {
@@ -40,11 +41,15 @@ const activateHandlers = () => {
     } else if (result.callEvent === CallEvent.Answered) {
       // Indicates that the call is picked up by the receiver
     } else if (result.callEvent === CallEvent.CallInProgress) {
-      // Indicates that the connection to the receiver is established, and the audio transfer begins at this stateaa
+      // Indicates that the connection to the receiver is established, and the audio transfer begins at this state
     } else if (result.callEvent === CallEvent.Ended) {
       // Indicates that the call has been ended
     } else if (result.callEvent === CallEvent.ReceiverBusyOnAnotherCall) {
       // Indicates that the receiver is already busy on another call
+    } else if (result.callEvent === CallEvent.DeclinedDueToBusyOnVoIP) {
+      // Indicates that the receiver is busy on VoIP call
+    } else if (result.callEvent === CallEvent.DeclinedDueToBusyOnPSTN) {
+      // Indicates that the receiver is busy on PSTN call
     } else if (result.callEvent === CallEvent.DeclinedDueToLoggedOutCuid) {
       // Indicates that the call is declined due to the receiver being logged out with the specific CUID
     } else if (
