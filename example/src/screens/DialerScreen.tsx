@@ -88,7 +88,7 @@ const DialerScreen = ({ route, navigation }: any) => {
             setReceiverCuid(text);
           }}
         />
-        <View style={{ height: 30 }} />
+        <View style={{ height: 20 }} />
         <Text>Enter context of call</Text>
         <TextInput
           style={styles.inputStyle}
@@ -118,6 +118,25 @@ const DialerScreen = ({ route, navigation }: any) => {
             title="Disconnect Signalling Socket"
             color="blue"
             onPress={() => SignedCall.disconnectSignallingSocket()}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Get Back to Call"
+            color="green"
+            onPress={async () => {
+              const result = await SignedCall.getBackToCall();
+              if (!result) {
+                console.log(
+                  'VoIP call is failed: ',
+                  'Invalid operation to get back to call'
+                );
+                Alert.alert(
+                  'No active call!',
+                  'Invalid operation to get back to call'
+                );
+              }
+            }}
           />
         </View>
         <View style={styles.buttonContainer}>
