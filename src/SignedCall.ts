@@ -9,7 +9,10 @@ import { Constants } from './Constants';
 import { CallDirection, CallEventResult } from './models/CallEventResult';
 import { CallEvent } from './models/CallEvent';
 import { SCCallState, SCCallStateUtil } from './models/SCCallState';
-import { SCSwipeOffBehaviour } from './models/SCSwipeOffBehaviour';
+import {
+  SCSwipeOffBehaviour,
+  SCSwipeOffBehaviourUtil,
+} from './models/SCSwipeOffBehaviour';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -162,6 +165,7 @@ export {
   CallEvent,
   SCCallState,
   SCSwipeOffBehaviour,
+  SCSwipeOffBehaviourUtil,
   CallEventResult,
   CallDirection,
   MissedCallActionClickResult,

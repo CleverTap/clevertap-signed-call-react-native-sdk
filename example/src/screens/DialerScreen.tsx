@@ -123,37 +123,39 @@ const DialerScreen = ({ route, navigation }: any) => {
             setCallContext(text);
           }}
         />
-        <View style={styles.horizontalAlignment}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 12,
-              fontWeight: 'bold',
-              color: isForegroundServiceRunning ? '#249c50' : '#000000',
-            }}
-          >
-            {isForegroundServiceRunning
-              ? 'Stop self-managed FG service'
-              : 'Start self-managed FG service'}
-          </Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#008000' }}
-            thumbColor={isForegroundServiceRunning ? '#f4f3f4' : '#FFFFFF'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={async (canStart) => {
-              if (canStart) {
-                startForegroundService();
-              } else {
-                VIForegroundService.getInstance()
-                  .stopService()
-                  .then(() => console.log('Service stopped'))
-                  .catch((err) => console.error(err));
-              }
-              setForegroundServiceRunning(canStart);
-            }}
-            value={isForegroundServiceRunning}
-          />
-        </View>
+        {Platform.OS === 'android' && (
+          <View style={styles.horizontalAlignment}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 12,
+                fontWeight: 'bold',
+                color: isForegroundServiceRunning ? '#249c50' : '#000000',
+              }}
+            >
+              {isForegroundServiceRunning
+                ? 'Stop self-managed FG service'
+                : 'Start self-managed FG service'}
+            </Text>
+            <Switch
+              trackColor={{ false: '#767577', true: '#008000' }}
+              thumbColor={isForegroundServiceRunning ? '#f4f3f4' : '#FFFFFF'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={async (canStart) => {
+                if (canStart) {
+                  startForegroundService();
+                } else {
+                  VIForegroundService.getInstance()
+                    .stopService()
+                    .then(() => console.log('Service stopped'))
+                    .catch((err) => console.error(err));
+                }
+                setForegroundServiceRunning(canStart);
+              }}
+              value={isForegroundServiceRunning}
+            />
+          </View>
+        )}
 
         <View style={styles.buttonContainer}>
           <Button
@@ -176,25 +178,27 @@ const DialerScreen = ({ route, navigation }: any) => {
             onPress={() => SignedCall.disconnectSignallingSocket()}
           />
         </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Get Back to Call"
-            color="green"
-            onPress={async () => {
-              const result = await SignedCall.getBackToCall();
-              if (!result) {
-                console.log(
-                  'VoIP call is failed: ',
-                  'Invalid operation to get back to call'
-                );
-                Alert.alert(
-                  'No active call!',
-                  'Invalid operation to get back to call'
-                );
-              }
-            }}
-          />
-        </View>
+        {Platform.OS === 'android' && (
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Get Back to Call"
+              color="green"
+              onPress={async () => {
+                const result = await SignedCall.getBackToCall();
+                if (!result) {
+                  console.log(
+                    'VoIP call is failed: ',
+                    'Invalid operation to get back to call'
+                  );
+                  Alert.alert(
+                    'No active call!',
+                    'Invalid operation to get back to call'
+                  );
+                }
+              }}
+            />
+          </View>
+        )}
         <View style={styles.buttonContainer}>
           <Button title="Logout" color="red" onPress={() => logoutSession()} />
         </View>
