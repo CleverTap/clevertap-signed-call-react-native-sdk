@@ -15,13 +15,15 @@ const activateHandlers = () => {
   SignedCall.addListener(SignedCall.SignedCallOnCallStatusChanged, (result) => {
     console.log('SignedCallOnCallStatusChanged', result);
 
-    SignedCall.getCallState()
-      .then((response) => {
-        console.log('Current callState is: ' + response);
-      })
-      .catch((e) => {
-        console.error(e);
-      });
+    if (Platform.OS === 'android') {
+      SignedCall.getCallState()
+        .then((response) => {
+          console.log('Current callState is: ' + response);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
 
     if (result.direction === CallDirection.Incoming) {
       console.log('Call direction is Incoming!');
@@ -81,15 +83,17 @@ const activateHandlers = () => {
 
 activateHandlers();
 
-const channelConfig = {
-  id: 'channelId',
-  name: 'Channel name',
-  description: 'Channel description',
-  enableVibration: false,
-};
-VIForegroundService.getInstance()
-  .createNotificationChannel(channelConfig)
-  .then(() => console.log('Notification channel created'))
-  .catch((err) => console.error(err));
+if (Platform.OS === 'android') {
+  const channelConfig = {
+    id: 'channelId',
+    name: 'Channel name',
+    description: 'Channel description',
+    enableVibration: false,
+  };
+  VIForegroundService.getInstance()
+    .createNotificationChannel(channelConfig)
+    .then(() => console.log('Notification channel created'))
+    .catch((err) => console.error(err));
+}
 
 AppRegistry.registerComponent(appName, () => App);
