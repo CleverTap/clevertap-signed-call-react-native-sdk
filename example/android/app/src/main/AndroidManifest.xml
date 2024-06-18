@@ -2,6 +2,7 @@
   package="com.example.rnsignedcall">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
       android:name=".MainApplication"
@@ -43,5 +44,7 @@
         <meta-data
             android:name="CLEVERTAP_REGION"
             android:value="sk1"/>
+
+      <service android:name="com.voximplant.foregroundservice.VIForegroundService"> </service>
     </application>
 </manifest>
