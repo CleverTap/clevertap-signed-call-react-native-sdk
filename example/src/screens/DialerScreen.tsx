@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -18,6 +19,7 @@ import {
 } from '@clevertap/clevertap-signed-call-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestPermissions } from '../Helpers';
+import VIForegroundService from '@voximplant/react-native-foreground-service';
 
 const DialerScreen = ({ route, navigation }: any) => {
   const { registeredCuid } = route.params;
@@ -72,6 +74,25 @@ const DialerScreen = ({ route, navigation }: any) => {
     navigation.replace('Registration', {});
   }
 
+  function startForegroundService() {
+    const notificationConfig = {
+      channelId: 'channelId',
+      id: 3456,
+      title: 'Title',
+      text: 'Some text',
+      icon: 'ic_icon',
+      button: 'Some text',
+    };
+    try {
+      VIForegroundService.getInstance()
+        .startService(notificationConfig)
+        .then(() => console.log('Service started'))
+        .catch((err) => console.error(err));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.mainHeader}>CUID: {registeredCuid}</Text>
@@ -103,16 +124,33 @@ const DialerScreen = ({ route, navigation }: any) => {
           }}
         />
         <View style={styles.horizontalAlignment}>
-          <Text style={{ textAlign: 'center', fontSize: 12 }}>
-            Start self-managed FG service
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 12,
+              fontWeight: 'bold',
+              color: isForegroundServiceRunning ? '#249c50' : '#000000',
+            }}
+          >
+            {isForegroundServiceRunning
+              ? 'Stop self-managed FG service'
+              : 'Start self-managed FG service'}
           </Text>
           <Switch
             trackColor={{ false: '#767577', true: '#008000' }}
             thumbColor={isForegroundServiceRunning ? '#f4f3f4' : '#FFFFFF'}
             ios_backgroundColor="#3e3e3e"
-            onValueChange={(isRunning) =>
-              setForegroundServiceRunning(isRunning)
-            }
+            onValueChange={async (canStart) => {
+              if (canStart) {
+                startForegroundService();
+              } else {
+                VIForegroundService.getInstance()
+                  .stopService()
+                  .then(() => console.log('Service stopped'))
+                  .catch((err) => console.error(err));
+              }
+              setForegroundServiceRunning(canStart);
+            }}
             value={isForegroundServiceRunning}
           />
         </View>
