@@ -8,6 +8,7 @@ import {
 } from '@clevertap/clevertap-signed-call-react-native';
 import Toast from 'react-native-simple-toast';
 import { Platform } from 'react-native';
+import VIForegroundService from '@voximplant/react-native-foreground-service';
 
 const activateHandlers = () => {
   //To keep track on changes in the VoIP call's state
@@ -79,5 +80,16 @@ const activateHandlers = () => {
 };
 
 activateHandlers();
+
+const channelConfig = {
+  id: 'channelId',
+  name: 'Channel name',
+  description: 'Channel description',
+  enableVibration: false,
+};
+VIForegroundService.getInstance()
+  .createNotificationChannel(channelConfig)
+  .then(() => console.log('Notification channel created'))
+  .catch((err) => console.error(err));
 
 AppRegistry.registerComponent(appName, () => App);
