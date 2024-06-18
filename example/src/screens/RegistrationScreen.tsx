@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -234,8 +235,7 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.notificationPermissionRequired =
         notificationPermissionRequired;
 
-      initProperties.swipeOffBehaviourInForegroundService =
-        SCSwipeOffBehaviour.EndCall;
+      initProperties.swipeOffBehaviourInForegroundService = swipeOffBehaviour;
     }
 
     if (Platform.OS === 'ios') {
