@@ -30,9 +30,6 @@ const DialerScreen = ({ route, navigation }: any) => {
     React.useState(false);
 
   React.useEffect(() => {
-    //Disables the back button click handling
-    BackHandler.addEventListener('hardwareBackPress', () => true);
-
     // deactivateHandlers gets called on component unmount
     return () => {
       deactivateHandlers();
