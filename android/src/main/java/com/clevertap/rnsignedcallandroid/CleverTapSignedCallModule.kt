@@ -102,7 +102,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
       try {
         val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it)
         signedCallAPI.init(
-            reactContext,
+            reactContext.applicationContext,
             initConfiguration,
             cleverTapAPI,
             object : SignedCallInitResponse {
