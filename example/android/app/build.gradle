@@ -257,6 +257,7 @@ dependencies {
     implementation "com.clevertap.android:clevertap-android-sdk:6.2.0"
 
     implementation "com.clevertap.android:clevertap-signedcall-sdk:0.0.5.5"
+    // implementation project (":clevertap-signedcall")
     implementation('io.socket:socket.io-client:2.1.0') {
       exclude group: 'org.json', module: 'json'
     }
