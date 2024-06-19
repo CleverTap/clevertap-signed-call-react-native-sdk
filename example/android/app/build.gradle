@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 import com.android.build.OutputFile
 
@@ -255,7 +256,7 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "com.clevertap.android:clevertap-android-sdk:6.2.0"
-
+    implementation 'com.google.firebase:firebase-crashlytics'
     implementation "com.clevertap.android:clevertap-signedcall-sdk:0.0.5.5"
     // implementation project (":clevertap-signedcall")
     implementation('io.socket:socket.io-client:2.1.0') {
