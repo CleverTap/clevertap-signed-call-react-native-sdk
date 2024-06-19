@@ -14,6 +14,14 @@ const activateHandlers = () => {
   //To keep track on changes in the VoIP call's state
   SignedCall.addListener(SignedCall.SignedCallOnCallStatusChanged, (result) => {
     console.log('SignedCallOnCallStatusChanged', result);
+    Toast.show(
+      result.callEvent +
+        ', ' +
+        result.direction +
+        ', ' +
+        result.callDetails.callId,
+      Toast.SHORT
+    );
 
     if (Platform.OS === 'android') {
       SignedCall.getCallState()
