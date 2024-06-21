@@ -5,15 +5,15 @@ PODS:
   - clevertap-react-native (1.2.1):
     - CleverTap-iOS-SDK (= 5.2.1)
     - React-Core
-  - clevertap-signed-call-react-native (0.0.4):
-    - CleverTap-SignedCall-SDK (= 0.0.6)
+  - clevertap-signed-call-react-native (0.0.5):
+    - CleverTap-SignedCall-SDK (= 0.0.7)
     - React (< 1.0.0, >= 0.13.0)
-  - CleverTap-SignedCall-SDK (0.0.6):
+  - CleverTap-SignedCall-SDK (0.0.7):
     - CleverTap-iOS-SDK
     - CTSimplePing (= 1.0.1)
     - CTSoftPhone (= 0.0.6-alpha)
-    - Socket.IO-Client-Swift (= 16.0.1)
-    - Starscream (= 4.0.4)
+    - Socket.IO-Client-Swift (= 16.1.0)
+    - Starscream (= 4.0.8)
   - CTSimplePing (1.0.1)
   - CTSoftPhone (0.0.6-alpha)
   - DoubleConversion (1.1.6)
@@ -240,9 +240,9 @@ PODS:
   - React-jsinspector (0.70.6)
   - React-logger (0.70.6):
     - glog
-  - react-native-safe-area-context (4.9.0):
+  - react-native-safe-area-context (4.10.5):
     - React-Core
-  - react-native-simple-toast (3.2.0):
+  - react-native-simple-toast (3.3.1):
     - React-Core
     - Toast (~> 4)
   - React-perflogger (0.70.6)
@@ -311,22 +311,22 @@ PODS:
     - React-jsi (= 0.70.6)
     - React-logger (= 0.70.6)
     - React-perflogger (= 0.70.6)
-  - RNCAsyncStorage (1.21.0):
+  - RNCAsyncStorage (1.23.1):
     - React-Core
   - RNPermissions (3.10.1):
     - React-Core
-  - RNScreens (3.29.0):
+  - RNScreens (3.32.0):
     - React-Core
     - React-RCTImage
   - RNVectorIcons (9.2.0):
     - React-Core
-  - SDWebImage (5.18.10):
-    - SDWebImage/Core (= 5.18.10)
-  - SDWebImage/Core (5.18.10)
-  - Socket.IO-Client-Swift (16.0.1):
-    - Starscream (~> 4.0)
-  - Starscream (4.0.4)
-  - Toast (4.1.0)
+  - SDWebImage (5.19.2):
+    - SDWebImage/Core (= 5.19.2)
+  - SDWebImage/Core (5.19.2)
+  - Socket.IO-Client-Swift (16.1.0):
+    - Starscream (~> 4.0.6)
+  - Starscream (4.0.8)
+  - Toast (4.1.1)
   - Yoga (1.14.0)
 
 DEPENDENCIES:
@@ -477,8 +477,8 @@ SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CleverTap-iOS-SDK: 183b2f5c52ecfcb0d4cc97e0cdfcf080562026f3
   clevertap-react-native: a98a5d6decf8689f084f7a37ec069861d9fd9dda
-  clevertap-signed-call-react-native: 980953c761a1eb59985cf34cbe80a907067e823e
-  CleverTap-SignedCall-SDK: 3079ed512b6bcd25f5acd79e1e814b3ec1a6e665
+  clevertap-signed-call-react-native: 1ddb7347a74aa8ad9264f2c78ce1144ec847b338
+  CleverTap-SignedCall-SDK: 9c74fbac2e236fff9b02eaa0961970ab03546469
   CTSimplePing: b982a6095f50e8a6fffa1049c0f548e545d6f1a5
   CTSoftPhone: dd535d72050641b55cafea4adca2ce3bd1b26415
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
@@ -502,8 +502,8 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
   React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
-  react-native-simple-toast: 2079d417c52fc3ca295edba094d5632f7720e68d
+  react-native-safe-area-context: a240ad4b683349e48b1d51fed1611138d1bdad97
+  react-native-simple-toast: 1f1cc551d419bc0ab05dcb0136554006c274789d
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
   React-RCTActionSheet: 7316773acabb374642b926c19aef1c115df5c466
   React-RCTAnimation: 5341e288375451297057391227f691d9b2326c3d
@@ -516,16 +516,16 @@ SPEC CHECKSUMS:
   React-RCTVibration: c75ceef7aa60a33b2d5731ebe5800ddde40cefc4
   React-runtimeexecutor: 15437b576139df27635400de0599d9844f1ab817
   ReactCommon: 349be31adeecffc7986a0de875d7fb0dcf4e251c
-  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNCAsyncStorage: 826b603ae9c0f88b5ac4e956801f755109fa4d5c
   RNPermissions: 4e3714e18afe7141d000beae3755e5b5fb2f5e05
-  RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
+  RNScreens: afdbd43bcd6c81559917054da18ad101b4395000
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
-  SDWebImage: fc8f2d48bbfd72ef39d70e981bd24a3f3be53fec
-  Socket.IO-Client-Swift: c116d6dc9fd6be9c259bacfe143f8725bce7d79e
-  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
-  Toast: ec33c32b8688982cecc6348adeae667c1b9938da
+  SDWebImage: dfe95b2466a9823cf9f0c6d01217c06550d7b29a
+  Socket.IO-Client-Swift: ee4b8f80a3db18dd7f32b266ddf273310609443c
+  Starscream: 19b5533ddb925208db698f0ac508a100b884a1b9
+  Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
 
-PODFILE CHECKSUM: 7793e6d105e2832568e1cd76046c9f72c5b9df4e
+PODFILE CHECKSUM: 2eb995621129209434c200ad5ab1dd04d54990fb
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.11.2
