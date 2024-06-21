@@ -1,12 +1,19 @@
 import { SignedCallLogger } from '../utils/SignedCallLogger';
 
 /**
- * Enum representing ..
+ * Enum class to represent the different states of an active call.
  */
 enum SCCallState {
+  // Indicates an outgoing call that is in progress.
   OutgoingCall = 'OutgoingCall',
+
+  // Indicates an incoming call that is ringing and waiting to be answered.
   IncomingCall = 'IncomingCall',
+
+  // Indicates an active call that is currently in progress and connected.
   OngoingCall = 'OngoingCall',
+
+  // Indicates the absence of any active call.
   NoCall = 'NoCall',
 }
 
