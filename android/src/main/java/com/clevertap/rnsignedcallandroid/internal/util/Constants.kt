@@ -12,6 +12,10 @@ object Constants {
   const val KEY_PROMPT_PUSH_PRIMER = "promptPushPrimer"
   const val KEY_PROMPT_RECEIVER_READ_PHONE_STATE_PERMISSION =
     "promptReceiverReadPhoneStatePermission"
+  const val KEY_NOTIFICATION_PERMISSION_REQUIRED =
+    "notificationPermissionRequired"
+  const val KEY_SWIPE_OFF_BEHAVIOUR_IN_FOREGROUND_SERVICE =
+    "swipeOffBehaviourInForegroundService"
   const val KEY_OVERRIDE_DEFAULT_BRANDING = "overrideDefaultBranding"
   const val KEY_MISSED_CALL_ACTIONS = "missedCallActions"
   const val KEY_BG_COLOR = "bgColor"
@@ -31,6 +35,7 @@ object Constants {
   const val KEY_ACTION_ID = "actionId"
   const val KEY_ACTION_LABEL = "actionLabel"
   const val KEY_CALL_DETAILS = "callDetails"
+  const val KEY_CALL_ID = "callId"
   const val KEY_CALLER_CUID = "callerCuid"
   const val KEY_CALLEE_CUID = "calleeCuid"
   const val KEY_IS_SUCCESSFUL = "isSuccessful"

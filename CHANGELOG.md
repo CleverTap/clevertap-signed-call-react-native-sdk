@@ -1,6 +1,49 @@
 # Change Log
 
-### Version 0.0.5 (February 08, 2024 )
+### Version 0.0.6 (June 21, 2024)
+
+---
+
+**What's new**
+
+- **[Android Platform]**
+
+  - Supports [Signed Call Android SDK v0.0.5.5](https://repo1.maven.org/maven2/com/clevertap/android/clevertap-signedcall-sdk/0.0.5.5) which is compatible with [CleverTap Android SDK v6.2.0](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-620-april-3-2024).
+  - Enables back button functionality across call screens (incoming, outgoing, and ongoing) to allow users to navigate to other parts of the application while staying on a call.
+  - Adds new public API `SignedCall.getBackToCall()` to navigate the user to the active call.
+  - Adds new public API `SignedCall.getCallState()` to retrieve the current call state.
+  - Supports following new properties to the `initProperties` object which gets passed to the `SignedCall.initialize(initProperties)` method:
+    - The `notificationPermissionRequired` of `boolean` type to make notification permission as optional during the Signed Call initialization on Android 13 and onwards.
+    - The `swipeOffBehaviourInForegroundService` property of custom `SCSwipeOffBehaviour` enum type to define the swipe off behavior for an active call within the foreground service managed by host application. 
+    Please ensure to check the SDK documentation for detailed information on usage of initProperties listed above.
+  - Introduces the following events to the `SignedCall.SignedCallOnCallStatusChanged` listener:
+    - The `CancelledDueToRingTimeout` event which allows to handle the SDK-initiated cancellations due to ring-timeout. This event is reported when the SDK fails to establish communication with the receiver, often due to an offline device or a device with low bandwidth.
+    - The `DeclinedDueToBusyOnVoIP` and `DeclinedDueToBusyOnPSTN`, to differentiate calls declined due to another Signed Call(VoIP) or declined due to a PSTN call respectively.
+  - Exposes `callId` (call-specific identifier) parameter via `CallDetails` object provided in the result of the `SignedCall.SignedCallOnCallStatusChanged` listener. 
+
+- **[iOS Platform]**
+
+  - Supports [Signed Call iOS SDK v0.0.7](https://github.com/CleverTap/clevertap-signedcall-ios-sdk/blob/main/CHANGELOG.md#version-007-march-15-2024) which is compatible with [CleverTap iOS SDK v6.1.0](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-610-february-22-2024).
+  - Supports [Socket.io v16.1.0](https://github.com/socketio/socket.io-client-swift/releases/tag/v16.1.0) and [Starscream v4.0.8](https://github.com/daltoniam/Starscream/releases/tag/4.0.8) dependency.
+  - Adds privacy manifest.
+  - Expose socket usage logging for debugging purpose.  
+
+**Behaviour Changes**
+
+- **[Android Platform]**
+
+  - Adds heads up behaviour to the call-notifications to prompt the user every time the call-screen goes invisible, triggered by either a back button press or putting the app in the background. The heads up notifications allow users to return to the call interface by tapping on the notification.
+  - Improved Bluetooth audio experience during calls. Dial tone of an outgoing call will now play through the connected Bluetooth headset instead of the internal speaker.
+  Note: The SDK requires the runtime [BLUETOOTH_CONNECT](https://developer.android.com/reference/android/Manifest.permission#BLUETOOTH_CONNECT) permission for Android 12 and onwards to enable the Bluetooth management during calls.
+
+**Bug Fixes**
+
+- **[Android Platform]**
+
+  - Resolves an intermittent issue where the dialing tone at the initiator's side of the call plays on the loudspeaker instead of the internal speaker.
+  - Resolves NPE crash occurring when calls are simultaneously initiated to each other, which disrupts the order of signals exchanged between participants.
+
+### Version 0.0.5 (February 08, 2024)
 
 ---
 
@@ -10,9 +53,7 @@
 
   - Supports [Signed Call Android SDK v0.0.5](https://repo1.maven.org/maven2/com/clevertap/android/clevertap-signedcall-sdk/0.0.5) which is compatible with [CleverTap Android SDK v5.2.2](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-522-december-22-2023).
   - Introduces new properties `initiatorImage` and `receiverImage` in the `MissedCallActionClickResult` instance provided through the `SignedCall.addListener(SignedCall.SignedCallOnMissedCallActionClicked,(result:MissedCallActionClickResult) => {})` listener.
-  - Introduces a new public API: `SignedCallOnCallStatusListener.register(applicationContext)`. This API allows your application to receive VoIP call events through the `SignedCall.SignedCallOnCallStatusChanged` listener even when the app is in a killed state.
-      
-      For detailed integration instructions, please refer to the documentation.
+  - Introduces a new public API: `SignedCallOnCallStatusListener.register(applicationContext)`. This API allows your application to receive VoIP call events through the `SignedCall.SignedCallOnCallStatusChanged` listener even when the app is in a killed state. For detailed integration instructions, please refer to the documentation.
 
 - **[iOS Platform]**
   - Supports [Signed Call iOS SDK v0.0.6](https://github.com/CleverTap/clevertap-signedcall-ios-sdk/blob/main/CHANGELOG.md#version-006-january-19-2024) which is compatible with [CleverTap iOS SDK v5.2.2](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-522-november-21-2023).
