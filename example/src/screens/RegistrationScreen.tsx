@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -12,6 +13,8 @@ import {
 import { useState } from 'react';
 import styles from '../styles/style';
 import {
+  SCSwipeOffBehaviour,
+  SCSwipeOffBehaviourUtil,
   SignedCall,
   SignedCallResponse,
 } from '@clevertap/clevertap-signed-call-react-native';
@@ -28,14 +31,45 @@ export default function RegistrationPage({ navigation }: any) {
 
   const [canHidePoweredBySignedCall, setHidePoweredBySignedCall] =
     useState(false);
+  const [notificationPermissionRequired, setNotificationPermissionRequired] =
+    useState(true);
+  const [swipeOffBehaviour, setSwipeOffBehaviour] = useState(
+    SCSwipeOffBehaviour.EndCall
+  );
 
-  const initSCSdkIfCuIDSignedIn = async () => {
+  const checkLoggedInState = async () => {
     try {
       const loggedInCuid = await AsyncStorage.getItem(
         Constants.KEY_LOGGED_IN_CUID
       );
+      const storedPoweredBySignedCallPref = await AsyncStorage.getItem(
+        Constants.KEY_CAN_HIDE_POWERED_BY_SIGNED_CALL
+      );
+      const storedNotificationPermissionPref = await AsyncStorage.getItem(
+        Constants.KEY_NOTIFICATION_PERMISSION_REQUIRED
+      );
+      const storedSwipeOffBehaviourPref = await AsyncStorage.getItem(
+        Constants.KEY_SWIPE_OFF_BEHAVIOUR
+      );
+
       if (loggedInCuid !== null) {
         setCuid(loggedInCuid);
+      }
+
+      if (storedPoweredBySignedCallPref !== null) {
+        setHidePoweredBySignedCall(storedPoweredBySignedCallPref === 'true');
+      }
+
+      if (storedNotificationPermissionPref !== null) {
+        setNotificationPermissionRequired(
+          storedNotificationPermissionPref === 'true'
+        );
+      }
+
+      if (storedSwipeOffBehaviourPref !== null) {
+        setSwipeOffBehaviour(
+          SCSwipeOffBehaviourUtil.fromString(storedSwipeOffBehaviourPref)
+        );
       }
     } catch (error) {
       console.log(error);
@@ -44,7 +78,7 @@ export default function RegistrationPage({ navigation }: any) {
 
   React.useEffect(() => {
     activateHandlers();
-    initSCSdkIfCuIDSignedIn();
+    checkLoggedInState();
 
     // below return function gets called on component unmount
     return () => {
@@ -67,7 +101,9 @@ export default function RegistrationPage({ navigation }: any) {
     //For android 13 and onwards, show loading once the notification permission result is received
     //in CleverTap.CleverTapPushPermissionResponseReceived handler
     const shouldShowLoader =
-      isDeviceVersionTargetsBelow(33) || Platform.OS === 'ios';
+      isDeviceVersionTargetsBelow(33) ||
+      Platform.OS === 'ios' ||
+      !notificationPermissionRequired;
     if (shouldShowLoader) {
       setLoading(true);
     }
@@ -78,7 +114,22 @@ export default function RegistrationPage({ navigation }: any) {
           console.log('Signed Call SDK initialized: ', response);
 
           AsyncStorage.setItem(Constants.KEY_LOGGED_IN_CUID, cuid);
-
+          AsyncStorage.setItem(
+            Constants.KEY_CAN_HIDE_POWERED_BY_SIGNED_CALL,
+            cuid
+          );
+          AsyncStorage.setItem(
+            Constants.KEY_CAN_HIDE_POWERED_BY_SIGNED_CALL,
+            canHidePoweredBySignedCall.toString()
+          );
+          AsyncStorage.setItem(
+            Constants.KEY_NOTIFICATION_PERMISSION_REQUIRED,
+            notificationPermissionRequired.toString()
+          );
+          AsyncStorage.setItem(
+            Constants.KEY_SWIPE_OFF_BEHAVIOUR,
+            swipeOffBehaviour.toString()
+          );
           //navigates to the Dialer Screen with registered cuid
           navigation.replace('Dialer', { registeredCuid: cuid });
         } else {
@@ -134,7 +185,9 @@ export default function RegistrationPage({ navigation }: any) {
           }}
         />
         <View style={styles.horizontalAlignment}>
-          <Text>Hide Powered By Signed Call</Text>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Hide Powered By Signed Call
+          </Text>
           <Switch
             trackColor={{ false: '#767577', true: '#008000' }}
             thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
@@ -144,6 +197,43 @@ export default function RegistrationPage({ navigation }: any) {
           />
         </View>
 
+        <View style={styles.horizontalAlignment}>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Required Notification Permission
+          </Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#008000' }}
+            thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(required) =>
+              setNotificationPermissionRequired(required)
+            }
+            value={notificationPermissionRequired}
+          />
+        </View>
+
+        <View style={styles.horizontalAlignment}>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Persist Call on Swipe Off in self-managed FG Service?
+          </Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#008000' }}
+            thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(required) =>
+              setSwipeOffBehaviour(
+                required
+                  ? SCSwipeOffBehaviour.PersistCall
+                  : SCSwipeOffBehaviour.EndCall
+              )
+            }
+            value={
+              swipeOffBehaviour === SCSwipeOffBehaviour.PersistCall
+                ? true
+                : false
+            }
+          />
+        </View>
         {loading && <Loader />}
         <View style={styles.buttonContainer}>
           <Button
@@ -184,6 +274,10 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.missedCallActions = {
         '123': 'call me back',
       };
+      initProperties.notificationPermissionRequired =
+        notificationPermissionRequired;
+
+      initProperties.swipeOffBehaviourInForegroundService = swipeOffBehaviour;
     }
 
     if (Platform.OS === 'ios') {

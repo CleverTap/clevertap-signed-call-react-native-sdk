@@ -3,21 +3,22 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   mainContainer: {
     height: '100%',
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     paddingTop: 30,
     backgroundColor: '#fff',
   },
   image: {
-    width: '100%',
+    width: '80%',
     height: '25%',
     resizeMode: 'contain',
+    alignSelf: 'center',
   },
   mainSection: {
-    marginTop: 30,
+    marginTop: 10,
     justifyContent: 'center',
   },
   mainHeader: {
-    fontSize: 25,
+    fontSize: 24,
     textAlign: 'center',
     color: '#344055',
     fontWeight: '500',
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   buttonContainer: {
-    marginTop: 30,
+    marginTop: 20,
   },
   labels: {
     fontSize: 18,
