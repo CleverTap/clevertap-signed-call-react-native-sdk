@@ -5,12 +5,12 @@ import { CallEventUtil, type CallEvent } from './CallEvent';
 class CallEventResult {
   direction: CallDirection;
   callDetails: CallDetails;
-  callEvent?: CallEvent;
+  callEvent?: CallEvent | null;
 
   constructor(
     direction: CallDirection,
     callDetails: CallDetails,
-    callEvent?: CallEvent
+    callEvent?: CallEvent | null
   ) {
     this.direction = direction;
     this.callDetails = callDetails;
