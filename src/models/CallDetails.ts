@@ -1,5 +1,6 @@
 //Contains details about the missed call
 export class CallDetails {
+  callId: string | undefined;
   callerCuid: string;
   calleeCuid: string;
   callContext: string;
@@ -18,6 +19,7 @@ export class CallDetails {
     const callContext = dict.callContext;
 
     const callDetails = new CallDetails(callerCuid, calleeCuid, callContext);
+    callDetails.callId = dict.callId;
     callDetails.initiatorImage = dict.initiatorImage;
     callDetails.receiverImage = dict.receiverImage;
     return callDetails;

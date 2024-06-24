@@ -10,6 +10,9 @@ enum CallEvent {
   // Indicates that the call is cancelled from the initiator's end
   Cancelled = 'Cancelled',
 
+  // Indicates that the call is cancelled due to a ring timeout(35 secs)
+  CancelledDueToRingTimeout = 'CancelledDueToRingTimeout',
+
   // Indicates that the call is declined from the receiver's end
   Declined = 'Declined',
 
@@ -28,6 +31,12 @@ enum CallEvent {
   // Indicates that the receiver is already busy on another call
   ReceiverBusyOnAnotherCall = 'ReceiverBusyOnAnotherCall',
 
+  // Indicates that the receiver is busy on VoIP call
+  DeclinedDueToBusyOnVoIP = 'DeclinedDueToBusyOnVoIP',
+
+  // Indicates that the receiver is busy on PSTN call
+  DeclinedDueToBusyOnPSTN = 'DeclinedDueToBusyOnPSTN',
+
   // Indicates that the call is declined due to the receiver being logged out with the specific CUID
   DeclinedDueToLoggedOutCuid = 'DeclinedDueToLoggedOutCuid',
 
@@ -41,12 +50,14 @@ enum CallEvent {
 
 class CallEventUtil {
   //Returns the enum value based on the passed event string
-  static fromString(event: string): CallEvent {
+  static fromString(event: string): CallEvent | null {
     switch (event) {
       case 'CallIsPlaced':
         return CallEvent.CallIsPlaced;
       case 'Cancelled':
         return CallEvent.Cancelled;
+      case 'CancelledDueToRingTimeout':
+        return CallEvent.CancelledDueToRingTimeout;
       case 'Declined':
         return CallEvent.Declined;
       case 'Missed':
@@ -59,6 +70,10 @@ class CallEventUtil {
         return CallEvent.Ended;
       case 'ReceiverBusyOnAnotherCall':
         return CallEvent.ReceiverBusyOnAnotherCall;
+      case 'DeclinedDueToBusyOnVoIP':
+        return CallEvent.DeclinedDueToBusyOnVoIP;
+      case 'DeclinedDueToBusyOnPSTN':
+        return CallEvent.DeclinedDueToBusyOnPSTN;
       case 'DeclinedDueToLoggedOutCuid':
         return CallEvent.DeclinedDueToLoggedOutCuid;
       case 'DeclinedDueToNotificationsDisabled':
@@ -70,7 +85,7 @@ class CallEventUtil {
         SignedCallLogger.debug({
           message: errorMessage.replace('{event}', event),
         });
-        throw new Error(errorMessage.replace('{event}', event));
+        return null;
     }
   }
 }
