@@ -8,6 +8,11 @@ import { SignedCallLogger } from './utils/SignedCallLogger';
 import { Constants } from './Constants';
 import { CallDirection, CallEventResult } from './models/CallEventResult';
 import { CallEvent } from './models/CallEvent';
+import { SCCallState, SCCallStateUtil } from './models/SCCallState';
+import {
+  SCSwipeOffBehaviour,
+  SCSwipeOffBehaviourUtil,
+} from './models/SCSwipeOffBehaviour';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -28,7 +33,7 @@ const eventEmitter = new NativeEventEmitter(CleverTapSignedCall);
  * @param {number} sdkVersion - The updated SDK version. /// If the current version is X.X.X then pass as X0X0X
  */
 const sdkName = 'ctscsdkversion-react-native';
-const sdkVersion = 5;
+const sdkVersion = 55;
 CleverTapSignedCall.trackSdkVersion(sdkName, sdkVersion);
 
 class SignedCall {
@@ -77,6 +82,15 @@ class SignedCall {
     ).then((result: any) => {
       return SignedCallResponse.fromDict(result);
     });
+  }
+
+  static getBackToCall(): boolean {
+    return CleverTapSignedCall.getBackToCall();
+  }
+
+  static async getCallState(): Promise<SCCallState | null> {
+    const callState = await CleverTapSignedCall.getCallState();
+    return SCCallStateUtil.fromString(callState);
   }
 
   /**
@@ -149,6 +163,9 @@ export {
   SignedCallResponse,
   LogLevel,
   CallEvent,
+  SCCallState,
+  SCSwipeOffBehaviour,
+  SCSwipeOffBehaviourUtil,
   CallEventResult,
   CallDirection,
   MissedCallActionClickResult,
