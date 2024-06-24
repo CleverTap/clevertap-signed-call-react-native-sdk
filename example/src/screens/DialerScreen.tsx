@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -8,6 +9,7 @@ import {
   Alert,
   Keyboard,
   Platform,
+  Switch,
 } from 'react-native';
 import React from 'react';
 import styles from '../styles/style';
@@ -17,17 +19,17 @@ import {
 } from '@clevertap/clevertap-signed-call-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestPermissions } from '../Helpers';
+import VIForegroundService from '@voximplant/react-native-foreground-service';
 
 const DialerScreen = ({ route, navigation }: any) => {
   const { registeredCuid } = route.params;
 
   const [receiverCuid, setReceiverCuid] = React.useState('');
   const [callContext, setCallContext] = React.useState('');
+  const [isForegroundServiceRunning, setForegroundServiceRunning] =
+    React.useState(false);
 
   React.useEffect(() => {
-    //Disables the back button click handling
-    BackHandler.addEventListener('hardwareBackPress', () => true);
-
     // deactivateHandlers gets called on component unmount
     return () => {
       deactivateHandlers();
@@ -69,6 +71,25 @@ const DialerScreen = ({ route, navigation }: any) => {
     navigation.replace('Registration', {});
   }
 
+  function startForegroundService() {
+    const notificationConfig = {
+      channelId: 'channelId',
+      id: 3456,
+      title: 'Title',
+      text: 'Some text',
+      icon: 'ic_icon',
+      button: 'Some text',
+    };
+    try {
+      VIForegroundService.getInstance()
+        .startService(notificationConfig)
+        .then(() => console.log('Service started'))
+        .catch((err) => console.error(err));
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.mainHeader}>CUID: {registeredCuid}</Text>
@@ -88,7 +109,7 @@ const DialerScreen = ({ route, navigation }: any) => {
             setReceiverCuid(text);
           }}
         />
-        <View style={{ height: 30 }} />
+        <View style={{ height: 20 }} />
         <Text>Enter context of call</Text>
         <TextInput
           style={styles.inputStyle}
@@ -99,6 +120,40 @@ const DialerScreen = ({ route, navigation }: any) => {
             setCallContext(text);
           }}
         />
+        {Platform.OS === 'android' && (
+          <View style={styles.horizontalAlignment}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 12,
+                fontWeight: 'bold',
+                color: isForegroundServiceRunning ? '#249c50' : '#000000',
+              }}
+            >
+              {isForegroundServiceRunning
+                ? 'Stop self-managed FG service'
+                : 'Start self-managed FG service'}
+            </Text>
+            <Switch
+              trackColor={{ false: '#767577', true: '#008000' }}
+              thumbColor={isForegroundServiceRunning ? '#f4f3f4' : '#FFFFFF'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={async (canStart) => {
+                if (canStart) {
+                  startForegroundService();
+                } else {
+                  VIForegroundService.getInstance()
+                    .stopService()
+                    .then(() => console.log('Service stopped'))
+                    .catch((err) => console.error(err));
+                }
+                setForegroundServiceRunning(canStart);
+              }}
+              value={isForegroundServiceRunning}
+            />
+          </View>
+        )}
+
         <View style={styles.buttonContainer}>
           <Button
             title="Initiate VoIP Call"
@@ -120,6 +175,27 @@ const DialerScreen = ({ route, navigation }: any) => {
             onPress={() => SignedCall.disconnectSignallingSocket()}
           />
         </View>
+        {Platform.OS === 'android' && (
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Get Back to Call"
+              color="green"
+              onPress={async () => {
+                const result = await SignedCall.getBackToCall();
+                if (!result) {
+                  console.log(
+                    'VoIP call is failed: ',
+                    'Invalid operation to get back to call'
+                  );
+                  Alert.alert(
+                    'No active call!',
+                    'Invalid operation to get back to call'
+                  );
+                }
+              }}
+            />
+          </View>
+        )}
         <View style={styles.buttonContainer}>
           <Button title="Logout" color="red" onPress={() => logoutSession()} />
         </View>
