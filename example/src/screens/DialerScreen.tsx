@@ -5,7 +5,6 @@ import {
   Image,
   TextInput,
   Button,
-  BackHandler,
   Alert,
   Keyboard,
   Platform,
@@ -81,10 +80,9 @@ const DialerScreen = ({ route, navigation }: any) => {
       button: 'Some text',
     };
     try {
-      VIForegroundService.getInstance()
-        .startService(notificationConfig)
+      VIForegroundService.startService(notificationConfig)
         .then(() => console.log('Service started'))
-        .catch((err) => console.error(err));
+        .catch((err: any) => console.error(err));
     } catch (e) {
       console.error(e);
     }
@@ -142,10 +140,9 @@ const DialerScreen = ({ route, navigation }: any) => {
                 if (canStart) {
                   startForegroundService();
                 } else {
-                  VIForegroundService.getInstance()
-                    .stopService()
+                  VIForegroundService.stopService()
                     .then(() => console.log('Service stopped'))
-                    .catch((err) => console.error(err));
+                    .catch((err: any) => console.error(err));
                 }
                 setForegroundServiceRunning(canStart);
               }}
