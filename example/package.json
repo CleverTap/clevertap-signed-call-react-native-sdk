@@ -17,7 +17,7 @@
     "@react-native-firebase/app": "^20.1.0",
     "@react-native-firebase/crashlytics": "^20.1.0",
     "@react-navigation/native": "^6.1.6",
-    "@react-navigation/native-stack": "^6.9.12",
+    "@react-navigation/native-stack": "^6.11.0",
     "@voximplant/react-native-foreground-service": "^3.0.2",
     "clevertap-react-native": "^1.0.2",
     "react": "18.1.0",
