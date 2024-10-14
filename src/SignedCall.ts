@@ -6,8 +6,12 @@ import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
 import { SignedCallLogger } from './utils/SignedCallLogger';
 import { Constants } from './Constants';
-import { CallDirection, CallEventResult } from './models/CallEventResult';
-import { CallEvent } from './models/CallEvent';
+import {
+  CallDirection,
+  CallType,
+  CallStatusDetails,
+} from './models/CallStatusDetails';
+import { CallStatus } from './models/CallStatus';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -125,7 +129,7 @@ class SignedCall {
     eventEmitter.addListener(eventName, (response: any) => {
       switch (eventName) {
         case SignedCall.SignedCallOnCallStatusChanged:
-          handler(CallEventResult.fromDict(response));
+          handler(CallStatusDetails.fromDict(response));
           break;
         case SignedCall.SignedCallOnMissedCallActionClicked:
           handler(MissedCallActionClickResult.fromDict(response));
@@ -148,8 +152,9 @@ export {
   SignedCall,
   SignedCallResponse,
   LogLevel,
-  CallEvent,
-  CallEventResult,
+  CallStatus,
+  CallStatusDetails,
+  CallType,
   CallDirection,
   MissedCallActionClickResult,
 };

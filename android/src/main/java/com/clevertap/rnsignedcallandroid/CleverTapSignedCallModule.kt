@@ -15,7 +15,7 @@ import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.InitConfigSerializer.getInitConfigFromReadableMap
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.signedCallResponseToWritableMap
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toSignedCallLogLevel
-import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
+import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWritableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.clevertap.rnsignedcallandroid.internal.util.toJson
 import com.facebook.react.bridge.*
@@ -72,7 +72,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     if (!SignedCallUtils.isAppInBackground()) {
       SignedCallAPI.getInstance().registerVoIPCallStatusListener { data ->
         log(message = "SignedCallOnCallStatusListener is invoked in foreground or background: $data")
-        EventEmitter.emit(context, ON_CALL_STATUS_CHANGED, data.toWriteableMap())
+        EventEmitter.emit(context, ON_CALL_STATUS_CHANGED, data.toWritableMap())
       }
     }
   }
