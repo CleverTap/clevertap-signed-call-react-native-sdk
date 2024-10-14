@@ -1,3 +1,4 @@
+import { CallType } from './CallType';
 import { CustomMetaData } from './CustomMetaData';
 import { DTMFInput } from './DTMFInput';
 
@@ -79,4 +80,14 @@ class P2PCallOptions extends CallOptions {
   }
 }
 
-export { CallOptions, M2PCallOptions, P2PCallOptions };
+class CallOptionsUtils {
+  static fromDictAndCallType(dict: any, callType: CallType) {
+    const callOptions =
+      callType === CallType.P2P
+        ? M2PCallOptions.fromDict(dict)
+        : P2PCallOptions.fromDict(dict);
+    return callOptions;
+  }
+}
+
+export { CallOptions, M2PCallOptions, P2PCallOptions, CallOptionsUtils };

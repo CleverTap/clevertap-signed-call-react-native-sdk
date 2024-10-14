@@ -1,5 +1,6 @@
-import { M2PCallOptions, P2PCallOptions, CallOptions } from './CallOptions';
+import { CallOptionsUtils, CallOptions } from './CallOptions';
 import { type CallStatus, CallStatusUtil } from './CallStatus';
+import { CallType } from './CallType';
 
 // Represents the result of a call event.
 class CallStatusDetails {
@@ -28,10 +29,10 @@ class CallStatusDetails {
 
     const callType = dict.callType === 'P2P' ? CallType.P2P : CallType.P2P;
 
-    const callOptions =
-      callType === CallType.P2P
-        ? M2PCallOptions.fromDict(dict.callOptions)
-        : P2PCallOptions.fromDict(dict.callOptions);
+    const callOptions = CallOptionsUtils.fromDictAndCallType(
+      dict.callOptions,
+      callType
+    );
 
     return new CallStatusDetails(
       direction,
@@ -48,9 +49,4 @@ enum CallDirection {
   Outgoing = 'Outgoing',
 }
 
-enum CallType {
-  P2P = 'p2p',
-  M2P = 'm2p',
-}
-
-export { CallStatusDetails, CallDirection, CallType };
+export { CallStatusDetails, CallDirection };

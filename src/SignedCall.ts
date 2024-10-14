@@ -6,11 +6,8 @@ import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
 import { SignedCallLogger } from './utils/SignedCallLogger';
 import { Constants } from './Constants';
-import {
-  CallDirection,
-  CallType,
-  CallStatusDetails,
-} from './models/CallStatusDetails';
+import { CallDirection, CallStatusDetails } from './models/CallStatusDetails';
+import { CallType } from './models/CallType';
 import { CallStatus } from './models/CallStatus';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
