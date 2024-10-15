@@ -9,7 +9,11 @@ import com.clevertap.android.signedcall.models.P2PCallOptions
 import com.clevertap.android.signedcall.models.SCCallOptions
 import com.clevertap.android.signedcall.models.SCCallStatusDetails
 import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 /**
  * Contains parser methods to change the payload from one type to another.
@@ -80,11 +84,65 @@ internal object PayloadConverter {
         putMap("customMetaData", Arguments.createMap().apply {
           putString("initiatorImage", customMetaData.initiatorImage)
           putString("receiverImage", customMetaData.receiverImage)
-          // TODO: Convert JSONObject to WritableMap
-          // putMap("customKeys", Arguments.fromBundle(customMetaData.customKeys.toString()))
+          putMap("customKeys", customMetaData.customKeys?.toWritableMap())
         })
       }
     }
+  }
+
+  private fun JSONObject.toWritableMap(): WritableMap {
+    val writableMap = Arguments.createMap()
+
+    val keys = this.keys()
+    while (keys.hasNext()) {
+      val key = keys.next()
+      try {
+        val value = this[key]
+
+        when (value) {
+          is String -> writableMap.putString(key, value)
+          is Int -> writableMap.putInt(key, value)
+          is Boolean -> writableMap.putBoolean(key, value)
+          is Long -> writableMap.putDouble(key, value.toDouble())
+          is Float, is Double -> writableMap.putDouble(key, (value as Number).toDouble())
+          is JSONObject -> writableMap.putMap(key, value.toWritableMap())
+          is JSONArray -> writableMap.putArray(key, value.toWritableArray())
+          else -> {
+            // Handle other possible cases if needed
+          }
+        }
+      } catch (e: JSONException) {
+        e.printStackTrace()
+      }
+    }
+    return writableMap
+  }
+
+
+  private fun JSONArray.toWritableArray(): WritableArray {
+    val writableArray = Arguments.createArray()
+
+    for (i in 0 until this.length()) {
+      try {
+        val value = this[i]
+
+        when (value) {
+          is String -> writableArray.pushString(value)
+          is Int -> writableArray.pushInt(value)
+          is Boolean -> writableArray.pushBoolean(value)
+          is Long -> writableArray.pushDouble(value.toDouble())
+          is Float, is Double -> writableArray.pushDouble((value as Number).toDouble())
+          is JSONObject -> writableArray.pushMap(value.toWritableMap())
+          is JSONArray -> writableArray.pushArray(value.toWritableArray())
+          else -> {
+            // Handle other possible cases if needed
+          }
+        }
+      } catch (e: JSONException) {
+        e.printStackTrace()
+      }
+    }
+    return writableArray
   }
 
   /**
