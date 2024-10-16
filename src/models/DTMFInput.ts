@@ -1,8 +1,10 @@
+import { type DTMFKey, DTMFKeyUtil } from './DTMFKey';
+
 export class DTMFInput {
   inputIdentifier: string;
-  inputKey: string; // @TODO Change this to DTMFKey if required. Maybe unnecessary
+  inputKey: DTMFKey;
 
-  constructor(inputIdentifier: string, inputKey: string) {
+  constructor(inputIdentifier: string, inputKey: DTMFKey) {
     this.inputIdentifier = inputIdentifier;
     this.inputKey = inputKey;
   }
@@ -10,7 +12,10 @@ export class DTMFInput {
   static fromList(list: any) {
     return list.map(
       (item: { inputIdentifier: string; inputKey: string }) =>
-        new DTMFInput(item.inputIdentifier, item.inputKey)
+        new DTMFInput(
+          item.inputIdentifier,
+          DTMFKeyUtil.fromString(item.inputKey)
+        )
     );
   }
 }

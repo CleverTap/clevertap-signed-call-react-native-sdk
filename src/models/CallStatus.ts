@@ -86,11 +86,11 @@ class CallStatusUtil {
       case `DTMF_INPUT_RECEIVED`:
         return CallStatus.DTMFInputReceived;
       default:
-        const errorMessage = `"{event}" is not a valid value for CallStatus.`;
+        const errorMessage = `"${event}" is not a valid value for CallStatus.`;
         SignedCallLogger.debug({
-          message: errorMessage.replace('{event}', event),
+          message: errorMessage,
         });
-        throw new Error(errorMessage.replace('{event}', event));
+        throw new Error(errorMessage);
     }
   }
 }
