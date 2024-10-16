@@ -94,7 +94,10 @@ object InitConfigSerializer {
   @Throws(Exception::class)
   fun getM2PConfigurationFromReadableMap(readableMap: ReadableMap): M2PConfiguration? {
     val m2pNotificationClickListener = M2PNotificationClickListener { context, m2pCallOptions ->
-      EventEmitter.emit(context, ON_M2P_NOTIFICATION_CLICKED, m2pCallOptions.toWritableMap())
+      EventEmitter.emit(
+        context,
+        ON_M2P_NOTIFICATION_CLICKED,
+        m2pCallOptions.toWritableMap())
     }
 
     val m2pCancelCtaClickListener = M2PCancelCtaClickListener { context, m2pCallOptions ->
@@ -109,12 +112,13 @@ object InitConfigSerializer {
     // Extract values from the ReadableMap using appropriate getters
     val title = readableMap.getString(Constants.KEY_TITLE)
     val subTitle = readableMap.getString(Constants.KEY_SUB_TITLE)
-    val largeIcon = readableMap.getInt(Constants.KEY_LARGE_ICON)
+    val largeIcon : Int? = readableMap.getValue(Constants.KEY_LARGE_ICON)
     val cancelCtaLabel = readableMap.getString(Constants.KEY_CANCEL_CTA_LABEL)
 
     // Initialize M2PNotification with extracted values
     val m2pNotification = M2PNotification(title, subTitle).apply {
-      this.largeIcon = largeIcon
+      if(largeIcon != null)
+        this.largeIcon = largeIcon
       this.cancelCtaLabel = cancelCtaLabel
     }
 
