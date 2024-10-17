@@ -193,6 +193,7 @@ export default function RegistrationPage({ navigation }: any) {
       title: 'Demo Call',
       subTitle: 'Call SubTitle',
       cancelCtaLabel: 'Cut Call',
+      largeIcon: 'assets_clevertaplogo',
     };
 
     if (Platform.OS === 'ios') {

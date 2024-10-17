@@ -92,33 +92,33 @@ object InitConfigSerializer {
 
   @JvmStatic
   @Throws(Exception::class)
-  fun getM2PConfigurationFromReadableMap(readableMap: ReadableMap): M2PConfiguration? {
-    val m2pNotificationClickListener = M2PNotificationClickListener { context, m2pCallOptions ->
+  fun getM2PConfigurationFromReadableMap(readableMap: ReadableMap, context: ReactContext): M2PConfiguration? {
+    val m2pNotificationClickListener = M2PNotificationClickListener { m2pContext, m2pCallOptions ->
       EventEmitter.emit(
-        context,
+        m2pContext,
         ON_M2P_NOTIFICATION_CLICKED,
         m2pCallOptions.toWritableMap())
     }
 
-    val m2pCancelCtaClickListener = M2PCancelCtaClickListener { context, m2pCallOptions ->
+    val m2pCancelCtaClickListener = M2PCancelCtaClickListener { m2pContext, m2pCallOptions ->
       EventEmitter.emit(
-        context,
+        m2pContext,
         ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED,
         m2pCallOptions.toWritableMap()
       )
     }
 
-
-    // Extract values from the ReadableMap using appropriate getters
     val title = readableMap.getString(Constants.KEY_TITLE)
     val subTitle = readableMap.getString(Constants.KEY_SUB_TITLE)
-    val largeIcon : Int? = readableMap.getValue(Constants.KEY_LARGE_ICON)
     val cancelCtaLabel = readableMap.getString(Constants.KEY_CANCEL_CTA_LABEL)
+    val largeIconResourceId = readableMap.getString(Constants.KEY_LARGE_ICON)?.let {
+      context.resources.getIdentifier(it, "drawable", context.packageName)
+    } ?: 0
 
     // Initialize M2PNotification with extracted values
     val m2pNotification = M2PNotification(title, subTitle).apply {
-      if(largeIcon != null)
-        this.largeIcon = largeIcon
+      if(largeIconResourceId != 0)
+        this.largeIcon = largeIconResourceId
       this.cancelCtaLabel = cancelCtaLabel
     }
 
@@ -155,7 +155,7 @@ object InitConfigSerializer {
    */
   @JvmStatic
   @Throws(Throwable::class)
-  fun getInitConfigFromReadableMap(readableMap: ReadableMap): SignedCallInitConfiguration? {
+  fun getInitConfigFromReadableMap(readableMap: ReadableMap, context: ReactContext): SignedCallInitConfiguration? {
     var initConfiguration: SignedCallInitConfiguration? = null
     readableMap.run {
       try {
@@ -186,7 +186,7 @@ object InitConfigSerializer {
         val m2PConfigurationReadableMap: ReadableMap? =
           readableMap.getValue(Constants.KEY_M2P_CONFIGURATION)
         val m2PConfiguration = m2PConfigurationReadableMap?.let {
-          getM2PConfigurationFromReadableMap(m2PConfigurationReadableMap)
+          getM2PConfigurationFromReadableMap(m2PConfigurationReadableMap, context)
         }
 
         initConfiguration =
