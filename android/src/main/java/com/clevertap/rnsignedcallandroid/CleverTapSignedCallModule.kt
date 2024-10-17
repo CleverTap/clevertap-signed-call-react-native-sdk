@@ -10,12 +10,14 @@ import com.clevertap.android.signedcall.interfaces.OutgoingCallResponse
 import com.clevertap.android.signedcall.interfaces.SignedCallInitResponse
 import com.clevertap.android.signedcall.utils.SignedCallUtils
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_CALL_STATUS_CHANGED
+import com.clevertap.rnsignedcallandroid.internal.Events.ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED
+import com.clevertap.rnsignedcallandroid.internal.Events.ON_M2P_NOTIFICATION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.InitConfigSerializer.getInitConfigFromReadableMap
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.signedCallResponseToWritableMap
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toSignedCallLogLevel
-import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
+import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWritableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.clevertap.rnsignedcallandroid.internal.util.toJson
 import com.facebook.react.bridge.*
@@ -57,7 +59,9 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   override fun getConstants(): MutableMap<String, String> =
       hashMapOf(
           ON_CALL_STATUS_CHANGED to ON_CALL_STATUS_CHANGED,
-          ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED
+          ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED,
+          ON_M2P_NOTIFICATION_CLICKED to ON_M2P_NOTIFICATION_CLICKED,
+          ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED to ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED
       )
 
   private fun getSignedCallAPI(): SignedCallAPI {
@@ -72,7 +76,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     if (!SignedCallUtils.isAppInBackground()) {
       SignedCallAPI.getInstance().registerVoIPCallStatusListener { data ->
         log(message = "SignedCallOnCallStatusListener is invoked in foreground or background: $data")
-        EventEmitter.emit(context, ON_CALL_STATUS_CHANGED, data.toWriteableMap())
+        EventEmitter.emit(context, ON_CALL_STATUS_CHANGED, data.toWritableMap())
       }
     }
   }
@@ -99,7 +103,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     initProperties?.let {
       try {
-        val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it)
+        val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it, reactContext)
         signedCallAPI.init(
             reactContext,
             initConfiguration,
