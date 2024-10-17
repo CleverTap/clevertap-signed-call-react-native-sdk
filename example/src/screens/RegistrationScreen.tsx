@@ -78,6 +78,9 @@ export default function RegistrationPage({ navigation }: any) {
           console.log('Signed Call SDK initialized: ', response);
 
           AsyncStorage.setItem(Constants.KEY_LOGGED_IN_CUID, cuid);
+          CleverTap.profileSet({
+            scCuid: cuid,
+          });
 
           //navigates to the Dialer Screen with registered cuid
           navigation.replace('Dialer', { registeredCuid: cuid });
@@ -185,6 +188,12 @@ export default function RegistrationPage({ navigation }: any) {
         '123': 'call me back',
       };
     }
+
+    initProperties.m2pConfiguration = {
+      title: 'Demo Call',
+      subTitle: 'Call SubTitle',
+      cancelCtaLabel: 'Cut Call',
+    };
 
     if (Platform.OS === 'ios') {
       initProperties.production = true;
