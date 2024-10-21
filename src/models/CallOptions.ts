@@ -5,7 +5,7 @@ import { DTMFInput } from './DTMFInput';
 class CallOptions {
   receiverCuid: string;
   callContext: string;
-  customMetaData: CustomMetaData;
+  customMetaData: CustomMetaData | undefined;
 
   constructor(
     receiverCuid: string,
@@ -34,8 +34,8 @@ class CallOptions {
 class M2PCallOptions extends CallOptions {
   campaignId: string;
   campaignEndTime: string;
-  campaignLabelList: string[];
-  dtmfInputList: DTMFInput[];
+  campaignLabelList: string[] | undefined;
+  dtmfInputList: DTMFInput[] | undefined;
 
   constructor(
     receiverCuid: string,

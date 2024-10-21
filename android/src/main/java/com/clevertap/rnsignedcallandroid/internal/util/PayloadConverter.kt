@@ -170,13 +170,17 @@ internal object PayloadConverter {
       putString("campaignId", campaignId)
       putString("campaignEndTime", campaignEndTime)
 
-      putArray("campaignLabelList", Arguments.createArray().apply {
-        campaignLabelList?.forEach { label -> pushString(label) }
-      })
+      campaignLabelList?.let { list ->
+        putArray("campaignLabelList", Arguments.createArray().apply {
+          list.forEach { label -> pushString(label) }
+        })
+      }
 
-      putArray("dtmfInputList", Arguments.createArray().apply {
-        dtmfInputList?.forEach { dtmf -> pushMap(dtmf.toWritableMap()) }
-      })
+      dtmfInputList?.let { list ->
+        putArray("dtmfInputList", Arguments.createArray().apply {
+          list.forEach { dtmf -> pushMap(dtmf.toWritableMap()) }
+        })
+      }
     }
   }
 

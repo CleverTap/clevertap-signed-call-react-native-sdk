@@ -10,6 +10,9 @@ export class DTMFInput {
   }
 
   static fromList(list: any) {
+    if (!list) {
+      return undefined;
+    }
     return list.map(
       (item: { inputIdentifier: string; inputKey: string }) =>
         new DTMFInput(
