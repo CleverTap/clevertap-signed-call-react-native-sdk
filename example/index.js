@@ -88,28 +88,28 @@ const activateHandlers = () => {
     }
   });
 
-  SignedCall.addListener(
-    SignedCall.SignedCallOnM2PNotificationClicked,
-    (result) => {
-      console.log('SignedCallOnM2PNotificationClicked', result);
-    }
-  );
-
-  SignedCall.addListener(
-    'SignedCallOnM2PNotificationCancelCtaClicked',
-    (result) => {
-      console.log('SignedCallOnM2PNotificationCancelCtaClicked', result);
-    }
-  );
-
   if (Platform.OS === 'android') {
     //To keep track on click over missed call notification
     SignedCall.addListener(
       SignedCall.SignedCallOnMissedCallActionClicked,
-      (result: MissedCallActionClickResult) => {
+      (result) => {
         Toast.show(result.action.actionLabel + ' is clicked!', Toast.SHORT);
 
         console.log('SignedCallOnMissedCallActionClicked', result);
+      }
+    );
+
+    SignedCall.addListener(
+      SignedCall.SignedCallOnM2PNotificationClicked,
+      (result) => {
+        console.log('SignedCallOnM2PNotificationClicked', result);
+      }
+    );
+
+    SignedCall.addListener(
+      'SignedCallOnM2PNotificationCancelCtaClicked',
+      (result) => {
+        console.log('SignedCallOnM2PNotificationCancelCtaClicked', result);
       }
     );
   }
