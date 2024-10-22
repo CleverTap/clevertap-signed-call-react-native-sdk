@@ -58,16 +58,19 @@ internal object PayloadConverter {
    */
   @JvmStatic
   fun MissedCallNotificationOpenResult.toWritableMap(): WritableMap {
-    val responseMap = Arguments.createMap()
-    return responseMap.apply {
+    return Arguments.createMap().apply {
+      putString("callType", callType.toString())
+
       when (callOptions) {
         is M2PCallOptions -> putMap("callOptions", (callOptions as M2PCallOptions).toWritableMap())
         is P2PCallOptions -> putMap("callOptions", (callOptions as P2PCallOptions).toWritableMap())
       }
-      val actionMap = Arguments.createMap()
-      actionMap.putString(Constants.KEY_ACTION_ID, action.actionID)
-      actionMap.putString(Constants.KEY_ACTION_LABEL, action.actionLabel)
-      this.putMap(Constants.KEY_ACTION, actionMap)
+
+      val actionMap = Arguments.createMap().apply {
+        putString(Constants.KEY_ACTION_ID, action.actionID)
+        putString(Constants.KEY_ACTION_LABEL, action.actionLabel)
+      }
+      putMap(Constants.KEY_ACTION, actionMap)
     }
   }
 

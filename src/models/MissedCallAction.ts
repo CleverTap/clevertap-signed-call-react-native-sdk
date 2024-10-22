@@ -23,8 +23,8 @@ export class MissedCallActionClickResult {
     const action = MissedCallNotificationAction.fromDict(dict.action);
     const callType = dict.callType === 'P2P' ? CallType.P2P : CallType.M2P;
     const callOptions = CallOptionsUtils.fromDictAndCallType(
-      callType,
-      dict.callOptions
+      dict.callOptions,
+      callType
     );
     return new MissedCallActionClickResult(action, callType, callOptions);
   }
