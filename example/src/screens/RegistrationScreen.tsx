@@ -24,6 +24,9 @@ import { isDeviceVersionTargetsBelow } from '../Helpers';
 
 export default function RegistrationPage({ navigation }: any) {
   const [cuid, setCuid] = useState('');
+  const [m2pTitle, setm2pTitle] = useState('M2P Title');
+  const [m2pSubTitle, setm2pSubTitle] = useState('M2P Subtitle');
+  const [m2pCancelCtaLabel, setm2pCancelCtaLabel] = useState('Cancel Call');
   const [loading, setLoading] = useState(false);
 
   const [canHidePoweredBySignedCall, setHidePoweredBySignedCall] =
@@ -78,6 +81,9 @@ export default function RegistrationPage({ navigation }: any) {
           console.log('Signed Call SDK initialized: ', response);
 
           AsyncStorage.setItem(Constants.KEY_LOGGED_IN_CUID, cuid);
+          CleverTap.profileSet({
+            scCuid: cuid,
+          });
 
           //navigates to the Dialer Screen with registered cuid
           navigation.replace('Dialer', { registeredCuid: cuid });
@@ -123,16 +129,58 @@ export default function RegistrationPage({ navigation }: any) {
         source={require('../../assets/clevertap-logo.png')}
       />
       <View style={styles.mainSection}>
-        <Text>Enter CUID</Text>
-        <TextInput
-          style={styles.inputStyle}
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={cuid}
-          onChangeText={(text) => {
-            setCuid(text);
-          }}
-        />
+        <View style={styles.inputContainer}>
+          <Text>Enter CUID</Text>
+          <TextInput
+            style={styles.inputStyle}
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={cuid}
+            onChangeText={(text) => {
+              setCuid(text);
+            }}
+          />
+        </View>
+        <View style={styles.horizontalAlignment}>
+          <View style={[styles.rowElement, { marginRight: 10 }]}>
+            <Text>Enter M2P Title</Text>
+            <TextInput
+              style={styles.inputStyle}
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={m2pTitle}
+              onChangeText={(text) => {
+                setm2pTitle(text);
+              }}
+            />
+          </View>
+          <View style={styles.rowElement}>
+            <Text>Enter M2P Subtitle</Text>
+            <TextInput
+              style={styles.inputStyle}
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={m2pSubTitle}
+              onChangeText={(text) => {
+                setm2pSubTitle(text);
+              }}
+            />
+          </View>
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text>Enter M2P Cancel CTA Label</Text>
+          <TextInput
+            style={styles.inputStyle}
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={m2pCancelCtaLabel}
+            onChangeText={(text) => {
+              setm2pCancelCtaLabel(text);
+            }}
+          />
+        </View>
+
         <View style={styles.horizontalAlignment}>
           <Text>Hide Powered By Signed Call</Text>
           <Switch
@@ -183,6 +231,13 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.promptReceiverReadPhoneStatePermission = true;
       initProperties.missedCallActions = {
         '123': 'call me back',
+      };
+
+      initProperties.m2pConfiguration = {
+        title: m2pTitle,
+        subTitle: m2pSubTitle,
+        cancelCtaLabel: m2pCancelCtaLabel,
+        largeIcon: 'assets_clevertaplogo',
       };
     }
 

@@ -1,13 +1,19 @@
 package com.clevertap.rnsignedcallandroid.internal.util
 
-import com.clevertap.android.signedcall.enums.VoIPCallStatus
 import com.clevertap.android.signedcall.exception.BaseException
 import com.clevertap.android.signedcall.init.SignedCallAPI
-import com.clevertap.android.signedcall.models.CallDetails
+import com.clevertap.android.signedcall.models.DTMFInput
+import com.clevertap.android.signedcall.models.M2PCallOptions
 import com.clevertap.android.signedcall.models.MissedCallNotificationOpenResult
+import com.clevertap.android.signedcall.models.P2PCallOptions
+import com.clevertap.android.signedcall.models.SCCallOptions
 import com.clevertap.android.signedcall.models.SCCallStatusDetails
 import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.WritableArray
 import com.facebook.react.bridge.WritableMap
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 
 /**
  * Contains parser methods to change the payload from one type to another.
@@ -51,64 +57,164 @@ internal object PayloadConverter {
    * @return - returns a parsed WritableMap
    */
   @JvmStatic
-  fun MissedCallNotificationOpenResult.toWriteableMap(): WritableMap {
-    val responseMap = Arguments.createMap()
-    return responseMap.apply {
-      val actionMap = Arguments.createMap()
-      actionMap.putString(Constants.KEY_ACTION_ID, action.actionID)
-      actionMap.putString(Constants.KEY_ACTION_LABEL, action.actionLabel)
+  fun MissedCallNotificationOpenResult.toWritableMap(): WritableMap {
+    return Arguments.createMap().apply {
+      putString("callType", callType.toString())
 
-      this.putMap(Constants.KEY_ACTION, actionMap)
-      this.putMap(Constants.KEY_CALL_DETAILS, callDetails.toWriteableMap())
+      when (callOptions) {
+        is M2PCallOptions -> putMap("callOptions", (callOptions as M2PCallOptions).toWritableMap())
+        is P2PCallOptions -> putMap("callOptions", (callOptions as P2PCallOptions).toWritableMap())
+      }
+
+      val actionMap = Arguments.createMap().apply {
+        putString(Constants.KEY_ACTION_ID, action.actionID)
+        putString(Constants.KEY_ACTION_LABEL, action.actionLabel)
+      }
+      putMap(Constants.KEY_ACTION, actionMap)
     }
   }
+
+  /**
+   * Adds Properties common to both P2P CallOptions and M2PCallOptions to a WritableMap.
+   */
+  @JvmStatic
+  private fun SCCallOptions.toSCCallOptionsMap(): WritableMap {
+    return Arguments.createMap().apply {
+      putString("receiverCuid", receiverCuid)
+      putString("callContext", callContext)
+
+      customMetaData?.let { customMetaData ->
+        putMap("customMetaData", Arguments.createMap().apply {
+          putString("initiatorImage", customMetaData.initiatorImage)
+          putString("receiverImage", customMetaData.receiverImage)
+          putMap("customKeys", customMetaData.customKeys?.toWritableMap())
+        })
+      }
+    }
+  }
+
+  private fun JSONObject.toWritableMap(): WritableMap {
+    val writableMap = Arguments.createMap()
+
+    val keys = this.keys()
+    while (keys.hasNext()) {
+      val key = keys.next()
+      try {
+        val value = this[key]
+
+        when (value) {
+          is String -> writableMap.putString(key, value)
+          is Int -> writableMap.putInt(key, value)
+          is Boolean -> writableMap.putBoolean(key, value)
+          is Long -> writableMap.putDouble(key, value.toDouble())
+          is Float, is Double -> writableMap.putDouble(key, (value as Number).toDouble())
+          is JSONObject -> writableMap.putMap(key, value.toWritableMap())
+          is JSONArray -> writableMap.putArray(key, value.toWritableArray())
+          else -> {
+            // Handle other possible cases if needed
+          }
+        }
+      } catch (e: JSONException) {
+        e.printStackTrace()
+      }
+    }
+    return writableMap
+  }
+
+
+  private fun JSONArray.toWritableArray(): WritableArray {
+    val writableArray = Arguments.createArray()
+
+    for (i in 0 until this.length()) {
+      try {
+        val value = this[i]
+
+        when (value) {
+          is String -> writableArray.pushString(value)
+          is Int -> writableArray.pushInt(value)
+          is Boolean -> writableArray.pushBoolean(value)
+          is Long -> writableArray.pushDouble(value.toDouble())
+          is Float, is Double -> writableArray.pushDouble((value as Number).toDouble())
+          is JSONObject -> writableArray.pushMap(value.toWritableMap())
+          is JSONArray -> writableArray.pushArray(value.toWritableArray())
+          else -> {
+            // Handle other possible cases if needed
+          }
+        }
+      } catch (e: JSONException) {
+        e.printStackTrace()
+      }
+    }
+    return writableArray
+  }
+
+  /**
+   * Converts DTMFInput to a Map.
+   *
+   * @return A Map representation of DTMFInput.
+   */
+  @JvmStatic
+  fun DTMFInput.toWritableMap(): WritableMap {
+    return Arguments.createMap().apply {
+      putString("inputIdentifier", inputIdentifier)
+      putString("inputKey", inputKey.key.toString())
+    }
+  }
+
+
+  /**
+   * Converts M2PCallOptions to a Map.
+   *
+   * @return A Map representation of M2PCallOptions.
+   */
+  @JvmStatic
+  fun M2PCallOptions.toWritableMap(): WritableMap {
+    return this.toSCCallOptionsMap().apply {
+      putString("campaignId", campaignId)
+      putString("campaignEndTime", campaignEndTime)
+
+      campaignLabelList?.let { list ->
+        putArray("campaignLabelList", Arguments.createArray().apply {
+          list.forEach { label -> pushString(label) }
+        })
+      }
+
+      dtmfInputList?.let { list ->
+        putArray("dtmfInputList", Arguments.createArray().apply {
+          list.forEach { dtmf -> pushMap(dtmf.toWritableMap()) }
+        })
+      }
+    }
+  }
+
+  /**
+   * Converts P2PCallOptions to a Map.
+   *
+   * @return A Map representation of P2PCallOptions.
+   */
+  @JvmStatic
+  fun P2PCallOptions.toWritableMap(): WritableMap {
+    return this.toSCCallOptionsMap().apply {
+      putString("initiatorCuid", initiatorCuid)
+    }
+  }
+
 
   /**
    * Converts SCCallStatusDetails to a Map.
    *
    * @return A Map representation of SCCallStatusDetails.
    */
-  fun SCCallStatusDetails.toWriteableMap(): WritableMap {
+  @JvmStatic
+  fun SCCallStatusDetails.toWritableMap(): WritableMap {
     return Arguments.createMap().apply {
-      this.putString("direction", direction.toString())
-      this.putMap("callDetails", callDetails.toWriteableMap())
-      this.putString("callEvent", callStatus.formattedCallEvent())
-    }
-  }
-
-  /**
-   * Converts [VoIPCallStatus] to a formatted string.
-   *
-   * @return A formatted call event string.
-   */
-  private fun VoIPCallStatus.formattedCallEvent(): String {
-    return when (this) {
-      VoIPCallStatus.CALL_IS_PLACED -> "CallIsPlaced"
-      VoIPCallStatus.CALL_CANCELLED -> "Cancelled"
-      VoIPCallStatus.CALL_DECLINED -> "Declined"
-      VoIPCallStatus.CALL_MISSED -> "Missed"
-      VoIPCallStatus.CALL_ANSWERED -> "Answered"
-      VoIPCallStatus.CALL_IN_PROGRESS -> "CallInProgress"
-      VoIPCallStatus.CALL_OVER -> "Ended"
-      VoIPCallStatus.CALLEE_BUSY_ON_ANOTHER_CALL -> "ReceiverBusyOnAnotherCall"
-      VoIPCallStatus.CALL_DECLINED_DUE_TO_LOGGED_OUT_CUID -> "DeclinedDueToLoggedOutCuid"
-      VoIPCallStatus.CALL_DECLINED_DUE_TO_NOTIFICATIONS_DISABLED -> "DeclinedDueToNotificationsDisabled"
-      VoIPCallStatus.CALLEE_MICROPHONE_PERMISSION_NOT_GRANTED -> "DeclinedDueToMicrophonePermissionsNotGranted"
-    }
-  }
-
-  /**
-   * Converts CallDetails to a Map.
-   *
-   * @return A Map representation of CallDetails.
-   */
-  fun CallDetails.toWriteableMap(): WritableMap {
-    return Arguments.createMap().apply {
-      putString(Constants.KEY_CALLER_CUID, (callerCuid ?: ""))
-      putString(Constants.KEY_CALLEE_CUID, (calleeCuid ?: ""))
-      putString(Constants.KEY_CALL_CONTEXT, (callContext ?: ""))
-      putString(Constants.KEY_INITIATOR_IMAGE, initiatorImage)
-      putString(Constants.KEY_RECEIVER_IMAGE, receiverImage)
+      putString("direction", direction.toString())
+      putString("callType", callType.toString())
+      when (callOptions) {
+        is M2PCallOptions -> putMap("callOptions", (callOptions as M2PCallOptions).toWritableMap())
+        is P2PCallOptions -> putMap("callOptions", (callOptions as P2PCallOptions).toWritableMap())
+      }
+      putString("callStatus", callStatus.status)
     }
   }
 }
