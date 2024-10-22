@@ -20,6 +20,8 @@ const activateHandlers = () => {
       console.log('Call direction is Outgoing!');
     }
 
+    Toast.show('Call Status Changed' + JSON.stringify(result), Toast.LONG);
+
     switch (result.callStatus) {
       case CallStatus.CallIsPlaced:
         // Indicates that the call is successfully placed
@@ -102,10 +104,7 @@ const activateHandlers = () => {
     SignedCall.addListener(
       SignedCall.SignedCallOnM2PNotificationClicked,
       (result) => {
-        Toast.show(
-          'M2PNotifClicked for cid = ' + result.campaignId,
-          Toast.SHORT
-        );
+        Toast.show('M2P Notif Clicked' + JSON.stringify(result), Toast.LONG);
         console.log('SignedCallOnM2PNotificationClicked', result);
       }
     );
@@ -114,13 +113,10 @@ const activateHandlers = () => {
       'SignedCallOnM2PNotificationCancelCtaClicked',
       (result) => {
         Toast.show(
-          'CancelCtaClicked for cid = ' + result.campaignId,
-          Toast.SHORT
+          'M2P Cancel Cta Clicked' + JSON.stringify(result),
+          Toast.LONG
         );
-        console.log(
-          'SignedCallOnM2PNotificationCancelCtaClicked = ' + result,
-          result
-        );
+        console.log('SignedCallOnM2PNotificationCancelCtaClicked', result);
       }
     );
   }
