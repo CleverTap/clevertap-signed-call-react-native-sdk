@@ -102,6 +102,10 @@ const activateHandlers = () => {
     SignedCall.addListener(
       SignedCall.SignedCallOnM2PNotificationClicked,
       (result) => {
+        Toast.show(
+          'M2PNotifClicked for cid = ' + result.campaignId,
+          Toast.SHORT
+        );
         console.log('SignedCallOnM2PNotificationClicked', result);
       }
     );
@@ -109,7 +113,14 @@ const activateHandlers = () => {
     SignedCall.addListener(
       'SignedCallOnM2PNotificationCancelCtaClicked',
       (result) => {
-        console.log('SignedCallOnM2PNotificationCancelCtaClicked', result);
+        Toast.show(
+          'CancelCtaClicked for cid = ' + result.campaignId,
+          Toast.SHORT
+        );
+        console.log(
+          'SignedCallOnM2PNotificationCancelCtaClicked = ' + result,
+          result
+        );
       }
     );
   }
