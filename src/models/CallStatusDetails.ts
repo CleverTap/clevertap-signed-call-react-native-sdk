@@ -27,7 +27,7 @@ class CallStatusDetails {
         ? CallDirection.Incoming
         : CallDirection.Outgoing;
 
-    const callType = dict.callType === 'P2P' ? CallType.P2P : CallType.P2P;
+    const callType = dict.callType === 'P2P' ? CallType.P2P : CallType.M2P;
 
     const callOptions = CallOptionsUtils.fromDictAndCallType(
       dict.callOptions,

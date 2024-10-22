@@ -15,6 +15,9 @@ export class CustomMetaData {
   }
 
   static fromDict(dict: any) {
+    if (!dict) {
+      return undefined;
+    }
     const initiatorImage = dict.initiatorImage;
     const receiverImage = dict.receiverImage;
     const customKeys = dict.customKeys ?? new Map<string, any>();

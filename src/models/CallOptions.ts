@@ -10,7 +10,7 @@ class CallOptions {
   constructor(
     receiverCuid: string,
     callContext: string,
-    customMetaData: CustomMetaData
+    customMetaData: CustomMetaData | undefined
   ) {
     this.receiverCuid = receiverCuid;
     this.callContext = callContext;
@@ -84,8 +84,8 @@ class CallOptionsUtils {
   static fromDictAndCallType(dict: any, callType: CallType) {
     const callOptions =
       callType === CallType.P2P
-        ? M2PCallOptions.fromDict(dict)
-        : P2PCallOptions.fromDict(dict);
+        ? P2PCallOptions.fromDict(dict)
+        : M2PCallOptions.fromDict(dict);
     return callOptions;
   }
 }
