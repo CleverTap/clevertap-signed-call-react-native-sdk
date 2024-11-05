@@ -5,6 +5,7 @@ import {
   CallDirection,
   CallStatus,
   SignedCall,
+  CallType,
 } from '@clevertap/clevertap-signed-call-react-native';
 import Toast from 'react-native-simple-toast';
 import { Platform } from 'react-native';
@@ -20,7 +21,26 @@ const activateHandlers = () => {
       console.log('Call direction is Outgoing!');
     }
 
-    Toast.show('Call Status Changed' + JSON.stringify(result), Toast.LONG);
+    if (result.callType === CallType.M2P) {
+      if (result.callStatus === CallStatus.DTMFInputReceived) {
+        const dtmfInput = result.callOptions.getDtmfInput();
+        if (dtmfInput) {
+          Toast.show(`${dtmfInput.inputKey} is pressed!`, Toast.SHORT);
+        }
+      } else if (result.callStatus === CallStatus.CallOver) {
+        const dtmfInputList = result.callOptions.dtmfInputList;
+        if (dtmfInputList) {
+          Toast.show(
+            `Size of DTMF inputs list: ${dtmfInputList.length}`,
+            Toast.SHORT
+          );
+        }
+      }
+      Toast.show(
+        `${result.callStatus}, ${result.callOptions.campaignId}`,
+        Toast.SHORT
+      );
+    }
 
     switch (result.callStatus) {
       case CallStatus.CallIsPlaced:
@@ -104,7 +124,7 @@ const activateHandlers = () => {
     SignedCall.addListener(
       SignedCall.SignedCallOnM2PNotificationClicked,
       (result) => {
-        Toast.show('M2P Notif Clicked' + JSON.stringify(result), Toast.LONG);
+        Toast.show('M2P Notif Clicked ,' + result.campaignId, Toast.LONG);
         console.log('SignedCallOnM2PNotificationClicked', result);
       }
     );
@@ -112,10 +132,7 @@ const activateHandlers = () => {
     SignedCall.addListener(
       'SignedCallOnM2PNotificationCancelCtaClicked',
       (result) => {
-        Toast.show(
-          'M2P Cancel Cta Clicked' + JSON.stringify(result),
-          Toast.LONG
-        );
+        Toast.show('M2P Cancel Cta Clicked ,' + result.campaignId, Toast.LONG);
         console.log('SignedCallOnM2PNotificationCancelCtaClicked', result);
       }
     );

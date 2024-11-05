@@ -65,6 +65,14 @@ class M2PCallOptions extends CallOptions {
       DTMFInput.fromList(dict.dtmfInputList)
     );
   }
+
+  // Utility function to get the last element of dtmfInputList
+  public getDtmfInput(): DTMFInput | undefined {
+    if (this.dtmfInputList && this.dtmfInputList.length > 0) {
+      return this.dtmfInputList[this.dtmfInputList.length - 1];
+    }
+    return undefined;
+  }
 }
 
 class P2PCallOptions extends CallOptions {
