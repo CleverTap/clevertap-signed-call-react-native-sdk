@@ -49,6 +49,9 @@ enum CallStatus {
 
   // Indicates that a DTMF input is received from M2P keypad screen
   DTMFInputReceived = 'DTMFInputReceived',
+
+  // Indicates that the call was declined due to user inititated click on cancel CTA of FCM notification
+  UserInitaitedCallDeclinedOnCancelCTA = 'UserInitaitedCallDeclinedOnCancelCTA',
 }
 
 class CallStatusUtil {
@@ -85,6 +88,8 @@ class CallStatusUtil {
         return CallStatus.CallCancelledDueToCampaignNotificationCancelled;
       case `DTMF_INPUT_RECEIVED`:
         return CallStatus.DTMFInputReceived;
+      case `USER_INITIATED_CALL_DECLINED_ON_CANCEL_CTA`:
+        return CallStatus.UserInitaitedCallDeclinedOnCancelCTA;
       default:
         const errorMessage = `"${event}" is not a valid value for CallStatus.`;
         SignedCallLogger.debug({

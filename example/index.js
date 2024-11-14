@@ -104,6 +104,10 @@ const activateHandlers = () => {
         // Indicates that a DTMF input is received from M2P keypad screen
         break;
 
+      case CallStatus.UserInitaitedCallDeclinedOnCancelCTA:
+        // Indicates that the call was declined due to user inititated click on cancel CTA of FCM notification
+        break;
+
       default:
         // Handle any unexpected or unhandled statuses
         break;
