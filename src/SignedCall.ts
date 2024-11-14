@@ -9,7 +9,6 @@ import { Constants } from './Constants';
 import { CallDirection, CallStatusDetails } from './models/CallStatusDetails';
 import { CallType } from './models/CallType';
 import { CallStatus } from './models/CallStatus';
-import { M2PCallOptions } from './models/CallOptions';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -38,12 +37,6 @@ class SignedCall {
     CleverTapSignedCall.SignedCallOnCallStatusChanged;
   static SignedCallOnMissedCallActionClicked =
     CleverTapSignedCall.SignedCallOnMissedCallActionClicked;
-
-  static SignedCallOnM2PNotificationClicked =
-    CleverTapSignedCall.SignedCallOnM2PNotificationClicked;
-
-  static SignedCallOnM2PNotificationCancelCtaClicked =
-    CleverTapSignedCall.SignedCallOnM2PNotificationCancelCtaClicked;
 
   /**
    * Enables or disables debugging. If enabled, see debug messages in LogCat utility.
@@ -137,12 +130,6 @@ class SignedCall {
           break;
         case SignedCall.SignedCallOnMissedCallActionClicked:
           handler(MissedCallActionClickResult.fromDict(response));
-          break;
-        case SignedCall.SignedCallOnM2PNotificationClicked:
-          handler(M2PCallOptions.fromDict(response));
-          break;
-        case SignedCall.SignedCallOnM2PNotificationCancelCtaClicked:
-          handler(M2PCallOptions.fromDict(response));
           break;
       }
     });

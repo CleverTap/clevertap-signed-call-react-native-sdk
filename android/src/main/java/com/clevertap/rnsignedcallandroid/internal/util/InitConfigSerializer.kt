@@ -3,12 +3,8 @@ package com.clevertap.rnsignedcallandroid.internal.util
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.init.m2p.M2PConfiguration
 import com.clevertap.android.signedcall.init.m2p.M2PNotification
-import com.clevertap.android.signedcall.interfaces.M2PCancelCtaClickListener
-import com.clevertap.android.signedcall.interfaces.M2PNotificationClickListener
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
-import com.clevertap.rnsignedcallandroid.internal.Events.ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED
-import com.clevertap.rnsignedcallandroid.internal.Events.ON_M2P_NOTIFICATION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.handlers.MissedCallActionClickHandler
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.DARK_THEME
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_ACCOUNT_ID
@@ -22,8 +18,6 @@ import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_LOGO_URL
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_NAME
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_RINGTONE
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_SHOW_POWERED_BY_SIGNED_CALL
-import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
-import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWritableMap
 import com.clevertap.rnsignedcallandroid.internal.util.PushPrimerSerializer.parsePushPrimerConfigFromInitOptions
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.facebook.react.bridge.*
@@ -93,21 +87,6 @@ object InitConfigSerializer {
   @JvmStatic
   @Throws(Exception::class)
   fun getM2PConfigurationFromReadableMap(readableMap: ReadableMap, context: ReactContext): M2PConfiguration? {
-    val m2pNotificationClickListener = M2PNotificationClickListener { m2pContext, m2pCallOptions ->
-      EventEmitter.emit(
-        m2pContext,
-        ON_M2P_NOTIFICATION_CLICKED,
-        m2pCallOptions.toWritableMap())
-    }
-
-    val m2pCancelCtaClickListener = M2PCancelCtaClickListener { m2pContext, m2pCallOptions ->
-      EventEmitter.emit(
-        m2pContext,
-        ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED,
-        m2pCallOptions.toWritableMap()
-      )
-    }
-
     val title = readableMap.getString(Constants.KEY_TITLE)
     val subTitle = readableMap.getString(Constants.KEY_SUB_TITLE)
     val cancelCtaLabel = readableMap.getString(Constants.KEY_CANCEL_CTA_LABEL)
@@ -121,9 +100,6 @@ object InitConfigSerializer {
         this.largeIcon = largeIconResourceId
       this.cancelCtaLabel = cancelCtaLabel
     }
-
-    m2pNotification.registerClickListener(m2pNotificationClickListener)
-    m2pNotification.registerCancelCtaClickListener(m2pCancelCtaClickListener)
 
     // Build M2PConfiguration and return
     return M2PConfiguration.Builder(m2pNotification).build()

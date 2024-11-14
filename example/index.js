@@ -120,22 +120,6 @@ const activateHandlers = () => {
         console.log('SignedCallOnMissedCallActionClicked', result);
       }
     );
-
-    SignedCall.addListener(
-      SignedCall.SignedCallOnM2PNotificationClicked,
-      (result) => {
-        Toast.show('M2P Notif Clicked ,' + result.campaignId, Toast.LONG);
-        console.log('SignedCallOnM2PNotificationClicked', result);
-      }
-    );
-
-    SignedCall.addListener(
-      'SignedCallOnM2PNotificationCancelCtaClicked',
-      (result) => {
-        Toast.show('M2P Cancel Cta Clicked ,' + result.campaignId, Toast.LONG);
-        console.log('SignedCallOnM2PNotificationCancelCtaClicked', result);
-      }
-    );
   }
 };
 

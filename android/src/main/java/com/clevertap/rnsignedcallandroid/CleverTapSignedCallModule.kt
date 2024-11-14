@@ -10,8 +10,6 @@ import com.clevertap.android.signedcall.interfaces.OutgoingCallResponse
 import com.clevertap.android.signedcall.interfaces.SignedCallInitResponse
 import com.clevertap.android.signedcall.utils.SignedCallUtils
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_CALL_STATUS_CHANGED
-import com.clevertap.rnsignedcallandroid.internal.Events.ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED
-import com.clevertap.rnsignedcallandroid.internal.Events.ON_M2P_NOTIFICATION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
 import com.clevertap.rnsignedcallandroid.internal.util.InitConfigSerializer.getInitConfigFromReadableMap
@@ -59,9 +57,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   override fun getConstants(): MutableMap<String, String> =
       hashMapOf(
           ON_CALL_STATUS_CHANGED to ON_CALL_STATUS_CHANGED,
-          ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED,
-          ON_M2P_NOTIFICATION_CLICKED to ON_M2P_NOTIFICATION_CLICKED,
-          ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED to ON_M2P_NOTIFICATION_CANCEL_CTA_CLICKED
+          ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED
       )
 
   private fun getSignedCallAPI(): SignedCallAPI {
