@@ -138,9 +138,8 @@ object InitConfigSerializer {
         val initOptions: JSONObject = getInitOptionsFromReadableConfig(readableMap)
 
         val allowPersistSocketConnection: Boolean =
-          getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION) ?: throw IllegalArgumentException(
-            "allowPersistSocketConnection field is required"
-          )
+          getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION)
+            ?: true // For M2P SDK, there is no dependency on allowPersistSocketConnection field hence return true if not passed instead of returning an init-failure
 
         val promptReceiverReadPhoneStatePermission: Boolean =
           getValue(Constants.KEY_PROMPT_RECEIVER_READ_PHONE_STATE_PERMISSION) ?: false
