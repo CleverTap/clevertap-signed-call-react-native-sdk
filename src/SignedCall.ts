@@ -29,7 +29,7 @@ const eventEmitter = new NativeEventEmitter(CleverTapSignedCall);
  * @param {number} sdkVersion - The updated SDK version. /// If the current version is X.X.X then pass as X0X0X
  */
 const sdkName = 'ctscsdkversion-react-native';
-const sdkVersion = 5;
+const sdkVersion = 62;
 CleverTapSignedCall.trackSdkVersion(sdkName, sdkVersion);
 
 class SignedCall {
