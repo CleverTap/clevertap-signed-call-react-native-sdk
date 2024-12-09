@@ -1,6 +1,8 @@
 package com.clevertap.rnsignedcallandroid.internal.util
 
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
+import com.clevertap.android.signedcall.init.m2p.M2PConfiguration
+import com.clevertap.android.signedcall.init.m2p.M2PNotification
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
 import com.clevertap.rnsignedcallandroid.internal.handlers.MissedCallActionClickHandler
@@ -82,6 +84,28 @@ object InitConfigSerializer {
     }
   }
 
+  @JvmStatic
+  @Throws(Exception::class)
+  fun getM2PConfigurationFromReadableMap(readableMap: ReadableMap, context: ReactContext): M2PConfiguration? {
+    val title = readableMap.getString(Constants.KEY_TITLE)
+    val subTitle = readableMap.getString(Constants.KEY_SUB_TITLE)
+    val cancelCtaLabel = readableMap.getString(Constants.KEY_CANCEL_CTA_LABEL)
+    val largeIconResourceId = readableMap.getString(Constants.KEY_LARGE_ICON)?.let {
+      context.resources.getIdentifier(it, "drawable", context.packageName)
+    } ?: 0
+
+    // Initialize M2PNotification with extracted values
+    val m2pNotification = M2PNotification(title, subTitle).apply {
+      if(largeIconResourceId != 0)
+        this.largeIcon = largeIconResourceId
+      this.cancelCtaLabel = cancelCtaLabel
+    }
+
+    // Build M2PConfiguration and return
+    return M2PConfiguration.Builder(m2pNotification).build()
+  }
+
+
   /**
    * Retrieves the missed call actions from the input initProperties object and
    * parses into the list of [MissedCallAction]
@@ -107,16 +131,15 @@ object InitConfigSerializer {
    */
   @JvmStatic
   @Throws(Throwable::class)
-  fun getInitConfigFromReadableMap(readableMap: ReadableMap): SignedCallInitConfiguration? {
+  fun getInitConfigFromReadableMap(readableMap: ReadableMap, context: ReactContext): SignedCallInitConfiguration? {
     var initConfiguration: SignedCallInitConfiguration? = null
     readableMap.run {
       try {
         val initOptions: JSONObject = getInitOptionsFromReadableConfig(readableMap)
 
         val allowPersistSocketConnection: Boolean =
-          getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION) ?: throw IllegalArgumentException(
-            "allowPersistSocketConnection field is required"
-          )
+          getValue(Constants.KEY_ALLOW_PERSIST_SOCKET_CONNECTION)
+            ?: true // For M2P SDK, there is no dependency on allowPersistSocketConnection field hence return true if not passed instead of returning an init-failure
 
         val promptReceiverReadPhoneStatePermission: Boolean =
           getValue(Constants.KEY_PROMPT_RECEIVER_READ_PHONE_STATE_PERMISSION) ?: false
@@ -129,14 +152,22 @@ object InitConfigSerializer {
         val missedCallActionClickHandlerPath: String? =
           MissedCallActionClickHandler::class.java.canonicalName
 
-        val pushPrimerReadableConfig: ReadableMap? = readableMap.getValue(Constants.KEY_PROMPT_PUSH_PRIMER)
+        val pushPrimerReadableConfig: ReadableMap? =
+          readableMap.getValue(Constants.KEY_PROMPT_PUSH_PRIMER)
         val pushPrimerJson: JSONObject? = pushPrimerReadableConfig?.let {
           parsePushPrimerConfigFromInitOptions(pushPrimerReadableConfig)
+        }
+
+        val m2PConfigurationReadableMap: ReadableMap? =
+          readableMap.getValue(Constants.KEY_M2P_CONFIGURATION)
+        val m2PConfiguration = m2PConfigurationReadableMap?.let {
+          getM2PConfigurationFromReadableMap(m2PConfigurationReadableMap, context)
         }
 
         initConfiguration =
           SignedCallInitConfiguration.Builder(initOptions, allowPersistSocketConnection)
             .promptPushPrimer(pushPrimerJson)
+            .setM2PConfiguration(m2PConfiguration)
             .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
             .overrideDefaultBranding(callScreenBranding)
             .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath).build()

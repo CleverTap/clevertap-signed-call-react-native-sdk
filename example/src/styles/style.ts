@@ -22,8 +22,11 @@ const styles = StyleSheet.create({
     color: '#344055',
     fontWeight: '500',
   },
+  rowElement: {
+    flex: 1,
+  },
   inputContainer: {
-    marginTop: 20,
+    marginTop: 15,
   },
   horizontalAlignment: {
     flexDirection: 'row',
