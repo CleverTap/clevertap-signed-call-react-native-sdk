@@ -1,5 +1,15 @@
 # Change Log
 
+### Version 0.0.6.2-m2p (December 06, 2024)
+
+---
+
+**What's new**
+- **New Beta Feature: M2P (Machine-to-Person) Campaign**
+  - Supports M2P campaigns, allowing seamless interaction between machines and users.
+  
+  **Important Note**: This release is intended to support the M2P Campaign feature, which is currently in beta.
+ 
 ### Version 0.0.5 (February 08, 2024 )
 
 ---

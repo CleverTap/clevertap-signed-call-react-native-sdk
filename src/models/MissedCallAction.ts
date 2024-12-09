@@ -1,21 +1,32 @@
-import { CallDetails } from './CallDetails';
+import { CallOptions, CallOptionsUtils } from './CallOptions';
+import { CallType } from './CallType';
 
 /**
  * Represents the details associated to a CTA click of the missed call notification.
  */
 export class MissedCallActionClickResult {
   action: MissedCallNotificationAction;
-  callDetails: CallDetails;
+  callOptions: CallOptions;
+  callType: CallType;
 
-  constructor(action: MissedCallNotificationAction, callDetails: CallDetails) {
+  constructor(
+    action: MissedCallNotificationAction,
+    callType: CallType,
+    callOptions: CallOptions
+  ) {
     this.action = action;
-    this.callDetails = callDetails;
+    this.callType = callType;
+    this.callOptions = callOptions;
   }
 
   static fromDict(dict: any) {
     const action = MissedCallNotificationAction.fromDict(dict.action);
-    const callDetails = CallDetails.fromDict(dict.callDetails);
-    return new MissedCallActionClickResult(action, callDetails);
+    const callType = dict.callType === 'P2P' ? CallType.P2P : CallType.M2P;
+    const callOptions = CallOptionsUtils.fromDictAndCallType(
+      dict.callOptions,
+      callType
+    );
+    return new MissedCallActionClickResult(action, callType, callOptions);
   }
 }
 

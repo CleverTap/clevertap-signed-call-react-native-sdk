@@ -6,8 +6,9 @@ import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
 import { SignedCallLogger } from './utils/SignedCallLogger';
 import { Constants } from './Constants';
-import { CallDirection, CallEventResult } from './models/CallEventResult';
-import { CallEvent } from './models/CallEvent';
+import { CallDirection, CallStatusDetails } from './models/CallStatusDetails';
+import { CallType } from './models/CallType';
+import { CallStatus } from './models/CallStatus';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -28,7 +29,7 @@ const eventEmitter = new NativeEventEmitter(CleverTapSignedCall);
  * @param {number} sdkVersion - The updated SDK version. /// If the current version is X.X.X then pass as X0X0X
  */
 const sdkName = 'ctscsdkversion-react-native';
-const sdkVersion = 5;
+const sdkVersion = 62;
 CleverTapSignedCall.trackSdkVersion(sdkName, sdkVersion);
 
 class SignedCall {
@@ -125,7 +126,7 @@ class SignedCall {
     eventEmitter.addListener(eventName, (response: any) => {
       switch (eventName) {
         case SignedCall.SignedCallOnCallStatusChanged:
-          handler(CallEventResult.fromDict(response));
+          handler(CallStatusDetails.fromDict(response));
           break;
         case SignedCall.SignedCallOnMissedCallActionClicked:
           handler(MissedCallActionClickResult.fromDict(response));
@@ -148,8 +149,9 @@ export {
   SignedCall,
   SignedCallResponse,
   LogLevel,
-  CallEvent,
-  CallEventResult,
+  CallStatus,
+  CallStatusDetails,
+  CallType,
   CallDirection,
   MissedCallActionClickResult,
 };
