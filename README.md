@@ -18,9 +18,15 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
 - To add the **CleverTap Signed Call React Native SDK** to your project, run below command on terminal:
 
-```text
-npm install @clevertap/clevertap-signed-call-react-native@0.0.6.2-m2p
-```
+    - For P2P Feature:
+    ```text
+        npm install @clevertap/clevertap-signed-call-react-native
+    ```
+
+    - For M2P Feature:
+    ```text
+        npm install @clevertap/clevertap-signed-call-react-native@0.0.6-m2p.2
+    ```
 
 - Now, in your TypeScript or JavaScript code, you can use:
 
