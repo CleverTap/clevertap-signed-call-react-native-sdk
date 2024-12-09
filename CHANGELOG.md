@@ -1,6 +1,6 @@
 # Change Log
 
-### Version 0.0.6.2-m2p (December 06, 2024)
+### Version 0.0.6.2-m2p (December 09, 2024)
 
 ---
 
