@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.homepage     = package["homepage"]
   s.license      = package["license"]
   s.authors      = package["author"]
-c
+
   s.platforms    = { :ios => "10.0" }
   s.source       = { :git => "https://github.com/CleverTap/clevertap-signed-call-react-native-sdk.git", :tag => "#{s.version}" }
 
