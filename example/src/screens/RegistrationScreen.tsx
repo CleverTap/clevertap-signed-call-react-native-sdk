@@ -93,7 +93,7 @@ export default function RegistrationPage({ navigation }: any) {
     ) {
       Alert.alert(
         'Setup Required for SC SDK initialization!',
-        'Replace the AccountId and ApiKey of your Signed Call Account in the example/src/Constants'
+        'Replace the AccountId and ApiKey of your Signed Call Account in the example/.env file'
       );
       return;
     }

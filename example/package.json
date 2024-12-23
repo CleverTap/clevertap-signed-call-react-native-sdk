@@ -22,6 +22,7 @@
     "clevertap-react-native": "^1.0.2",
     "react": "18.1.0",
     "react-native": "0.70.6",
+    "react-native-dotenv": "^3.4.11",
     "react-native-permissions": "^3.8.0",
     "react-native-safe-area-context": "^4.5.0",
     "react-native-screens": "^3.20.0",
@@ -32,6 +33,7 @@
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.21.0",
     "@types/react": "^18.0.28",
+    "@types/react-native-dotenv": "^0.2.2",
     "babel-plugin-module-resolver": "^4.1.0",
     "metro-react-native-babel-preset": "0.72.3"
   }
