@@ -972,9 +972,9 @@
     superstruct "^0.6.2"
 
 "@react-native-firebase/crashlytics@^20.1.0":
-  version "20.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-20.1.0.tgz#4701c6d0db892d2b25c3b9810c1ad1ba84f38021"
-  integrity sha512-tAxBFFR9yPLLs4KYaxRKCBWFbihMvCJuMZFJY/P3T02ai0VE7lD/hzwaNXiWPz5kqjoZEugnrpU2kK1G9Xw8Bg==
+  version "20.5.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/crashlytics/-/crashlytics-20.5.0.tgz#cef8408b79fccce1dd6519c0b526bca07c828549"
+  integrity sha512-HXnxv5XrLW4zMWIGBbQZqyHKEqimvr4SULtk9J694WHOvPnXClibwXTAYzHV7WmZ3ypwUwbVJFrGJ1IdOb+Aaw==
   dependencies:
     stacktrace-js "^2.0.2"
 
