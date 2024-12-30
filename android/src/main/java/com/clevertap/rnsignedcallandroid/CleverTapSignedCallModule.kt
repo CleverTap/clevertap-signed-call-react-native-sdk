@@ -9,6 +9,7 @@ import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.interfaces.OutgoingCallResponse
 import com.clevertap.android.signedcall.interfaces.SignedCallInitResponse
 import com.clevertap.android.signedcall.utils.SignedCallUtils
+import com.clevertap.rnsignedcallandroid.internal.Events
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_CALL_STATUS_CHANGED
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
@@ -74,6 +75,11 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
       SignedCallAPI.getInstance().registerVoIPCallStatusListener { data ->
         log(message = "SignedCallOnCallStatusListener is invoked in foreground or background: $data")
         EventEmitter.emit(context, ON_CALL_STATUS_CHANGED, data.toWriteableMap())
+      }
+
+      SignedCallAPI.getInstance().setMissedCallNotificationOpenedHandler { _, data ->
+        log(message = "MissedCallNotificationOpenedHandler is invoked in foreground or background: $data")
+        EventEmitter.emit(context, ON_MISSED_CALL_ACTION_CLICKED, data.toWriteableMap())
       }
     }
   }
