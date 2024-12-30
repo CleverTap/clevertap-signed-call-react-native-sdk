@@ -9,7 +9,6 @@ import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.interfaces.OutgoingCallResponse
 import com.clevertap.android.signedcall.interfaces.SignedCallInitResponse
 import com.clevertap.android.signedcall.utils.SignedCallUtils
-import com.clevertap.rnsignedcallandroid.internal.Events
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_CALL_STATUS_CHANGED
 import com.clevertap.rnsignedcallandroid.internal.Events.ON_MISSED_CALL_ACTION_CLICKED
 import com.clevertap.rnsignedcallandroid.internal.events.EventEmitter
@@ -20,7 +19,12 @@ import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toSigned
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.clevertap.rnsignedcallandroid.internal.util.toJson
-import com.facebook.react.bridge.*
+import com.facebook.react.bridge.Promise
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.ReactContext
+import com.facebook.react.bridge.ReactContextBaseJavaModule
+import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.ReadableMap
 
 class CleverTapSignedCallModule(private val reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {

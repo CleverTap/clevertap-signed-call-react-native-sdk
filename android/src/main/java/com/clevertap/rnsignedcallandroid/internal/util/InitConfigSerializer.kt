@@ -4,7 +4,6 @@ import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration.SCSwipeOffBehaviour
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
-import com.clevertap.rnsignedcallandroid.internal.handlers.MissedCallActionClickHandler
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.DARK_THEME
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_ACCOUNT_ID
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_API_KEY
