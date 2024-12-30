@@ -145,9 +145,6 @@ object InitConfigSerializer {
         val missedCallActionsList: List<MissedCallAction>? =
           getMissedCallActionsFromReadableConfig(readableMap)
 
-        val missedCallActionClickHandlerPath: String? =
-          MissedCallActionClickHandler::class.java.canonicalName
-
         val pushPrimerReadableConfig: ReadableMap? = readableMap.getValue(Constants.KEY_PROMPT_PUSH_PRIMER)
         val pushPrimerJson: JSONObject? = pushPrimerReadableConfig?.let {
           parsePushPrimerConfigFromInitOptions(pushPrimerReadableConfig)
@@ -163,7 +160,7 @@ object InitConfigSerializer {
             .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
             .setNotificationPermissionRequired(notificationPermissionRequired)
             .overrideDefaultBranding(callScreenBranding)
-            .setMissedCallActions(missedCallActionsList, missedCallActionClickHandlerPath)
+            .setMissedCallActions(missedCallActionsList)
             .setSwipeOffBehaviourInForegroundService(swipeOffBehaviour)
             .build()
       } catch (throwable: Throwable) {
