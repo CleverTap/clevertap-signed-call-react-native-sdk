@@ -13,7 +13,7 @@ import com.clevertap.rnsignedcallandroid.internal.util.Utils
 /**
  * Missed Call CTA handler for SignedCall Missed Call Notifications
  */
-internal class MissedCallActionClickHandler : MissedCallNotificationOpenedHandler {
+internal open class MissedCallActionClickHandler : MissedCallNotificationOpenedHandler {
 
   /**
    * Gets called from the SC SDK when the user taps on the missed call CTA
