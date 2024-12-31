@@ -18,6 +18,13 @@ object Constants {
     "callScreenOnSignalling"
   const val KEY_SWIPE_OFF_BEHAVIOUR_IN_FOREGROUND_SERVICE =
     "swipeOffBehaviourInForegroundService"
+  const val KEY_FCM_PROCESSING_MODE =
+    "fcmProcessingMode"
+  const val KEY_FCM_NOTIFICATION = "fcmProcessingNotification"
+  const val KEY_FCM_NOTIFICATION_TITLE = "title"
+  const val KEY_FCM_NOTIFICATION_SUBTITLE = "subtitle"
+  const val KEY_FCM_NOTIFICATION_LARGE_ICON = "largeIcon"
+  const val KEY_FCM_NOTIFICATION_CANCEL_CTA_LABEL = "cancelCtaLabel"
   const val KEY_OVERRIDE_DEFAULT_BRANDING = "overrideDefaultBranding"
   const val KEY_MISSED_CALL_ACTIONS = "missedCallActions"
   const val KEY_BG_COLOR = "bgColor"
