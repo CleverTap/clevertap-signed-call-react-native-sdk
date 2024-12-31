@@ -25,6 +25,8 @@ const DialerScreen = ({ route, navigation }: any) => {
 
   const [receiverCuid, setReceiverCuid] = React.useState('');
   const [callContext, setCallContext] = React.useState('');
+  const [remoteCallContext, setRemoteCallContext] = React.useState(null);
+
   const [isForegroundServiceRunning, setForegroundServiceRunning] =
     React.useState(false);
 
@@ -44,12 +46,13 @@ const DialerScreen = ({ route, navigation }: any) => {
   }
 
   function initiateVoIPCall() {
-    /*let callProperties = {
-      initiator_image: '<image-url>',
-      receiver_image: '<image-url>',
-    };*/
+    let callProperties: { [k: string]: any } = {};
 
-    SignedCall.call(receiverCuid, callContext)
+    if (remoteCallContext) {
+      callProperties.remote_context = remoteCallContext;
+    }
+
+    SignedCall.call(receiverCuid, callContext, callProperties)
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           console.log('VoIP call is placed successfully', response);
@@ -107,7 +110,7 @@ const DialerScreen = ({ route, navigation }: any) => {
             setReceiverCuid(text);
           }}
         />
-        <View style={{ height: 20 }} />
+        <View style={{ height: 10 }} />
         <Text>Enter context of call</Text>
         <TextInput
           style={styles.inputStyle}
@@ -116,6 +119,17 @@ const DialerScreen = ({ route, navigation }: any) => {
           value={callContext}
           onChangeText={(text) => {
             setCallContext(text);
+          }}
+        />
+        <View style={{ height: 10 }} />
+        <Text>Enter remote context of call</Text>
+        <TextInput
+          style={styles.inputStyle}
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={remoteCallContext}
+          onChangeText={(text) => {
+            setRemoteCallContext(text);
           }}
         />
         {Platform.OS === 'android' && (

@@ -9,12 +9,11 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '60%',
-    height: '25%',
+    height: '20%',
     resizeMode: 'contain',
     alignSelf: 'center',
   },
   mainSection: {
-    marginTop: 10,
     justifyContent: 'center',
   },
   mainHeader: {
