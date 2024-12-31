@@ -184,8 +184,8 @@ export default function RegistrationPage({ navigation }: any) {
   }
 
   const toggleButtonTheme = () => {
-    let newTheme;
-    let themeText;
+    let newTheme: any;
+    let themeText: any;
     const black = '#000000';
     const white = '#ffffff';
 
@@ -349,7 +349,8 @@ export default function RegistrationPage({ navigation }: any) {
     }
 
     if (buttonTheme) {
-      callScreenBranding.buttonTheme = buttonTheme;
+      callScreenBranding.buttonTheme =
+        buttonTheme === '#000000' ? 'dark' : 'light';
     }
 
     if (buttonColors.ccColor) {
