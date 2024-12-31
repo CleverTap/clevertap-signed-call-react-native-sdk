@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   image: {
-    width: '80%',
+    width: '60%',
     height: '25%',
     resizeMode: 'contain',
     alignSelf: 'center',
@@ -59,6 +59,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  },
+  colorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    padding: 4,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#CCC',
+  },
+  button: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#CCC',
+  },
+  buttonText: {
+    color: '#F24C54',
+    fontSize: 12,
+  },
+  separator: {
+    fontSize: 24,
+    color: '#CCC',
   },
 });
 

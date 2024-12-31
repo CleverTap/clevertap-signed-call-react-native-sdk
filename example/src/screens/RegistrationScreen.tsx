@@ -9,6 +9,7 @@ import {
   Keyboard,
   Platform,
   Switch,
+  TouchableOpacity,
 } from 'react-native';
 import { useState } from 'react';
 import styles from '../styles/style';
@@ -36,6 +37,26 @@ export default function RegistrationPage({ navigation }: any) {
   const [swipeOffBehaviour, setSwipeOffBehaviour] = useState(
     SCSwipeOffBehaviour.EndCall
   );
+
+  const [buttonColors, setButtonColors] = useState({
+    fontColor: undefined,
+    bgColor: undefined,
+    ccColor: undefined,
+    btnTheme: undefined,
+  });
+  const [buttonTheme, setButtonTheme] = useState(null);
+  const [logoUrl, setLogoUrl] = useState('');
+
+  const generateRandomColor = () => {
+    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+  };
+
+  const handleColorChange = (buttonKey: any) => {
+    setButtonColors((prevColors) => ({
+      ...prevColors,
+      [buttonKey]: generateRandomColor(),
+    }));
+  };
 
   const checkLoggedInState = async () => {
     try {
@@ -116,10 +137,6 @@ export default function RegistrationPage({ navigation }: any) {
           AsyncStorage.setItem(Constants.KEY_LOGGED_IN_CUID, cuid);
           AsyncStorage.setItem(
             Constants.KEY_CAN_HIDE_POWERED_BY_SIGNED_CALL,
-            cuid
-          );
-          AsyncStorage.setItem(
-            Constants.KEY_CAN_HIDE_POWERED_BY_SIGNED_CALL,
             canHidePoweredBySignedCall.toString()
           );
           AsyncStorage.setItem(
@@ -166,6 +183,27 @@ export default function RegistrationPage({ navigation }: any) {
     CleverTap.removeListener(CleverTap.CleverTapPushPermissionResponseReceived);
   }
 
+  const toggleButtonTheme = () => {
+    let newTheme;
+    let themeText;
+    const black = '#000000';
+    const white = '#ffffff';
+
+    if (buttonTheme === null || buttonTheme === white) {
+      newTheme = black;
+      themeText = 'BLACK THEME';
+    } else if (buttonTheme === black) {
+      newTheme = white;
+      themeText = 'WHITE THEME';
+    }
+
+    setButtonTheme(newTheme); // Set new theme
+    setButtonColors((prevColors) => ({
+      ...prevColors,
+      btnTheme: newTheme,
+    }));
+  };
+
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.mainHeader}>CUID Registration</Text>
@@ -179,10 +217,20 @@ export default function RegistrationPage({ navigation }: any) {
           style={styles.inputStyle}
           autoCapitalize="none"
           autoCorrect={false}
+          placeholder="Enter user name"
           value={cuid}
           onChangeText={(text) => {
             setCuid(text);
           }}
+        />
+        <Text>Brand Logo (Optional)</Text>
+        <TextInput
+          style={styles.inputStyle}
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="Enter logo URL"
+          value={logoUrl}
+          onChangeText={(text) => setLogoUrl(text)}
         />
         <View style={styles.horizontalAlignment}>
           <Text style={{ textAlign: 'center', fontSize: 12 }}>
@@ -203,7 +251,7 @@ export default function RegistrationPage({ navigation }: any) {
           </Text>
           <Switch
             trackColor={{ false: '#767577', true: '#008000' }}
-            thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
+            thumbColor={notificationPermissionRequired ? '#f4f3f4' : '#FFFFFF'}
             ios_backgroundColor="#3e3e3e"
             onValueChange={(required) =>
               setNotificationPermissionRequired(required)
@@ -234,6 +282,41 @@ export default function RegistrationPage({ navigation }: any) {
             }
           />
         </View>
+        <View style={styles.colorRow}>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: buttonColors.fontColor }]}
+            onPress={() => handleColorChange('fontColor')}
+          >
+            <Text style={styles.buttonText}>Font Color</Text>
+          </TouchableOpacity>
+          <Text style={styles.separator}>|</Text>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: buttonColors.bgColor }]}
+            onPress={() => handleColorChange('bgColor')}
+          >
+            <Text style={styles.buttonText}>Bg Color</Text>
+          </TouchableOpacity>
+          <Text style={styles.separator}>|</Text>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: buttonColors.ccColor }]}
+            onPress={() => handleColorChange('ccColor')}
+          >
+            <Text style={styles.buttonText}>CC Color</Text>
+          </TouchableOpacity>
+          <Text style={styles.separator}>|</Text>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: buttonColors.btnTheme }]}
+            onPress={toggleButtonTheme}
+          >
+            <Text style={styles.buttonText}>
+              {buttonTheme === null
+                ? 'No Theme'
+                : buttonTheme === '#000000'
+                ? 'BLACK THEME'
+                : 'WHITE THEME'}
+            </Text>
+          </TouchableOpacity>
+        </View>
         {loading && <Loader />}
         <View style={styles.buttonContainer}>
           <Button
@@ -251,14 +334,31 @@ export default function RegistrationPage({ navigation }: any) {
   );
 
   function getInitProperties(): any {
-    let callScreenBranding = {
-      bgColor: '#000000',
-      fontColor: '#ffffff', ///The color of the text displayed on the call screens
-      logoUrl:
-        'https://sk1-dashboard-staging-21.dashboard.clevertap.com/images/ct-favicon.png', ///The image URL that renders on the call screens.
-      buttonTheme: 'light', ///The theme of the control buttons shown on the ongoing call screen(i.e. Mute, Speaker and Bluetooth)
-      showPoweredBySignedCall: !canHidePoweredBySignedCall, //optional
-    };
+    let callScreenBranding: { [k: string]: any } = {};
+
+    if (buttonColors.bgColor) {
+      callScreenBranding.bgColor = buttonColors.bgColor;
+    }
+
+    if (buttonColors.fontColor) {
+      callScreenBranding.fontColor = buttonColors.fontColor;
+    }
+
+    if (logoUrl) {
+      callScreenBranding.logoUrl = logoUrl;
+    }
+
+    if (buttonTheme) {
+      callScreenBranding.buttonTheme = buttonTheme;
+    }
+
+    if (buttonColors.ccColor) {
+      callScreenBranding.cancelCountdownColor = buttonColors.ccColor;
+    }
+
+    if (canHidePoweredBySignedCall) {
+      callScreenBranding.showPoweredBySignedCall = !canHidePoweredBySignedCall;
+    }
 
     let initProperties: { [k: string]: any } = {
       accountId: Constants.SC_ACCOUNT_ID,
