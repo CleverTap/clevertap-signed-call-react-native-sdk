@@ -35,6 +35,7 @@ object Constants {
   const val KEY_SHOW_POWERED_BY_SIGNED_CALL = "showPoweredBySignedCall"
   const val KEY_RECEIVER_CUID = "receiverCuid"
   const val KEY_CALL_CONTEXT = "callContext"
+  const val KEY_CHANNEL = "channel"
   const val KEY_INITIATOR_IMAGE = "initiatorImage"
   const val KEY_RECEIVER_IMAGE = "receiverImage"
   const val KEY_REMOTE_CONTEXT = "remoteContext"
