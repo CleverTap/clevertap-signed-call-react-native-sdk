@@ -10,6 +10,7 @@ import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_API_KEY
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_APP_ID
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_BG_COLOR
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_BUTTON_THEME
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_CANCEL_COUNTDOWN_COLOR
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_CUID
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_FONT_COLOR
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_LOGO_URL
@@ -65,18 +66,28 @@ object InitConfigSerializer {
       val logoUrl: String? = it.getValue(KEY_LOGO_URL)
       val buttonTheme: String? = it.getValue(KEY_BUTTON_THEME)
       val showPoweredBySignedCall: Boolean? = it.getValue(KEY_SHOW_POWERED_BY_SIGNED_CALL)
+      val cancelCountdownColor: String? = it.getValue(KEY_CANCEL_COUNTDOWN_COLOR)
 
-      val callScreenBranding = SignedCallScreenBranding(
-        bgColor,
-        fontColor,
-        logoUrl,
-        if (buttonTheme == DARK_THEME) SignedCallScreenBranding.ButtonTheme.DARK
-        else SignedCallScreenBranding.ButtonTheme.LIGHT
-      )
-      if (showPoweredBySignedCall != null) {
-        callScreenBranding.showPoweredBySignedCall = showPoweredBySignedCall
+      val callScreenBranding = SignedCallScreenBranding.Builder()
+        .setBgColor(bgColor)
+        .setFontColor(fontColor)
+        .setLogoUrl(logoUrl)
+        .setCancelCountdownColor(cancelCountdownColor)
+
+      if (buttonTheme != null) {
+        callScreenBranding.setButtonTheme(
+          if (DARK_THEME == buttonTheme)
+            SignedCallScreenBranding.ButtonTheme.DARK
+          else
+            SignedCallScreenBranding.ButtonTheme.LIGHT
+        )
       }
-      return callScreenBranding
+
+      if (showPoweredBySignedCall != null) {
+        callScreenBranding.setShowPoweredBySignedCall(showPoweredBySignedCall)
+      }
+
+      return callScreenBranding.build()
     } ?: run {
       return null
     }
