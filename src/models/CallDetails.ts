@@ -6,6 +6,7 @@ export class CallDetails {
   callContext: string;
   initiatorImage: string | undefined;
   receiverImage: string | undefined;
+  remoteContext: string | undefined;
 
   constructor(callerCuid: string, calleeCuid: string, callContext: string) {
     this.callerCuid = callerCuid;
@@ -22,6 +23,8 @@ export class CallDetails {
     callDetails.callId = dict.callId;
     callDetails.initiatorImage = dict.initiatorImage;
     callDetails.receiverImage = dict.receiverImage;
+    callDetails.remoteContext = dict.remoteContext;
+
     return callDetails;
   }
 }
