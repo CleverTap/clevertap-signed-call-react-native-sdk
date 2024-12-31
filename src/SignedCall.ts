@@ -17,6 +17,10 @@ import {
   FcmProcessingMode,
   FcmProcessingModeUtil,
 } from './models/FcmProcessingMode';
+import {
+  SignalingChannel,
+  SignalingChannelUtil,
+} from './models/SignalingChannel';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -172,6 +176,8 @@ export {
   SCSwipeOffBehaviourUtil,
   FcmProcessingMode,
   FcmProcessingModeUtil,
+  SignalingChannel,
+  SignalingChannelUtil,
   CallEventResult,
   CallDirection,
   MissedCallActionClickResult,
