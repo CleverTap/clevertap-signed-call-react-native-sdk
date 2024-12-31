@@ -82,9 +82,10 @@ internal object PayloadConverter {
    *
    * @return A formatted call event string.
    */
-  private fun VoIPCallStatus.formattedCallEvent(): String? {
+  private fun VoIPCallStatus.formattedCallEvent(): String {
     return when (this) {
       VoIPCallStatus.CALL_IS_PLACED -> "CallIsPlaced"
+      VoIPCallStatus.CALL_RINGING -> "Ringing"
       VoIPCallStatus.CALL_CANCELLED -> "Cancelled"
       VoIPCallStatus.CALL_DECLINED -> "Declined"
       VoIPCallStatus.CALL_MISSED -> "Missed"
@@ -95,10 +96,18 @@ internal object PayloadConverter {
       VoIPCallStatus.CALL_DECLINED_DUE_TO_LOGGED_OUT_CUID -> "DeclinedDueToLoggedOutCuid"
       VoIPCallStatus.CALL_DECLINED_DUE_TO_NOTIFICATIONS_DISABLED -> "DeclinedDueToNotificationsDisabled"
       VoIPCallStatus.CALLEE_MICROPHONE_PERMISSION_NOT_GRANTED -> "DeclinedDueToMicrophonePermissionsNotGranted"
+      VoIPCallStatus.CALLEE_MICROPHONE_PERMISSION_BLOCKED -> "DeclinedDueToMicrophonePermissionBlocked"
       VoIPCallStatus.CALL_DECLINED_DUE_TO_BUSY_ON_VOIP -> "DeclinedDueToBusyOnVoIP"
       VoIPCallStatus.CALL_DECLINED_DUE_TO_BUSY_ON_PSTN -> "DeclinedDueToBusyOnPSTN"
       VoIPCallStatus.CALL_CANCELLED_DUE_TO_RING_TIMEOUT -> "CancelledDueToRingTimeout"
-      else -> null
+      VoIPCallStatus.APP_INITIATED_CALL_DECLINED_DUE_TO_NETWORK_QUALITY -> "AppInitiatedDeclinedDueToNetworkQuality"
+      VoIPCallStatus.USER_INITIATED_CALL_DECLINED_ON_CANCEL_CTA -> "UserInitiatedDeclinedOnCancelCta"
+      VoIPCallStatus.CALL_FAILED_DUE_TO_INTERNAL_ERROR -> "FailedDueToInternalError"
+      VoIPCallStatus.CALL_OVER_DUE_TO_LOCAL_NETWORK_LOSS -> "EndedDueToLocalNetworkLoss"
+      VoIPCallStatus.CALL_OVER_DUE_TO_REMOTE_NETWORK_LOSS -> "EndedDueToRemoteNetworkLoss"
+      VoIPCallStatus.CALL_OVER_DUE_TO_PROTOCOL_MISMATCH -> "EndedDueToProtocolMismatch"
+      VoIPCallStatus.CALL_OVER_DUE_TO_NETWORK_DELAY_IN_MEDIA_SETUP -> "EndedDueToNetworkDelayInMediaSetup"
+      else -> this.name
     }
   }
 
