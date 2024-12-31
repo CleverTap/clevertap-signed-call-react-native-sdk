@@ -28,6 +28,7 @@ object Constants {
   const val KEY_CALL_CONTEXT = "callContext"
   const val KEY_INITIATOR_IMAGE = "initiatorImage"
   const val KEY_RECEIVER_IMAGE = "receiverImage"
+  const val KEY_REMOTE_CONTEXT = "remoteContext"
   const val KEY_ERROR_CODE = "errorCode"
   const val KEY_ERROR_MESSAGE = "errorMessage"
   const val KEY_ERROR_DESCRIPTION = "errorDescription"
