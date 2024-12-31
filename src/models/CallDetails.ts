@@ -1,7 +1,7 @@
 import { SignalingChannel, SignalingChannelUtil } from './SignalingChannel';
 
 //Contains details about the missed call
-export class c {
+export class CallDetails {
   callId: string | undefined;
   callerCuid: string;
   calleeCuid: string;
