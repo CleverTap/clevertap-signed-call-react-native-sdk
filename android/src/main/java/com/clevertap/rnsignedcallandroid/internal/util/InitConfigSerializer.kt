@@ -162,6 +162,8 @@ object InitConfigSerializer {
 
         val notificationPermissionRequired: Boolean = getValue(Constants.KEY_NOTIFICATION_PERMISSION_REQUIRED) ?: true
 
+        val callScreenOnSignalling = getValue(Constants.KEY_CALL_SCREEN_ON_SIGNALLING) ?: false
+
         val swipeOffBehaviour: SCSwipeOffBehaviour = getSwipeOffBehaviourFromReadableConfig(readableMap)
 
         initConfiguration =
@@ -169,6 +171,7 @@ object InitConfigSerializer {
             .promptPushPrimer(pushPrimerJson)
             .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
             .setNotificationPermissionRequired(notificationPermissionRequired)
+            .callScreenOnSignalling(callScreenOnSignalling)
             .overrideDefaultBranding(callScreenBranding)
             .setMissedCallActions(missedCallActionsList)
             .setSwipeOffBehaviourInForegroundService(swipeOffBehaviour)
