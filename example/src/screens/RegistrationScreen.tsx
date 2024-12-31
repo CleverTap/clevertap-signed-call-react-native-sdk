@@ -30,6 +30,7 @@ export default function RegistrationPage({ navigation }: any) {
   const [cuid, setCuid] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [callScreenOnSignalling, setCallScreenOnSignalling] = useState(false);
   const [canHidePoweredBySignedCall, setHidePoweredBySignedCall] =
     useState(false);
   const [notificationPermissionRequired, setNotificationPermissionRequired] =
@@ -234,6 +235,18 @@ export default function RegistrationPage({ navigation }: any) {
         />
         <View style={styles.horizontalAlignment}>
           <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Show loading screen
+          </Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#008000' }}
+            thumbColor={callScreenOnSignalling ? '#f4f3f4' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(value) => setCallScreenOnSignalling(value)}
+            value={callScreenOnSignalling}
+          />
+        </View>
+        <View style={styles.horizontalAlignment}>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
             Hide Powered By Signed Call
           </Text>
           <Switch
@@ -375,6 +388,7 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.missedCallActions = {
         '123': 'call me back',
       };
+      initProperties.callScreenOnSignalling = callScreenOnSignalling;
       initProperties.notificationPermissionRequired =
         notificationPermissionRequired;
 
