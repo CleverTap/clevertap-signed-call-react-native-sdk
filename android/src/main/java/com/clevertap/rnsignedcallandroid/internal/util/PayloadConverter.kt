@@ -121,6 +121,7 @@ internal object PayloadConverter {
       SCCallState.OUTGOING_CALL -> "OutgoingCall"
       SCCallState.INCOMING_CALL -> "IncomingCall"
       SCCallState.ONGOING_CALL -> "OngoingCall"
+      SCCallState.CLEANUP_CALL -> "CleanupCall"
       SCCallState.NO_CALL -> "NoCall"
       else -> null
     }
