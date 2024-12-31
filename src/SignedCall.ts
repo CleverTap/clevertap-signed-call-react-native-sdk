@@ -13,6 +13,10 @@ import {
   SCSwipeOffBehaviour,
   SCSwipeOffBehaviourUtil,
 } from './models/SCSwipeOffBehaviour';
+import {
+  FcmProcessingMode,
+  FcmProcessingModeUtil,
+} from './models/FcmProcessingMode';
 
 const CleverTapSignedCall = NativeModules.CleverTapSignedCall
   ? NativeModules.CleverTapSignedCall
@@ -166,6 +170,8 @@ export {
   SCCallState,
   SCSwipeOffBehaviour,
   SCSwipeOffBehaviourUtil,
+  FcmProcessingMode,
+  FcmProcessingModeUtil,
   CallEventResult,
   CallDirection,
   MissedCallActionClickResult,
