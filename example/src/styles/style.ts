@@ -8,17 +8,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   image: {
-    width: '80%',
-    height: '25%',
+    width: '50%',
+    height: '20%',
     resizeMode: 'contain',
     alignSelf: 'center',
   },
   mainSection: {
-    marginTop: 10,
     justifyContent: 'center',
   },
   mainHeader: {
-    fontSize: 24,
+    fontSize: 21,
     textAlign: 'center',
     color: '#344055',
     fontWeight: '500',
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
   },
   horizontalAlignment: {
     flexDirection: 'row',
-    marginTop: 15,
+    marginTop: 10,
     alignItems: 'center',
   },
   inputStyle: {
@@ -59,6 +58,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.7)',
+  },
+  colorRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+    padding: 4,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#CCC',
+  },
+  button: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#CCC',
+  },
+  buttonText: {
+    color: '#F24C54',
+    fontSize: 12,
+  },
+  separator: {
+    fontSize: 24,
+    color: '#CCC',
   },
 });
 
