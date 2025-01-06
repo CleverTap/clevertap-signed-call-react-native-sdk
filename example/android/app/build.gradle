@@ -2,6 +2,14 @@ apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+  localPropertiesFile.withInputStream { stream ->
+    localProperties.load(stream)
+  }
+}
+
 import com.android.build.OutputFile
 
 /**
@@ -142,6 +150,15 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+        buildConfigField "String", "CLEVERTAP_ACCOUNT_ID", "\"${localProperties.getProperty('CLEVERTAP_ACCOUNT_ID')}\""
+        buildConfigField "String", "CLEVERTAP_TOKEN", "\"${localProperties.getProperty('CLEVERTAP_TOKEN')}\""
+        buildConfigField "String", "CLEVERTAP_REGION", "\"${localProperties.getProperty('CLEVERTAP_REGION')}\""
+
+        manifestPlaceholders = [
+          CLEVERTAP_ACCOUNT_ID: localProperties.getProperty('CLEVERTAP_ACCOUNT_ID', ''),
+          CLEVERTAP_TOKEN    : localProperties.getProperty('CLEVERTAP_TOKEN', ''),
+          CLEVERTAP_REGION   : localProperties.getProperty('CLEVERTAP_REGION', '')
+        ]
 
         if (isNewArchitectureEnabled()) {
             // We configure the CMake build only if you decide to opt-in for the New Architecture.
@@ -255,9 +272,9 @@ dependencies {
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
-    implementation "com.clevertap.android:clevertap-android-sdk:6.2.0"
+    implementation "com.clevertap.android:clevertap-android-sdk:6.2.1"
     implementation 'com.google.firebase:firebase-crashlytics'
-    implementation "com.clevertap.android:clevertap-signedcall-sdk:0.0.5.5"
+    implementation "com.clevertap.android:clevertap-signedcall-sdk:0.0.7.6"
     // implementation project (":clevertap-signedcall")
     implementation('io.socket:socket.io-client:2.1.0') {
       exclude group: 'org.json', module: 'json'
