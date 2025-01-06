@@ -19,6 +19,11 @@ open class SignedCallOnCallStatusListener {
         log(message = "SignedCallOnCallStatusListener is invoked in killed state: $data")
         EventEmitter.emit(context, Events.ON_CALL_STATUS_CHANGED, data.toWriteableMap())
       }
+
+      SignedCallAPI.getInstance().setMissedCallNotificationOpenedHandler { _, data ->
+        log(message = "MissedCallNotificationOpenedHandler is invoked in killed state: $data")
+        EventEmitter.emit(context, Events.ON_MISSED_CALL_ACTION_CLICKED, data.toWriteableMap())
+      }
     }
   }
 }
