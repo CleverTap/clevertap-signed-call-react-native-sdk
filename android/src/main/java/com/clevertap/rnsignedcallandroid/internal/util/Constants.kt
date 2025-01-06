@@ -18,6 +18,13 @@ object Constants {
     "callScreenOnSignalling"
   const val KEY_SWIPE_OFF_BEHAVIOUR_IN_FOREGROUND_SERVICE =
     "swipeOffBehaviourInForegroundService"
+  const val KEY_FCM_PROCESSING_MODE =
+    "fcmProcessingMode"
+  const val KEY_FCM_NOTIFICATION = "fcmProcessingNotification"
+  const val KEY_FCM_NOTIFICATION_TITLE = "title"
+  const val KEY_FCM_NOTIFICATION_SUBTITLE = "subtitle"
+  const val KEY_FCM_NOTIFICATION_LARGE_ICON = "largeIcon"
+  const val KEY_FCM_NOTIFICATION_CANCEL_CTA_LABEL = "cancelCtaLabel"
   const val KEY_OVERRIDE_DEFAULT_BRANDING = "overrideDefaultBranding"
   const val KEY_MISSED_CALL_ACTIONS = "missedCallActions"
   const val KEY_BG_COLOR = "bgColor"
@@ -28,6 +35,7 @@ object Constants {
   const val KEY_SHOW_POWERED_BY_SIGNED_CALL = "showPoweredBySignedCall"
   const val KEY_RECEIVER_CUID = "receiverCuid"
   const val KEY_CALL_CONTEXT = "callContext"
+  const val KEY_CHANNEL = "channel"
   const val KEY_INITIATOR_IMAGE = "initiatorImage"
   const val KEY_RECEIVER_IMAGE = "receiverImage"
   const val KEY_REMOTE_CONTEXT = "remoteContext"

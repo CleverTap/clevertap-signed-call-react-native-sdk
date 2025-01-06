@@ -37,12 +37,19 @@ class CleverTapSignedCall: RCTEventEmitter {
             os_log("[CT]:[SignedCall]:[RN] Handle method call, key: callContext and receiverCuid not available", log: logValue, type: .default)
             return
         }
-        var customMetaData: SCCustomMetadata?
-        if let callDetails = callProperties as? [String: Any?],
-           let initiatorImage = callDetails[SCConstant.initiatorImage] as? String,
-           let receiverImage = callDetails[SCConstant.receiverImage] as? String {
-            customMetaData = SCCustomMetadata(initiatorImage: initiatorImage, receiverImage: receiverImage)
-        }
+      
+      var customMetaData: SCCustomMetadata?
+      if let callDetails = callProperties as? [String: Any?] {
+          let remoteContext = callDetails[SCConstant.remoteContext] as? String
+          let initiatorImage = callDetails[SCConstant.initiatorImage] as? String
+          let receiverImage = callDetails[SCConstant.receiverImage] as? String
+          
+          customMetaData = SCCustomMetadata(
+              remoteContext: remoteContext,
+              initiatorImage: initiatorImage,
+              receiverImage: receiverImage
+          )
+      }
         
         let callOptions = SCCallOptionsModel(context: callContext, receiverCuid: receiverCuid, customMetaData: customMetaData)
         os_log("[CT]:[SignedCall]:[RN] Handle method call with values: %{public}@, %{public}@, %{public}@", log: logValue, type: .default, callContext, receiverCuid, customMetaData.debugDescription)
