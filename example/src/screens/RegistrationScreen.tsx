@@ -16,6 +16,7 @@ import styles from '../styles/style';
 import {
   SCSwipeOffBehaviour,
   SCSwipeOffBehaviourUtil,
+  FcmProcessingMode,
   SignedCall,
   SignedCallResponse,
 } from '@clevertap/clevertap-signed-call-react-native';
@@ -30,6 +31,7 @@ export default function RegistrationPage({ navigation }: any) {
   const [cuid, setCuid] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [callScreenOnSignalling, setCallScreenOnSignalling] = useState(false);
   const [canHidePoweredBySignedCall, setHidePoweredBySignedCall] =
     useState(false);
   const [notificationPermissionRequired, setNotificationPermissionRequired] =
@@ -37,6 +39,10 @@ export default function RegistrationPage({ navigation }: any) {
   const [swipeOffBehaviour, setSwipeOffBehaviour] = useState(
     SCSwipeOffBehaviour.EndCall
   );
+  const [foregroundModeEnabled, setForegroundModeEnabled] = useState(false);
+  const [title, setTitle] = useState('');
+  const [subtitle, setSubtitle] = useState('');
+  const [cancelCta, setCancelCta] = useState('');
 
   const [buttonColors, setButtonColors] = useState({
     fontColor: undefined,
@@ -108,6 +114,12 @@ export default function RegistrationPage({ navigation }: any) {
   });
 
   const initSignedCallSdk = () => {
+    var props = {
+      Email: cuid + '@clevertap.com', // Email address of the user
+    };
+
+    CleverTap.profileSet(props);
+
     if (
       Constants.SC_ACCOUNT_ID === 'YOUR_ACCOUNT_ID' ||
       Constants.SC_API_KEY === 'YOUR_API_KEY'
@@ -207,10 +219,7 @@ export default function RegistrationPage({ navigation }: any) {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.mainHeader}>CUID Registration</Text>
-      <Image
-        style={styles.image}
-        source={require('../../assets/clevertap-logo.png')}
-      />
+      <View style={{ height: 20 }} />
       <View style={styles.mainSection}>
         <Text>Enter CUID</Text>
         <TextInput
@@ -232,6 +241,66 @@ export default function RegistrationPage({ navigation }: any) {
           value={logoUrl}
           onChangeText={(text) => setLogoUrl(text)}
         />
+        {/* Switch to enable Foreground Mode */}
+        <View style={styles.horizontalAlignment}>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Enable Foreground Mode
+          </Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#008000' }}
+            thumbColor={foregroundModeEnabled ? '#f4f3f4' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(value) => setForegroundModeEnabled(value)}
+            value={foregroundModeEnabled}
+          />
+        </View>
+
+        {/* Show input boxes when Foreground Mode is enabled */}
+        {foregroundModeEnabled && (
+          <>
+            <View style={styles.horizontalAlignment}>
+              <View style={{ flex: 1, marginRight: 10 }}>
+                <Text>Title</Text>
+                <TextInput
+                  style={styles.inputStyle}
+                  placeholder="Enter Title"
+                  value={title}
+                  onChangeText={setTitle}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text>Subtitle</Text>
+                <TextInput
+                  style={styles.inputStyle}
+                  placeholder="Enter Subtitle"
+                  value={subtitle}
+                  onChangeText={setSubtitle}
+                />
+              </View>
+            </View>
+
+            <Text>Cancel CTA</Text>
+            <TextInput
+              style={styles.inputStyle}
+              placeholder="Enter Cancel CTA"
+              value={cancelCta}
+              onChangeText={setCancelCta}
+            />
+          </>
+        )}
+
+        <View style={styles.horizontalAlignment}>
+          <Text style={{ textAlign: 'center', fontSize: 12 }}>
+            Show loading screen
+          </Text>
+          <Switch
+            trackColor={{ false: '#767577', true: '#008000' }}
+            thumbColor={callScreenOnSignalling ? '#f4f3f4' : '#FFFFFF'}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={(value) => setCallScreenOnSignalling(value)}
+            value={callScreenOnSignalling}
+          />
+        </View>
         <View style={styles.horizontalAlignment}>
           <Text style={{ textAlign: 'center', fontSize: 12 }}>
             Hide Powered By Signed Call
@@ -361,6 +430,13 @@ export default function RegistrationPage({ navigation }: any) {
       callScreenBranding.showPoweredBySignedCall = !canHidePoweredBySignedCall;
     }
 
+    const fcmProcessingNotification = {
+      title: title, // required
+      subtitle: subtitle, // required
+      largeIcon: 'ct_logo', // optional
+      cancelCtaLabel: cancelCta, // optional
+    };
+
     let initProperties: { [k: string]: any } = {
       accountId: Constants.SC_ACCOUNT_ID,
       apiKey: Constants.SC_API_KEY,
@@ -375,10 +451,16 @@ export default function RegistrationPage({ navigation }: any) {
       initProperties.missedCallActions = {
         '123': 'call me back',
       };
+      initProperties.callScreenOnSignalling = callScreenOnSignalling;
       initProperties.notificationPermissionRequired =
         notificationPermissionRequired;
 
       initProperties.swipeOffBehaviourInForegroundService = swipeOffBehaviour;
+
+      if (foregroundModeEnabled) {
+        initProperties.fcmProcessingMode = FcmProcessingMode.Foreground;
+        initProperties.fcmProcessingNotification = fcmProcessingNotification;
+      }
     }
 
     if (Platform.OS === 'ios') {
