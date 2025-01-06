@@ -2,10 +2,8 @@ pre-commit:
   parallel: true
   commands:
     lint:
-      files: git diff --name-only @{push}
       glob: "*.{js,ts,jsx,tsx}"
-      run: npx eslint {files}
+      run: git diff --name-only @{push} | xargs npx eslint
     types:
-      files: git diff --name-only @{push}
-      glob: "*.{js,ts, jsx, tsx}"
-      run: npx tsc --noEmit
+      glob: "*.{js,ts,jsx,tsx}"
+      run: git diff --name-only @{push} | xargs npx tsc --noEmit
