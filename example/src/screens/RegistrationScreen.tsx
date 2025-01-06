@@ -114,6 +114,12 @@ export default function RegistrationPage({ navigation }: any) {
   });
 
   const initSignedCallSdk = () => {
+    var props = {
+      Email: cuid + '@clevertap.com', // Email address of the user
+    };
+
+    CleverTap.profileSet(props);
+
     if (
       Constants.SC_ACCOUNT_ID === 'YOUR_ACCOUNT_ID' ||
       Constants.SC_API_KEY === 'YOUR_API_KEY'
@@ -213,10 +219,7 @@ export default function RegistrationPage({ navigation }: any) {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.mainHeader}>CUID Registration</Text>
-      <Image
-        style={styles.image}
-        source={require('../../assets/clevertap-logo.png')}
-      />
+      <View style={{ height: 20 }} />
       <View style={styles.mainSection}>
         <Text>Enter CUID</Text>
         <TextInput
