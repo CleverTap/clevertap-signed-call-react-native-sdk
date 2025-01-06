@@ -138,6 +138,7 @@ internal object PayloadConverter {
       putString(Constants.KEY_CALLER_CUID, (callerCuid ?: ""))
       putString(Constants.KEY_CALLEE_CUID, (calleeCuid ?: ""))
       putString(Constants.KEY_CALL_CONTEXT, (callContext ?: ""))
+      putString(Constants.KEY_CHANNEL, (channel.channelName ?: ""))
       putString(Constants.KEY_INITIATOR_IMAGE, initiatorImage)
       putString(Constants.KEY_RECEIVER_IMAGE, receiverImage)
       putString(Constants.KEY_REMOTE_CONTEXT, remoteContext)
