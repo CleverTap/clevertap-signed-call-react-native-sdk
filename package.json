@@ -1,6 +1,6 @@
 {
   "name": "@clevertap/clevertap-signed-call-react-native",
-  "version": "0.5.5",
+  "version": "0.7.6",
   "description": "The CleverTap's Signed Call React Native SDK provides an in-app calls service to make and receive calls in the mobile apps.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

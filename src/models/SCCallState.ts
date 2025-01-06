@@ -13,6 +13,9 @@ enum SCCallState {
   // Indicates an active call that is currently in progress and connected.
   OngoingCall = 'OngoingCall',
 
+  // Indicates the call that is in the process of being cleaned up before marking as no call.
+  CleanupCall = 'CleanupCall',
+
   // Indicates the absence of any active call.
   NoCall = 'NoCall',
 }
@@ -27,6 +30,8 @@ class SCCallStateUtil {
         return SCCallState.IncomingCall;
       case 'OngoingCall':
         return SCCallState.OngoingCall;
+      case 'CleanupCall':
+        return SCCallState.CleanupCall;
       case 'NoCall':
         return SCCallState.NoCall;
       default:
