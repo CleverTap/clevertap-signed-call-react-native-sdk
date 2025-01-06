@@ -6,16 +6,16 @@ PODS:
     - CleverTap-iOS-SDK (= 5.2.1)
     - React-Core
   - clevertap-signed-call-react-native (0.5.5):
-    - CleverTap-SignedCall-SDK (= 0.0.7)
+    - CleverTap-SignedCall-SDK (= 0.0.9)
     - React (< 1.0.0, >= 0.13.0)
-  - CleverTap-SignedCall-SDK (0.0.7):
+  - CleverTap-SignedCall-SDK (0.0.9):
     - CleverTap-iOS-SDK
-    - CTSimplePing (= 1.0.1)
-    - CTSoftPhone (= 0.0.6-alpha)
+    - CTSimplePing (= 1.0.2)
+    - CTSoftPhone (= 0.0.7-alpha)
     - Socket.IO-Client-Swift (= 16.1.0)
     - Starscream (= 4.0.8)
-  - CTSimplePing (1.0.1)
-  - CTSoftPhone (0.0.6-alpha)
+  - CTSimplePing (1.0.2)
+  - CTSoftPhone (0.0.7-alpha)
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.70.6)
   - FBReactNativeSpec (0.70.6):
@@ -377,7 +377,7 @@ PODS:
   - RNFBApp (20.1.0):
     - Firebase/CoreOnly (= 10.27.0)
     - React-Core
-  - RNFBCrashlytics (20.1.0):
+  - RNFBCrashlytics (20.5.0):
     - Firebase/Crashlytics (= 10.27.0)
     - FirebaseCoreExtension
     - React-Core
@@ -564,11 +564,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CleverTap-iOS-SDK: 183b2f5c52ecfcb0d4cc97e0cdfcf080562026f3
-  clevertap-react-native: a98a5d6decf8689f084f7a37ec069861d9fd9dda
-  clevertap-signed-call-react-native: fe0c710356201084f3ce9c5fa11da29d2c2aaa42
-  CleverTap-SignedCall-SDK: 9c74fbac2e236fff9b02eaa0961970ab03546469
-  CTSimplePing: b982a6095f50e8a6fffa1049c0f548e545d6f1a5
-  CTSoftPhone: dd535d72050641b55cafea4adca2ce3bd1b26415
+  clevertap-react-native: 94a74b8fd98147f71d538c6ffcf9e53dc294af10
+  clevertap-signed-call-react-native: dcaa0c6fef13a988cdc04f583951208162eba9c2
+  CleverTap-SignedCall-SDK: 96f5bf2a9e1ec7781aa8c552f4ca93b5dca0dc75
+  CTSimplePing: 3536d59dc78d9435319915668c251357c12bcea8
+  CTSoftPhone: d7656787bd49c5d60775e4d7e20d80fd667c8b22
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
   FBLazyVector: 48289402952f4f7a4e235de70a9a590aa0b79ef4
   FBReactNativeSpec: dd1186fd05255e3457baa2f4ca65e94c2cd1e3ac
@@ -585,26 +585,26 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  Permission-Camera: 9b70902f34a83c10e198d2d01f0e453e58842776
-  Permission-Microphone: 8d045745c0c12aed0370ba89c36b6bc1ba54d7eb
+  Permission-Camera: cf14fb2d76432ee0f36546249ee608ef6037a23e
+  Permission-Microphone: 744eafab00992871bd06b3e3f1cbc1ba5b024b58
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  RCT-Folly: 0080d0a6ebf2577475bda044aa59e2ca1f909cda
+  RCT-Folly: fd2673f5bfadb2a8173799b6965b892a67ae31d9
   RCTRequired: e1866f61af7049eb3d8e08e8b133abd38bc1ca7a
   RCTTypeSafety: 27c2ac1b00609a432ced1ae701247593f07f901e
   React: bb3e06418d2cc48a84f9666a576c7b38e89cd7db
   React-bridging: 572502ec59c9de30309afdc4932e278214288913
   React-callinvoker: 6b708b79c69f3359d42f1abb4663f620dbd4dadf
   React-Codegen: 74e1cd7cee692a8b983c18df3274b5e749de07c8
-  React-Core: b587d0a624f9611b0e032505f3d6f25e8daa2bee
+  React-Core: 2f8cf9b4c32016ca031bd3c92901be199a968a2f
   React-CoreModules: c6ff48b985e7aa622e82ca51c2c353c7803eb04e
-  React-cxxreact: ade3d9e63c599afdead3c35f8a8bd12b3da6730b
-  React-jsi: 5a3952e0c6d57460ad9ee2c905025b4c28f71087
-  React-jsiexecutor: b4a65947391c658450151275aa406f2b8263178f
+  React-cxxreact: 69e0e464c51c6ff217274bcfb2bb088723811bab
+  React-jsi: fb5c0ada3fc450d7e6e04fb6777b964d0b128024
+  React-jsiexecutor: 2105e907db2343be205b93c74533784d7f386879
   React-jsinspector: 60769e5a0a6d4b32294a2456077f59d0266f9a8b
-  React-logger: 1623c216abaa88974afce404dc8f479406bbc3a0
-  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
-  react-native-simple-toast: 2079d417c52fc3ca295edba094d5632f7720e68d
+  React-logger: 28e721a44e671acf52ac6588f8624eb23245cb27
+  react-native-safe-area-context: 435f4c13ac75ceed6135382ee77d57d1a5b5b2d6
+  react-native-simple-toast: bcac3fe6c8b48ce813957bdec1f51a135f2a6c68
   React-perflogger: 8c79399b0500a30ee8152d0f9f11beae7fc36595
   React-RCTActionSheet: 7316773acabb374642b926c19aef1c115df5c466
   React-RCTAnimation: 5341e288375451297057391227f691d9b2326c3d
@@ -616,19 +616,19 @@ SPEC CHECKSUMS:
   React-RCTText: f532e5ca52681ecaecea452b3ad7a5b630f50d75
   React-RCTVibration: c75ceef7aa60a33b2d5731ebe5800ddde40cefc4
   React-runtimeexecutor: 15437b576139df27635400de0599d9844f1ab817
-  ReactCommon: 349be31adeecffc7986a0de875d7fb0dcf4e251c
-  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
-  RNFBApp: 1ae7462cddf74a49df206d3418bc0170f8fa53e5
-  RNFBCrashlytics: f8e899ea95991b769802cf4cb7a0eb362b6ab0f7
-  RNPermissions: 4e3714e18afe7141d000beae3755e5b5fb2f5e05
-  RNScreens: fa9b582d85ae5d62c91c66003b5278458fed7aaa
-  RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
+  ReactCommon: 1d6d9a5bf0fed74a5411d3267e52304b2ba4f6f4
+  RNCAsyncStorage: a03b770a50541a761447cea9c24536047832124d
+  RNFBApp: a04e05e3ad4c3e6a2a84cf714f6845ec2cf5d73d
+  RNFBCrashlytics: d3b1401fcb80dc81fb4d623eacbb1550ae68f166
+  RNPermissions: bd0d9ca7969ff7b999aa605ee2e5919c12522bfe
+  RNScreens: 0de8f71eb41623a2e72ab802f89d1ee2495eb57d
+  RNVectorIcons: 5784330be9dddb5474e8b378d5f6947996c84e55
   SDWebImage: dfe95b2466a9823cf9f0c6d01217c06550d7b29a
   Socket.IO-Client-Swift: ee4b8f80a3db18dd7f32b266ddf273310609443c
   Starscream: 19b5533ddb925208db698f0ac508a100b884a1b9
   Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Yoga: 99caf8d5ab45e9d637ee6e0174ec16fbbb01bcfc
 
-PODFILE CHECKSUM: 2eb995621129209434c200ad5ab1dd04d54990fb
+PODFILE CHECKSUM: d06fcc635206d913f9d8881ae1baaec9bfcceadf
 
 COCOAPODS: 1.16.2
