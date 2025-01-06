@@ -8,17 +8,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   image: {
-    width: '60%',
-    height: '25%',
+    width: '50%',
+    height: '20%',
     resizeMode: 'contain',
     alignSelf: 'center',
   },
   mainSection: {
-    marginTop: 10,
     justifyContent: 'center',
   },
   mainHeader: {
-    fontSize: 24,
+    fontSize: 21,
     textAlign: 'center',
     color: '#344055',
     fontWeight: '500',
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
   },
   horizontalAlignment: {
     flexDirection: 'row',
-    marginTop: 15,
+    marginTop: 10,
     alignItems: 'center',
   },
   inputStyle: {

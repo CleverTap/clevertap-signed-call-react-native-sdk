@@ -30,6 +30,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     ReactContextBaseJavaModule(reactContext) {
   private var mSignedCall: SignedCallAPI? = null
   private var cleverTapAPI: CleverTapAPI? = null
+  private lateinit var outgoingCallResponse: OutgoingCallResponse
 
   init {
     cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
@@ -110,7 +111,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     initProperties?.let {
       try {
-        val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it)
+        val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it, reactContext.applicationContext)
         signedCallAPI.init(
             reactContext.applicationContext,
             initConfiguration,
@@ -144,20 +145,23 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     try {
       val callOptions = callProperties?.toJson()
+
+      outgoingCallResponse = object: OutgoingCallResponse {
+        override fun onSuccess() {
+          promise.resolve(signedCallResponseToWritableMap(exception = null))
+        }
+
+        override fun onFailure(callException: CallException?) {
+          promise.resolve(signedCallResponseToWritableMap(callException))
+        }
+      }
+
       signedCallAPI.call(
           reactContext,
           receiverCuid,
           callContext,
           callOptions,
-          object : OutgoingCallResponse {
-            override fun onSuccess() {
-              promise.resolve(signedCallResponseToWritableMap(exception = null))
-            }
-
-            override fun onFailure(callException: CallException?) {
-              promise.resolve(signedCallResponseToWritableMap(callException))
-            }
-          }
+          outgoingCallResponse
       )
     } catch (throwable: Throwable) {
       val errorMessage = "Exception while initiating the VoIP Call"
