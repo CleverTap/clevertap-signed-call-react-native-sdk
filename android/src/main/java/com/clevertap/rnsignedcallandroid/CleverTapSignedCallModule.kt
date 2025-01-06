@@ -19,12 +19,18 @@ import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toSigned
 import com.clevertap.rnsignedcallandroid.internal.util.PayloadConverter.toWriteableMap
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
 import com.clevertap.rnsignedcallandroid.internal.util.toJson
-import com.facebook.react.bridge.*
+import com.facebook.react.bridge.Promise
+import com.facebook.react.bridge.ReactApplicationContext
+import com.facebook.react.bridge.ReactContext
+import com.facebook.react.bridge.ReactContextBaseJavaModule
+import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.ReadableMap
 
 class CleverTapSignedCallModule(private val reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
   private var mSignedCall: SignedCallAPI? = null
   private var cleverTapAPI: CleverTapAPI? = null
+  private lateinit var outgoingCallResponse: OutgoingCallResponse
 
   init {
     cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
@@ -75,6 +81,11 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
         log(message = "SignedCallOnCallStatusListener is invoked in foreground or background: $data")
         EventEmitter.emit(context, ON_CALL_STATUS_CHANGED, data.toWriteableMap())
       }
+
+      SignedCallAPI.getInstance().setMissedCallNotificationOpenedHandler { _, data ->
+        log(message = "MissedCallNotificationOpenedHandler is invoked in foreground or background: $data")
+        EventEmitter.emit(context, ON_MISSED_CALL_ACTION_CLICKED, data.toWriteableMap())
+      }
     }
   }
 
@@ -100,7 +111,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     initProperties?.let {
       try {
-        val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it)
+        val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it, reactContext.applicationContext)
         signedCallAPI.init(
             reactContext.applicationContext,
             initConfiguration,
@@ -134,20 +145,23 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     try {
       val callOptions = callProperties?.toJson()
+
+      outgoingCallResponse = object: OutgoingCallResponse {
+        override fun onSuccess() {
+          promise.resolve(signedCallResponseToWritableMap(exception = null))
+        }
+
+        override fun onFailure(callException: CallException?) {
+          promise.resolve(signedCallResponseToWritableMap(callException))
+        }
+      }
+
       signedCallAPI.call(
           reactContext,
           receiverCuid,
           callContext,
           callOptions,
-          object : OutgoingCallResponse {
-            override fun onSuccess() {
-              promise.resolve(signedCallResponseToWritableMap(exception = null))
-            }
-
-            override fun onFailure(callException: CallException?) {
-              promise.resolve(signedCallResponseToWritableMap(callException))
-            }
-          }
+          outgoingCallResponse
       )
     } catch (throwable: Throwable) {
       val errorMessage = "Exception while initiating the VoIP Call"
