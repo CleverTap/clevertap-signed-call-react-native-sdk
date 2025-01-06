@@ -94,10 +94,7 @@ const DialerScreen = ({ route, navigation }: any) => {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.mainHeader}>CUID: {registeredCuid}</Text>
-      <Image
-        style={styles.image}
-        source={require('../../assets/clevertap-logo.png')}
-      />
+      <View style={{ height: 20 }} />
 
       <View style={styles.mainSection}>
         <Text>Enter receiver's cuid</Text>
