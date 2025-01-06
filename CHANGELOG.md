@@ -1,5 +1,49 @@
 # Change Log
 
+### Version 0.7.6 (June 06, 2025)
+
+---
+**What's new**
+* **[Android Platform]**
+  * Supports Signed Call Android SDK [v0.0.7.6](https://repo1.maven.org/maven2/com/clevertap/android/clevertap-signedcall-sdk/0.0.7.6/) which is compatible with CleverTap Android SDK [v6.2.1](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-620-april-3-2024).
+  * **CallStyle Notifications on Android 12 and Onwards**:
+    * Replaced regular call notifications with the CallStyle notifications for incoming, outgoing and ongoing calls. This update adheres to the new standards for non-dismissible notifications as outlined in the [Android 14 behavior changes](https://developer.android.com/about/versions/14/behavior-changes-all#non-dismissable-notifications). These notifications are given top priority in the notification shade or tray.
+  * **Call Quality Control Enhancements**: Introduced network quality checks at both the initiator and receiver ends to ensure optimal call quality.
+  - At the **Initiator Side**, the SDK checks network latency before processing a call request. If the network latency exceeds the benchmark, set by the SDK, an error with `5004` error-code within the `SignedCallResponse` promise object is returned.
+  - At the **Receiver Side**, the SDK evaluates network quality before showing the incoming call screen. The network quality score (ranging from -1 to 100) is provided via the `onNetworkQualityResponse(int score)` callback, allowing the app to decide whether to proceed with or decline the call. Refer to the [SDK documentation](https://developer.clevertap.com/docs/signed-call-react-native-sdk#receiver-side) for detailed usage.
+  * **Support new parameters in the `initProperties` object which gets passed to the ` SignedCall.initialize(initProperties)` method**:
+    * `fcmProcessingMode` and `fcmProcessingNotification`: SDK supports the two modes for processing FCM calls: `FcmProcessingMode.foreground` and `FCMProcessingMode.background`. These modes determine how the SDK handles incoming calls whether in background or in a foreground service depending on whether the app is actively running or is running in the background. The `FcmProcessingMode.background` is default mode. If choosing the `FcmProcessingMode.foreground`, the `fcmProcessingNotification` parameter is mandatory. Refer to the [SDK documentation](https://developer.clevertap.com/docs/signed-call-react-native-sdk#configure-fcm-processing-mode) for more details on overriding the default mode.
+    * `callScreenOnSignalling` : A `Boolean` property to control when the outgoing call screen appears relative to the signaling process. By default, the SDK immediately displays the outgoing call screen upon a call request and performs the validations in background. Please refer to [SDK documentation](https://developer.clevertap.com/docs/signed-call-react-native-sdk#control-call-screen-display-timing) for detailed usage.
+  * **Support new call events in the `SignedCall.SignedCallOnCallStatusChanged` handler**:
+    * `CallEvent.AppInitiatedDeclinedDueToNetworkQuality`: Allows to determine the cases where app initiates the call-decline based on the network quality score provided within `onNetworkQualityResponse(int score)` callback.
+    * `CallEvent.EndedDueToLocalNetworkLoss`: Allows to determine when the call disconnects due to network loss at the local end.
+    * `CallEvent.EndedDueToRemoteNetworkLoss`: Allows to determine when the call disconnects due to network loss at the remote end.
+    **NOTE:** The `CallEvent.EndedDueToLocalNetworkLoss` and `CallEvent.EndedDueToRemoteNetworkLoss` events are reported alongside the existing `CallEvent.Ended` event to maintain backward compatibility.
+
+* **[iOS Platform]**
+  * Supports [Signed Call iOS SDK v0.0.9](https://github.com/CleverTap/clevertap-signedcall-ios-sdk/blob/main/CHANGELOG.md#version-009-november-19-2024) which is compatible with [CleverTap iOS SDK v7.0.2](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-702-october-10-2024) and higher.
+
+* **[Android and iOS Platform]**
+* **Remote Context Configuration for Call Screens:**
+  * Added support for setting a *remoteContext* parameter within `callProperties` object during call initiation, allowing to pass custom context for receiver's call screens.
+
+**Bug Fixes**
+* **[iOS Platform]**
+  * Resolved **sa_family_t** declaration issue to ensure compatibility with Xcode 16.
+  * Resolves `EXC_BAD_ACCESS` error that occurred when clicking the mute button on the CallKit screen. This exception was only observed in debugging mode.
+  * Fixes synchronization issues regarding the Mute and Speaker controllers between the CallKit and native screens.
+
+**Behaviour Changes**
+* **[Android Platform]**
+  * Optimized screen launch delay when initiating a call. The SDK now launches the outgoing call screen immediately, without waiting for signaling confirmation. A countdown ProgressBar is displayed around the cancel button until signaling is completed. You can use the `cancelCountdownColor` parameter within the `overrideDefaultBranding` initProperty to customize the countdown ProgressBar's color. The default color is *yellow (#F5FA55)*. Please refer to [SDK documentation](https://staging.docs.dev.clevertap.net/docs/signed-call-react-native-sdk#overridedefaultbranding-all-platforms) for the details on usage.
+
+**Enhancements**
+* **[Android Platform]**
+  * Optimized delay in the heads-up behavior of the call notification when the user exits from the call screen.
+  * Added fallback to the regular notification template for call notifications when using the CallStyle template, in case the full-screen intent permission is not granted.
+  * Prevented the call notification popup when the SDK requests microphone permissions after the call is accepted.
+  * Local branding configured during SDK initialization is now interoperable with the remote branding configured via the CleverTap dashboard, allows to override the specific branding properties without requiring all properties to be set at once.
+
 ### Version 0.5.5 (June 24, 2024)
 
 ---

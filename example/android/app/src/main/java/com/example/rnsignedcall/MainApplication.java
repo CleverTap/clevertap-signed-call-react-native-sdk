@@ -1,7 +1,13 @@
 package com.example.rnsignedcall;
 
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+
+import androidx.annotation.Nullable;
 
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CleverTapAPI;
@@ -52,6 +58,15 @@ public class MainApplication extends Application implements ReactApplication {
       return mNewArchitectureNativeHost;
     } else {
       return mReactNativeHost;
+    }
+  }
+
+  @Override
+  public Intent registerReceiver(@Nullable BroadcastReceiver receiver, IntentFilter filter) {
+    if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
+      return super.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+    } else {
+      return super.registerReceiver(receiver, filter);
     }
   }
 
