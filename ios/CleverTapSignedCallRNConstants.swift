@@ -3,6 +3,8 @@ import SignedCallSDK
 
 struct SCConstant {
     static let SCCallStatusDidUpdate: NSNotification.Name = NSNotification.Name(rawValue: "SCCallStatusDidUpdate")
+    
+    static let remoteContext = "remote_context"
     static let initiatorImage = "initiator_image"
     static let receiverImage = "receiver_image"
     static let onCallStatusChanged = "SignedCallOnCallStatusChanged"

@@ -1,7 +1,10 @@
 package com.clevertap.rnsignedcallandroid.internal.util
 
+import android.content.Context
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration
+import com.clevertap.android.signedcall.init.SignedCallInitConfiguration.FCMProcessingMode
 import com.clevertap.android.signedcall.init.SignedCallInitConfiguration.SCSwipeOffBehaviour
+import com.clevertap.android.signedcall.init.p2p.FCMProcessingNotification
 import com.clevertap.android.signedcall.models.MissedCallAction
 import com.clevertap.android.signedcall.models.SignedCallScreenBranding
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.DARK_THEME
@@ -12,6 +15,7 @@ import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_BG_COLOR
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_BUTTON_THEME
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_CANCEL_COUNTDOWN_COLOR
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_CUID
+import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_FCM_NOTIFICATION
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_FONT_COLOR
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_LOGO_URL
 import com.clevertap.rnsignedcallandroid.internal.util.Constants.KEY_NAME
@@ -131,12 +135,54 @@ object InitConfigSerializer {
   }
 
   /**
+   * Retrieves the FCMProcessingMode from the given initProperties object and parses to the instance of [FCMProcessingMode]
+   */
+  private fun parseFCMProcessingModeFromReadableConfig(readableMap: ReadableMap): FCMProcessingMode {
+    val fcmProcessingMode: String? = readableMap.getValue(Constants.KEY_FCM_PROCESSING_MODE)
+    fcmProcessingMode?.let {
+      return if (it == "foreground") {
+        FCMProcessingMode.FOREGROUND
+      } else {
+        FCMProcessingMode.BACKGROUND
+      }
+    } ?: run {
+      return FCMProcessingMode.BACKGROUND
+    }
+  }
+
+  /**
+   * Retrieves the FCMProcessingNotification from the given initProperties object and parses to the instance of [FCMProcessingNotification]
+   */
+  @JvmStatic
+  @Throws(Exception::class)
+  fun parseFCMProcessingNotificationFromInitOptions(readableMap: ReadableMap, context: Context): FCMProcessingNotification? {
+    val fcmProcessingNotification: ReadableMap? = readableMap.getValue(KEY_FCM_NOTIFICATION)
+    fcmProcessingNotification?.let {
+      val title: String? = it.getValue(Constants.KEY_FCM_NOTIFICATION_TITLE)
+      val subTitle: String? = it.getValue(Constants.KEY_FCM_NOTIFICATION_SUBTITLE)
+      val cancelCtaLabel: String? = it.getValue(Constants.KEY_FCM_NOTIFICATION_CANCEL_CTA_LABEL)
+      val largeIcon: String? = it.getValue(Constants.KEY_FCM_NOTIFICATION_LARGE_ICON)
+
+      val largeIconResourceId = largeIcon?.let {
+        context.resources.getIdentifier(it, "drawable", context.packageName)
+      } ?: 0
+
+      return FCMProcessingNotification.Builder(title, subTitle)
+        .setLargeIcon(largeIconResourceId)
+        .setCancelCtaLabel(cancelCtaLabel)
+        .build()
+    } ?: run {
+      return null
+    }
+  }
+
+  /**
    * Retrieves the initConfiguration from the input initProperties object and
    * parses into the [SignedCallInitConfiguration] object.
    */
   @JvmStatic
   @Throws(Throwable::class)
-  fun getInitConfigFromReadableMap(readableMap: ReadableMap): SignedCallInitConfiguration? {
+  fun getInitConfigFromReadableMap(readableMap: ReadableMap, context: Context): SignedCallInitConfiguration? {
     var initConfiguration: SignedCallInitConfiguration? = null
     readableMap.run {
       try {
@@ -162,16 +208,25 @@ object InitConfigSerializer {
 
         val notificationPermissionRequired: Boolean = getValue(Constants.KEY_NOTIFICATION_PERMISSION_REQUIRED) ?: true
 
+        val callScreenOnSignalling = getValue(Constants.KEY_CALL_SCREEN_ON_SIGNALLING) ?: false
+
         val swipeOffBehaviour: SCSwipeOffBehaviour = getSwipeOffBehaviourFromReadableConfig(readableMap)
+
+        val fcmProcessingMode: FCMProcessingMode = parseFCMProcessingModeFromReadableConfig(readableMap)
+
+        val fcmProcessingNotification: FCMProcessingNotification? =
+          parseFCMProcessingNotificationFromInitOptions(readableMap, context)
 
         initConfiguration =
           SignedCallInitConfiguration.Builder(initOptions, allowPersistSocketConnection)
             .promptPushPrimer(pushPrimerJson)
             .promptReceiverReadPhoneStatePermission(promptReceiverReadPhoneStatePermission)
             .setNotificationPermissionRequired(notificationPermissionRequired)
+            .callScreenOnSignalling(callScreenOnSignalling)
             .overrideDefaultBranding(callScreenBranding)
             .setMissedCallActions(missedCallActionsList)
             .setSwipeOffBehaviourInForegroundService(swipeOffBehaviour)
+            .setFCMProcessingMode(fcmProcessingMode, fcmProcessingNotification)
             .build()
       } catch (throwable: Throwable) {
         log(message = "issue occurs while de-serializing the initProperties: ${throwable.localizedMessage}")
