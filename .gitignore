@@ -5,6 +5,7 @@
 # XDE
 .expo/
 
+example/ios/main.jsbundle
 example/android/app/src/main/assets/index.android.bundle
 example/env.d.ts
 example/.env
