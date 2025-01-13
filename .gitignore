@@ -5,6 +5,7 @@
 # XDE
 .expo/
 
+example/env.d.ts
 example/.env
 
 # VSCode
