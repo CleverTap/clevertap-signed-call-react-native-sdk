@@ -6,6 +6,7 @@
 .expo/
 
 example/.env
+example/env.d.ts
 
 # VSCode
 .vscode/
