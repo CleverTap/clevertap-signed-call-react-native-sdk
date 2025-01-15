@@ -46,9 +46,9 @@ CleverTapSignedCall.trackSdkVersion(sdkName, sdkVersion);
 
 class SignedCall {
   static SignedCallOnCallStatusChanged =
-    CleverTapSignedCall.SignedCallOnCallStatusChanged;
+    CleverTapSignedCall.getConstants().SignedCallOnCallStatusChanged;
   static SignedCallOnMissedCallActionClicked =
-    CleverTapSignedCall.SignedCallOnMissedCallActionClicked;
+    CleverTapSignedCall.getConstants().SignedCallOnMissedCallActionClicked;
 
   /**
    * Enables or disables debugging. If enabled, see debug messages in LogCat utility.
