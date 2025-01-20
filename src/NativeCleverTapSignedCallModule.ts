@@ -79,6 +79,10 @@ export interface Spec extends TurboModule {
     addListener(eventName: string, handler: ()=>void): void
 
     removeListener(eventName: string): void
+
+    trackSdkVersion(sdkName: string, sdkVersion: number):void
+
+    setDebugLevel(logLevel:number):void
 }
 
 

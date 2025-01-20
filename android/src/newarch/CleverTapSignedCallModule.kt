@@ -55,6 +55,14 @@ class CleverTapSignedCallModule(context: ReactApplicationContext): NativeCleverT
     TODO("Not yet implemented")
   }
 
+  override fun trackSdkVersion(sdkName: String, sdkVersion: Double) {
+   moduleImpl.trackSdkVersion(sdkName,sdkVersion.toInt())
+  }
+
+  override fun setDebugLevel(logLevel: Double) {
+   moduleImpl.setDebugLevel(logLevel.toInt())
+  }
+
   override fun getTypedExportedConstants(): MutableMap<String, Any>  = moduleImpl.getConstants() as MutableMap<String, Any>
 
 
