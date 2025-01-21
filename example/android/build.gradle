@@ -9,6 +9,20 @@ buildscript {
         ndkVersion = "26.1.10909125"
         kotlinVersion = "1.9.24"
     }
+    subprojects { subproject ->
+      afterEvaluate{
+        if(subproject.name == "voximplant_react-native-foreground-service") {
+          subproject.android {
+            compileSdkVersion rootProject.ext.compileSdkVersion
+            buildToolsVersion rootProject.ext.buildToolsVersion
+
+            defaultConfig {
+              targetSdkVersion rootProject.ext.targetSdkVersion
+            }
+          }
+        }
+      }
+    }
     repositories {
         google()
         mavenCentral()
