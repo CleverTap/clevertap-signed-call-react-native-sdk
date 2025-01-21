@@ -1,6 +1,6 @@
 'use strict';
 
-import { NativeEventEmitter, NativeModules } from 'react-native';
+import { NativeEventEmitter } from 'react-native';
 import { LogLevel } from './models/LogLevel';
 import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
@@ -22,16 +22,18 @@ import {
   SignalingChannelUtil,
 } from './models/SignalingChannel';
 
-const CleverTapSignedCall = NativeModules.CleverTapSignedCall
-  ? NativeModules.CleverTapSignedCall
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(Constants.LINKING_ERROR);
-        },
-      }
-    );
+// const CleverTapSignedCall = NativeModules.CleverTapSignedCall
+//   ? NativeModules.CleverTapSignedCall
+//   : new Proxy(
+//       {},
+//       {
+//         get() {
+//           throw new Error(Constants.LINKING_ERROR);
+//         },
+//       }
+//     );
+
+const CleverTapSignedCall = require('./NativeCleverTapSignedCallModule').default;
 
 const eventEmitter = new NativeEventEmitter(CleverTapSignedCall);
 
@@ -46,9 +48,9 @@ CleverTapSignedCall.trackSdkVersion(sdkName, sdkVersion);
 
 class SignedCall {
   static SignedCallOnCallStatusChanged =
-    CleverTapSignedCall.SignedCallOnCallStatusChanged;
+    CleverTapSignedCall.getConstants().SignedCallOnCallStatusChanged;
   static SignedCallOnMissedCallActionClicked =
-    CleverTapSignedCall.SignedCallOnMissedCallActionClicked;
+    CleverTapSignedCall.getConstants().SignedCallOnMissedCallActionClicked;
 
   /**
    * Enables or disables debugging. If enabled, see debug messages in LogCat utility.

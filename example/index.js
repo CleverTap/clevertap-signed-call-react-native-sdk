@@ -80,7 +80,7 @@ const activateHandlers = () => {
     //To keep track on click over missed call notification
     SignedCall.addListener(
       SignedCall.SignedCallOnMissedCallActionClicked,
-      (result: MissedCallActionClickResult) => {
+      (result) => {
         Toast.show(result.action.actionLabel + ' is clicked!', Toast.SHORT);
 
         console.log('SignedCallOnMissedCallActionClicked', result);
