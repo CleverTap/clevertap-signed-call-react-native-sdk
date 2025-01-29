@@ -26,7 +26,27 @@ PODS:
     - Yoga
   - clevertap-signed-call-react-native (0.7.6):
     - CleverTap-SignedCall-SDK (= 0.0.9)
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React (< 1.0.0, >= 0.13.0)
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - CleverTap-SignedCall-SDK (0.0.9):
     - CleverTap-iOS-SDK
     - CTSimplePing (= 1.0.2)
@@ -1281,11 +1301,28 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context (4.14.1):
-    - React-Core
   - react-native-simple-toast (3.3.2):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
     - Toast (~> 4)
+    - Yoga
   - React-nativeconfig (0.76.0)
   - React-NativeModulesApple (0.76.0):
     - glog
@@ -1554,10 +1591,6 @@ PODS:
     - React-perflogger (= 0.76.0)
     - React-utils (= 0.76.0)
   - RNCAsyncStorage (1.24.0):
-    - React-Core
-  - RNPermissions (3.10.1):
-    - React-Core
-  - RNScreens (3.35.0):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1572,7 +1605,27 @@ PODS:
     - React-ImageManager
     - React-NativeModulesApple
     - React-RCTFabric
-    - React-RCTImage
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - RNPermissions (3.10.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
     - React-rendererdebug
     - React-utils
     - ReactCodegen
@@ -1633,7 +1686,6 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
-  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-simple-toast (from `../node_modules/react-native-simple-toast`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -1664,7 +1716,6 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
-  - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -1761,8 +1812,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   React-microtasksnativemodule:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
-  react-native-safe-area-context:
-    :path: "../node_modules/react-native-safe-area-context"
   react-native-simple-toast:
     :path: "../node_modules/react-native-simple-toast"
   React-nativeconfig:
@@ -1823,8 +1872,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNPermissions:
     :path: "../node_modules/react-native-permissions"
-  RNScreens:
-    :path: "../node_modules/react-native-screens"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -1833,8 +1880,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
   CleverTap-iOS-SDK: 09d1762523c87c14ffbd82b69b070afbe6e3d845
-  clevertap-react-native: 373e3463105e11fce6a36aac876ff7b8219d6e45
-  clevertap-signed-call-react-native: 68566a55e5d59b452187fcb6440b6067b8b7fbe6
+  clevertap-react-native: d147b141b101a402a648055791a1e011d3fa5c10
+  clevertap-signed-call-react-native: 511bd3ad5071a093ca4efb7ba0659e7931f9fd81
   CleverTap-SignedCall-SDK: 96f5bf2a9e1ec7781aa8c552f4ca93b5dca0dc75
   CTSimplePing: 3536d59dc78d9435319915668c251357c12bcea8
   CTSoftPhone: d7656787bd49c5d60775e4d7e20d80fd667c8b22
@@ -1855,16 +1902,16 @@ SPEC CHECKSUMS:
   React-CoreModules: 8d9b8656e2a944798ab84b50efbd16df856af972
   React-cxxreact: 447f344bac6ff34795336c65ff39c61674809833
   React-debug: fde3f30b94b0f3e8f6ffec0dbaee68dafd8f3864
-  React-defaultsnativemodule: 33b4bc11636a79e9376d08fcd49a53e88f9e4f1c
-  React-domnativemodule: eec3c1afc3b9c276853639a5ab084076bf44df2f
+  React-defaultsnativemodule: f781c18f9021720919e0dab03a317c7e3b2cda77
+  React-domnativemodule: 27fb85817234f03e95b0da1b8805720bc6cfd5af
   React-Fabric: 3097c8cd23069358753305aab4bd4f75cabaeca7
   React-FabricComponents: 14e471bfbfbe171b29596d89f5f21cd7b70d8f66
   React-FabricImage: 2a04b39edd59f7d54d7318b40ee119f77ae3914f
   React-featureflags: bb3b7ee35efbdd0f2c9a97c3e5fe45e166f99e47
-  React-featureflagsnativemodule: 48b443df5032344b733f22b98e148b5cf6502ed3
+  React-featureflagsnativemodule: 1ea8eed34faf3a70603e678452d57f2481a2469d
   React-graphics: 6465504ab921d8ff26ee7eae4f229936d4f5054c
   React-hermes: 720ea93c58230637654248f295bb538afd6bc8c1
-  React-idlecallbacksnativemodule: 600a72732e8a2fdc4242684df0c3b93c92ef96bb
+  React-idlecallbacksnativemodule: 4073b0801660add21683e5d4cdd44b5f6e42c3c9
   React-ImageManager: d941b3edc6b8ece124ac36a65f49fdeef8d1ec4b
   React-jserrorhandler: ab4e131eda805bf86abdabef7d2d9c8c1bcba85d
   React-jsi: af2b22c5fe7c5bb7d79ff745d488911e43d8d9a1
@@ -1873,18 +1920,17 @@ SPEC CHECKSUMS:
   React-jsitracing: 726450b6f7384a05ef73ed387ae992ed60b19f72
   React-logger: 2b39f3941d8c3aea5ebdefe3389c793406abcc27
   React-Mapbuffer: 752154befb15e41d3e231dc1fd65d488f28690c2
-  React-microtasksnativemodule: 7e835959fa09c7ffcf68488f3cbfdf8e7b6635ea
-  react-native-safe-area-context: 758e894ca5a9bd1868d2a9cfbca7326a2b6bf9dc
-  react-native-simple-toast: 4c9cc976cb92b6e5fb555e7c57fce38b90a56d07
+  React-microtasksnativemodule: 9b9a6d6cff4d017f2d5579f3c948c956f9999a6d
+  react-native-simple-toast: 7b04d4f87628e7d95732ba0eb13859be832ddd6d
   React-nativeconfig: 840f60c34cf1560852780811c7ca07f56e26b235
   React-NativeModulesApple: 9adea9073e4684fabac6065792b67d31a85e4e79
   React-perflogger: a31d0c57b4121ca087bf311ea4bd51e81760bcfb
   React-performancetimeline: d7ea59dada67538dbd22a2904056912afb8b0d3e
   React-RCTActionSheet: 96cf4d93fccb7a96ba1867e173c586e7ad9cd5cc
   React-RCTAnimation: 361ed213a028e88d9a284ec824156061b546d1b0
-  React-RCTAppDelegate: 54f985359e4e566fef299c62c0dc629c86657a90
+  React-RCTAppDelegate: 08639e5334a574add0473865e0060a2426f567fc
   React-RCTBlob: 2591910793e3a0b2dfb8ef9d5be19efe2e674507
-  React-RCTFabric: 73cf948c00a7c38b9e4220626d7538267f5f7c2a
+  React-RCTFabric: b7d5ec603062b8d674f9feae6d7afd515fdc4449
   React-RCTImage: b3f015ec16e8f5c47a0d09aa56bd5d88b9b66f3e
   React-RCTLinking: b94e819fbbb1559b9858383e0bd29f5be6a817bd
   React-RCTNetwork: 5c84d2bd7346fd0aaf59b47aa07b9ea0742ce1d0
@@ -1903,9 +1949,8 @@ SPEC CHECKSUMS:
   React-utils: fb44c030079ceff39686e6826a7e181f6675f6f2
   ReactCodegen: c3f2bb13e8c2c3fc02e490a1273268c81efce221
   ReactCommon: fd454c0807777e071b77beaadce5fea494af9e5d
-  RNCAsyncStorage: b6410dead2732b5c72a7fdb1ecb5651bbcf4674b
-  RNPermissions: bd0d9ca7969ff7b999aa605ee2e5919c12522bfe
-  RNScreens: 4a5446dc4d922b2375df14c3a3f30bfc7719f6b1
+  RNCAsyncStorage: 1cfcd2e83cc2741d069ffe5731b6eed61905da53
+  RNPermissions: 07a2d1620f21876bd553308cf6c384ed02c1b78b
   RNVectorIcons: 5784330be9dddb5474e8b378d5f6947996c84e55
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   Socket.IO-Client-Swift: ee4b8f80a3db18dd7f32b266ddf273310609443c
@@ -1914,6 +1959,6 @@ SPEC CHECKSUMS:
   Toast: 1f5ea13423a1e6674c4abdac5be53587ae481c4e
   Yoga: 87eb165215085cc2ba35237720abe1d47317cd9f
 
-PODFILE CHECKSUM: f90932969385c6755ab053e2b2166c2ff2522127
+PODFILE CHECKSUM: 5e26b6a0b0fa8889047633e9e73932a6adcecfe2
 
 COCOAPODS: 1.16.2

@@ -3,6 +3,105 @@ import CleverTapSDK
 import React
 import OSLog
 
+import Foundation
+
+// MARK: - Call Branding
+@objc(CallBranding)
+class CallBranding: NSObject {
+    var bgColor: String
+    var fontColor: String
+    var logoUrl: String
+    var buttonTheme: String
+    var cancelCountdownColor: String
+    var showPoweredBySignedCall: Bool
+
+    // Initializer
+    init(bgColor: String, fontColor: String, logoUrl: String, buttonTheme: String, cancelCountdownColor: String, showPoweredBySignedCall: Bool) {
+        self.bgColor = bgColor
+        self.fontColor = fontColor
+        self.logoUrl = logoUrl
+        self.buttonTheme = buttonTheme
+        self.cancelCountdownColor = cancelCountdownColor
+        self.showPoweredBySignedCall = showPoweredBySignedCall
+    }
+}
+
+// MARK: - Push Primer
+@objc(PushPrimer)
+class PushPrimer: NSObject {
+    var inAppType: String
+    var titleText: String
+    var messageText: String
+    var followDeviceOrientation: Bool
+    var positiveBtnText: String
+    var negativeBtnText: String
+    var fallbackToSettings: Bool
+
+    // Initializer
+    init(inAppType: String, titleText: String, messageText: String, followDeviceOrientation: Bool, positiveBtnText: String, negativeBtnText: String, fallbackToSettings: Bool) {
+        self.inAppType = inAppType
+        self.titleText = titleText
+        self.messageText = messageText
+        self.followDeviceOrientation = followDeviceOrientation
+        self.positiveBtnText = positiveBtnText
+        self.negativeBtnText = negativeBtnText
+        self.fallbackToSettings = fallbackToSettings
+    }
+}
+
+// MARK: - FCM Notification
+@objc(FCMNotification)
+class FCMNotification: NSObject {
+    var title: String
+    var subtitle: String
+    var largeIcon: String
+    var cancelCtaLabel: String
+
+    // Initializer
+    init(title: String, subtitle: String, largeIcon: String, cancelCtaLabel: String) {
+        self.title = title
+        self.subtitle = subtitle
+        self.largeIcon = largeIcon
+        self.cancelCtaLabel = cancelCtaLabel
+    }
+}
+
+// MARK: - Init Properties
+@objc(InitProperties)
+class InitProperties: NSObject {
+    var accountId: String
+    var apiKey: String
+    var cuid: String
+    var overrideDefaultBranding: CallBranding
+    var allowPersistSocketConnection: Bool
+    var promptPushPrimer: PushPrimer
+    var missedCallActions: FCMNotification?
+    var callScreenOnSignalling: Bool
+    var notificationPermissionRequired: Bool
+    var swipeOffBehaviourInForegroundService: String
+    var fcmProcessingMode: String
+    var fcmProcessingNotification: FCMNotification
+    var production: Bool
+
+    // Initializer
+    init(accountId: String, apiKey: String, cuid: String, overrideDefaultBranding: CallBranding, allowPersistSocketConnection: Bool, promptPushPrimer: PushPrimer, missedCallActions: FCMNotification?, callScreenOnSignalling: Bool, notificationPermissionRequired: Bool, swipeOffBehaviourInForegroundService: String, fcmProcessingMode: String, fcmProcessingNotification: FCMNotification, production: Bool) {
+        self.accountId = accountId
+        self.apiKey = apiKey
+        self.cuid = cuid
+        self.overrideDefaultBranding = overrideDefaultBranding
+        self.allowPersistSocketConnection = allowPersistSocketConnection
+        self.promptPushPrimer = promptPushPrimer
+        self.missedCallActions = missedCallActions
+        self.callScreenOnSignalling = callScreenOnSignalling
+        self.notificationPermissionRequired = notificationPermissionRequired
+        self.swipeOffBehaviourInForegroundService = swipeOffBehaviourInForegroundService
+        self.fcmProcessingMode = fcmProcessingMode
+        self.fcmProcessingNotification = fcmProcessingNotification
+        self.production = production
+    }
+}
+
+
 @objc(CleverTapSignedCall)
 class CleverTapSignedCall: RCTEventEmitter {
     
@@ -15,8 +114,29 @@ class CleverTapSignedCall: RCTEventEmitter {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(self.callStatus(notification:)), name: SCConstant.SCCallStatusDidUpdate, object: nil)
     }
-    @objc(trackSdkVersion:withsdkVersion:)
-    func trackSdkVersion(sdkName: String, sdkVersion: Int) -> Void {
+  
+    @objc(addListener:handler:)
+    func addListener(eventName: String, handler: @escaping RCTResponseSenderBlock) {
+         
+    }
+  
+    @objc(removeListener:)
+    func removeListener(eventName: String) {
+         
+    }
+    
+    @objc(getBackToCall:reject:)
+    func getBackToCall(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+          
+    }
+  
+    @objc(getCallState:reject:)
+    func getCallState(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+          
+    }
+  
+    @objc(trackSdkVersion:sdkVersion:)
+    func trackSdkVersion(sdkName: String, sdkVersion: Double) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method trackSDKVersion to track the SDK Version", log: .default, type: .default)
         CleverTap().setCustomSdkVersion(sdkName, version: Int32(sdkVersion))
     }
@@ -31,7 +151,7 @@ class CleverTapSignedCall: RCTEventEmitter {
         SignedCall.isLoggingEnabled = true
     }
     
-    @objc(call:withContext:withCallProperties:withResolver:withRejecter:)
+    @objc(call:callContext:callProperties:resolve:reject:)
     func call(receiverCuid: String?, callContext: String?, callProperties: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         guard let callContext = callContext, let receiverCuid = receiverCuid else {
             os_log("[CT]:[SignedCall]:[RN] Handle method call, key: callContext and receiverCuid not available", log: logValue, type: .default)
@@ -65,17 +185,17 @@ class CleverTapSignedCall: RCTEventEmitter {
         }
     }
     
-    @objc(initialize:withResolver:withRejecter:)
-    func initialize(initOptions: NSDictionary, resolve: @escaping RCTPromiseResolveBlock,reject: @escaping RCTPromiseRejectBlock) -> Void {
+    @objc(initialize:resolve:reject:)
+    func initialize(initProperties: NSDictionary, resolve: @escaping RCTPromiseResolveBlock,reject: @escaping RCTPromiseRejectBlock) -> Void {
         
-        guard var initOptionsDict = initOptions as? [String: Any?] else {
+        guard var initOptionsDict = initProperties as? [String: Any?] else {
             os_log("[CT]:[SignedCall]:[RN] Handle method initialize, key: initOptions not available", log: logValue, type: .default)
             return
         }
         
-        initOptionsDict["accountID"] = initOptions["accountId"]
+        initOptionsDict["accountID"] = initProperties["accountId"]
         
-        if let brandingDetails = initOptions["overrideDefaultBranding"] as? [String: Any?],
+        if let brandingDetails = initProperties["overrideDefaultBranding"] as? [String: Any?],
         let bgColor = brandingDetails["bgColor"] as? String,
            let fontColor = brandingDetails["fontColor"] as? String,
            let logoUrl = brandingDetails["logoUrl"] as? String,
