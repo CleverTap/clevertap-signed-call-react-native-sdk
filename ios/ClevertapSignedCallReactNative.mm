@@ -51,7 +51,7 @@ RCT_EXTERN_METHOD(setDebugLevel:(double)logLevel)
 
 RCT_EXTERN_METHOD(trackSdkVersion:(NSString *)sdkName sdkVersion:(double)sdkVersion)
 
-RCT_EXTERN_METHOD(call:(NSString *)receiverCuid callContext:(NSString *)callContext callProperties:(JS::NativeCleverTapSignedCallModule::CallProperties &)callProperties resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
+RCT_EXTERN_METHOD(call:(NSString *)receiverCuid callContext:(NSString *)callContext  callProperties: (NSDictionary *)callProperties resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject)
 
 #ifdef RCT_NEW_ARCH_ENABLED
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const facebook::react::ObjCTurboModule::InitParams &)params {

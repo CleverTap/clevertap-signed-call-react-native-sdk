@@ -151,7 +151,7 @@ class CleverTapSignedCall: RCTEventEmitter {
         SignedCall.isLoggingEnabled = true
     }
     
-    @objc(call:callContext:callProperties:resolve:reject:)
+  @objc(call:callContext:callProperties:resolve:reject:)
     func call(receiverCuid: String?, callContext: String?, callProperties: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         guard let callContext = callContext, let receiverCuid = receiverCuid else {
             os_log("[CT]:[SignedCall]:[RN] Handle method call, key: callContext and receiverCuid not available", log: logValue, type: .default)
