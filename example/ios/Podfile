@@ -57,6 +57,9 @@ post_install do |installer|
     File.open(file, "w") { |file| file.puts new_contents }
   end
   installer.pods_project.targets.each do |target|
+    if target.name == 'clevertap-react-native' 
+      target.add_system_framework('CoreLocation')
+    end
     target.build_configurations.each do |config|
       config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
