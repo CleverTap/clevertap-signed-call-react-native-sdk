@@ -20,9 +20,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestPermissions } from '../Helpers';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
 
-const DialerScreen = ({ route, navigation }: any) => {
-  const { registeredCuid } = route.params;
+type DialerScreenProps = {
+  getCuid:()=>string,
+  navigateToRegistration: ()=>void
+}
+const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
 
+  const [initiatorCuid,setInitiatorCuid] = React.useState('');
   const [receiverCuid, setReceiverCuid] = React.useState('');
   const [callContext, setCallContext] = React.useState('');
   const [remoteCallContext, setRemoteCallContext] = React.useState(null);
@@ -32,6 +36,8 @@ const DialerScreen = ({ route, navigation }: any) => {
 
   React.useEffect(() => {
     // deactivateHandlers gets called on component unmount
+    console.log("TEST CUID",dialerScreenProps.getCuid())
+    setInitiatorCuid(dialerScreenProps.getCuid())
     return () => {
       deactivateHandlers();
     };
@@ -70,7 +76,7 @@ const DialerScreen = ({ route, navigation }: any) => {
     SignedCall.logout();
     AsyncStorage.clear();
     //navigates to the Registration Screen
-    navigation.replace('Registration', {});
+   dialerScreenProps.navigateToRegistration()
   }
 
   function startForegroundService() {
@@ -93,7 +99,7 @@ const DialerScreen = ({ route, navigation }: any) => {
 
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.mainHeader}>CUID: {registeredCuid}</Text>
+      <Text style={styles.mainHeader}>CUID: {initiatorCuid}</Text>
       <View style={{ height: 20 }} />
 
       <View style={styles.mainSection}>

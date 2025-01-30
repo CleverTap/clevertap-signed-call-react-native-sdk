@@ -27,7 +27,11 @@ import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isDeviceVersionTargetsBelow } from '../Helpers';
 
-export default function RegistrationPage({ navigation }: any) {
+type RegistrationPageProps = {
+  navigateToDialer: (cuid:string) => void
+}
+
+export default function RegistrationPage(registrationPageProps: RegistrationPageProps) {
   const [cuid, setCuid] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -160,7 +164,7 @@ export default function RegistrationPage({ navigation }: any) {
             swipeOffBehaviour.toString()
           );
           //navigates to the Dialer Screen with registered cuid
-          navigation.replace('Dialer', { registeredCuid: cuid });
+          registrationPageProps.navigateToDialer(cuid)
         } else {
           console.log('Signed Call initialization failed: ', response.error);
           Alert.alert(
