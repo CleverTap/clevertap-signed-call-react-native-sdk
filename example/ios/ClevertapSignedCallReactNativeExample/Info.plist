@@ -28,6 +28,8 @@
 	<string>sk1</string>
 	<key>CleverTapToken</key>
 	<string>a1b-ca6</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
