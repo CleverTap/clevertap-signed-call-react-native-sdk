@@ -10,6 +10,7 @@ import {
   Platform,
   Switch,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { useState } from 'react';
 import styles from '../styles/style';
@@ -221,7 +222,7 @@ export default function RegistrationPage(registrationPageProps: RegistrationPage
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}>
       <Text style={styles.mainHeader}>CUID Registration</Text>
       <View style={{ height: 20 }} />
       <View style={styles.mainSection}>
@@ -403,7 +404,7 @@ export default function RegistrationPage(registrationPageProps: RegistrationPage
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 
   function getInitProperties(): any {

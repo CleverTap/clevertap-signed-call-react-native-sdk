@@ -9,6 +9,7 @@ import {
   Keyboard,
   Platform,
   Switch,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import styles from '../styles/style';
@@ -98,7 +99,7 @@ const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
   }
 
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}>
       <Text style={styles.mainHeader}>CUID: {initiatorCuid}</Text>
       <View style={{ height: 20 }} />
 
@@ -214,7 +215,7 @@ const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
           <Button title="Logout" color="red" onPress={() => logoutSession()} />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
