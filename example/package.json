@@ -18,7 +18,7 @@
     "@voximplant/react-native-foreground-service": "^3.0.2",
     "clevertap-react-native": "3.1.1",
     "react": "18.3.1",
-    "react-native": "0.76.0",
+    "react-native": "0.77.0",
     "react-native-dotenv": "^3.4.11",
     "react-native-permissions": "^3.8.0",
     "react-native-simple-toast": "^3.2.0",
@@ -28,13 +28,13 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
-    "@react-native-community/cli": "15.0.0-alpha.2",
-    "@react-native-community/cli-platform-android": "15.0.0-alpha.2",
-    "@react-native-community/cli-platform-ios": "15.0.0-alpha.2",
-    "@react-native/babel-preset": "0.76.0",
-    "@react-native/eslint-config": "0.76.0",
-    "@react-native/metro-config": "0.76.0",
-    "@react-native/typescript-config": "0.76.0",
+    "@react-native-community/cli": "15.0.1",
+    "@react-native-community/cli-platform-android": "15.0.1",
+    "@react-native-community/cli-platform-ios": "15.0.1",
+    "@react-native/babel-preset": "0.77.0",
+    "@react-native/eslint-config": "0.77.0",
+    "@react-native/metro-config": "0.77.0",
+    "@react-native/typescript-config": "0.77.0",
     "@types/react": "^18.2.6",
     "@types/react-native-dotenv": "^0.2.2",
     "@types/react-test-renderer": "^18.0.0",
@@ -45,5 +45,8 @@
     "prettier": "2.8.8",
     "react-test-renderer": "18.3.1",
     "typescript": "5.0.4"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
