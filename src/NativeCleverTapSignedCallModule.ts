@@ -3,12 +3,12 @@ import type { SignedCallResponse } from "./models/SignedCallResponse";
 import { type SCCallState } from "./SignedCall";
 
 type CallBranding = {
-    bgColor: string ,
-    fontColor: string ,
-    logoUrl: string ,
-    buttonTheme: string ,
-    cancelCountdownColor: string 
-    showPoweredBySignedCall: boolean 
+    bgColor: string,
+    fontColor: string,
+    logoUrl: string,
+    buttonTheme: string,
+    cancelCountdownColor: string
+    showPoweredBySignedCall: boolean
 }
 
 type PushPrimer = {
@@ -22,10 +22,10 @@ type PushPrimer = {
 }
 
 type FCMNotification = {
-    title:string,
-    subtitle:string,
-    largeIcon:string,
-    cancelCtaLabel:string
+    title: string,
+    subtitle: string,
+    largeIcon: string,
+    cancelCtaLabel: string
 }
 
 type InitProperties = {
@@ -33,56 +33,56 @@ type InitProperties = {
     apiKey: string,
     cuid: string,
     overrideDefaultBranding: CallBranding,
-    allowPersistSocketConnection: boolean ,
-    promptPushPrimer: PushPrimer ,
+    allowPersistSocketConnection: boolean,
+    promptPushPrimer: PushPrimer,
     missedCallActions: FCMNotification | null,
     callScreenOnSignalling: boolean,
     notificationPermissionRequired: boolean,
-    swipeOffBehaviourInForegroundService:string,
+    swipeOffBehaviourInForegroundService: string,
     fcmProcessingMode: string,
     fcmProcessingNotification: FCMNotification,
-    production: boolean 
+    production: boolean
 }
 
 
 type CallProperties = {
-    remote_context:string
+    remote_context: string
 }
 
 type SignedCallConstants = {
-    SignedCallOnMissedCallActionClicked:string,
-    SignedCallOnCallStatusChanged:string
+    SignedCallOnMissedCallActionClicked: string,
+    SignedCallOnCallStatusChanged: string
 }
 
 export interface Spec extends TurboModule {
 
     getConstants(): SignedCallConstants
 
-    initialize(initProperties: InitProperties):Promise<SignedCallResponse>
+    initialize(initProperties: InitProperties): Promise<SignedCallResponse>
 
     call(
         receiverCuid: string,
         callContext: string,
-        callProperties?: CallProperties 
+        callProperties?: CallProperties
     ): Promise<SignedCallResponse>
 
     getBackToCall(): Promise<boolean>
 
     getCallState(): Promise<SCCallState | null>
 
-    logout(): void
+    logout(): Promise<void>
 
-    hangupCall(): void
+    hangupCall(): Promise<void>
 
-    disconnectSignallingSocket(): void
+    disconnectSignallingSocket(): Promise<void>
 
-    addListener(eventName: string, handler: ()=>void): void
+    trackSdkVersion(sdkName: string, sdkVersion: number): Promise<void>
 
-    removeListener(eventName: string): void
+    setDebugLevel(logLevel: number): Promise<void>
 
-    trackSdkVersion(sdkName: string, sdkVersion: number):void
-
-    setDebugLevel(logLevel:number):void
+    isInitialized(): Promise<boolean>
+    
+    dismissMissedCallNotification(): Promise<boolean> 
 }
 
 

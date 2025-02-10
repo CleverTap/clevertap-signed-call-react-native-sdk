@@ -14,10 +14,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
 
   private val moduleImpl = CleverTapSignedCallModuleImpl(reactContext)
 
-  /**
-   * Exports the Name of the Android module. TypeScript/Javascript part of the package used this
-   * name to communicate with this NativeModule class.
-   */
+
   override fun getName(): String {
     return CleverTapSignedCallModuleImpl.NAME
   }
@@ -32,7 +29,6 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     // Keep: Required for RN built in Event Emitter Calls.
   }
 
-  /** Exports constants for Typescript or Javascript part of this package. */
 
   @SuppressLint("RestrictedApi")
   private fun registerListeners(context: ReactContext) {
@@ -45,8 +41,8 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
 
   @SuppressLint("RestrictedApi")
   @ReactMethod
-  fun trackSdkVersion(sdkName: String, sdkVersion: Int) {
-    moduleImpl.trackSdkVersion(sdkName,sdkVersion)
+  fun trackSdkVersion(sdkName: String, sdkVersion: Int,promise: Promise) {
+    moduleImpl.trackSdkVersion(sdkName,sdkVersion,promise)
   }
 
   @ReactMethod
@@ -54,15 +50,11 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
    moduleImpl.setDebugLevel(logLevel)
   }
 
-  /**
-   * Retrieves the init-properties from the readableMap and initializes the Signed Call Android SDK
-   */
   @ReactMethod
   fun initialize(initProperties: ReadableMap?, promise: Promise) {
     moduleImpl.initialize(initProperties, promise)
   }
 
-  /** Sends the call-details to initiate a VoIP call */
   @ReactMethod
   fun call(
       receiverCuid: String,
@@ -73,41 +65,38 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
     moduleImpl.call(receiverCuid, callContext, callProperties, promise)
   }
 
-  /**
-   * Attempts to return to the active call screen.
-   *
-   * This method checks if there is an active call and if the client is on VoIP call.
-   * If both conditions are met, it starts the call screen activity.
-   */
   @ReactMethod
   fun getBackToCall(promise: Promise) {
    moduleImpl.getBackToCall(promise)
   }
 
-  /**
-   * Retrieves the current call state.
-   * @return The current call state.
-   */
   @ReactMethod
   fun getCallState(promise: Promise) {
     moduleImpl.getCallState(promise)
   }
 
-  /** Logs out the Signed Call SDK session */
   @ReactMethod
-  fun logout() {
-    moduleImpl.logout()
+  fun logout(promise: Promise) {
+    moduleImpl.logout(promise)
   }
 
-  /** Ends the active call, if any. */
   @ReactMethod
-  fun hangupCall() {
-    moduleImpl.hangupCall()
+  fun hangupCall(promise: Promise) {
+    moduleImpl.hangupCall(promise)
   }
 
-  /** Disconnects the signalling socket */
   @ReactMethod
-  fun disconnectSignallingSocket() {
-    moduleImpl.disconnectSignallingSocket()
+  fun disconnectSignallingSocket(promise: Promise) {
+    moduleImpl.disconnectSignallingSocket(promise)
+  }
+
+  @ReactMethod
+  fun isInitialized(promise: Promise) {
+     moduleImpl.isInitialized(promise)
+  }
+
+  @ReactMethod
+  fun dismissMissedCallNotification(promise: Promise) {
+     moduleImpl.dismissMissedCallNotification(promise)
   }
 }
