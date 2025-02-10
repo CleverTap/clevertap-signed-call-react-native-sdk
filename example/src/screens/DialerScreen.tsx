@@ -12,6 +12,7 @@ import {
   ScrollView,
 } from 'react-native';
 import React from 'react';
+import Toast from 'react-native-simple-toast';
 import styles from '../styles/style';
 import {
   SignedCall,
@@ -22,12 +23,12 @@ import { requestPermissions } from '../Helpers';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
 
 type DialerScreenProps = {
-  getCuid:()=>string,
-  navigateToRegistration: ()=>void
+  getCuid: () => string,
+  navigateToRegistration: () => void
 }
-const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
+const DialerScreen = (dialerScreenProps: DialerScreenProps) => {
 
-  const [initiatorCuid,setInitiatorCuid] = React.useState('');
+  const [initiatorCuid, setInitiatorCuid] = React.useState('');
   const [receiverCuid, setReceiverCuid] = React.useState('');
   const [callContext, setCallContext] = React.useState('');
   const [remoteCallContext, setRemoteCallContext] = React.useState(null);
@@ -36,9 +37,19 @@ const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
     React.useState(false);
 
   React.useEffect(() => {
-    // deactivateHandlers gets called on component unmount
-    console.log("TEST CUID",dialerScreenProps.getCuid())
+    let message = "Signed Call is not initalized"
+    SignedCall.isInitialized().then((isInitialized: boolean) => {
+      if (isInitialized) {
+        message = "Signed Call is initalized"
+      }
+      Toast.show(
+        message,
+        Toast.SHORT
+      );
+    }).catch((e:Error)=>{
+    })
     setInitiatorCuid(dialerScreenProps.getCuid())
+    // deactivateHandlers gets called on component unmount
     return () => {
       deactivateHandlers();
     };
@@ -68,8 +79,8 @@ const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
           Alert.alert('VoIP call is failed!', response.error?.errorMessage);
         }
       })
-      .catch((e: any) => {
-        console.error(e);
+      .catch((e: Error) => {
+        console.log(e);
       });
   }
 
@@ -77,7 +88,7 @@ const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
     SignedCall.logout();
     AsyncStorage.clear();
     //navigates to the Registration Screen
-   dialerScreenProps.navigateToRegistration()
+    dialerScreenProps.navigateToRegistration()
   }
 
   function startForegroundService() {
@@ -187,7 +198,7 @@ const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
           <Button
             title="Disconnect Signalling Socket"
             color="blue"
-            onPress={() => SignedCall.disconnectSignallingSocket()}
+            onPress={async () => await SignedCall.disconnectSignallingSocket()}
           />
         </View>
         {Platform.OS === 'android' && (
@@ -214,6 +225,27 @@ const DialerScreen = (dialerScreenProps:DialerScreenProps) => {
         <View style={styles.buttonContainer}>
           <Button title="Logout" color="red" onPress={() => logoutSession()} />
         </View>
+        {Platform.OS === 'android' && (
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Dismiss missed call notification"
+              color="green"
+              onPress={async () => {
+                const result = await SignedCall.dismissMissedCallNotification();
+                if (!result) {
+                  console.log(
+                    'VoIP call is failed: ',
+                    'Invalid operation to get back to call'
+                  );
+                  Alert.alert(
+                    'No active call!',
+                    'Invalid operation to get back to call'
+                  );
+                }
+              }}
+            />
+          </View>
+        )}
       </View>
     </ScrollView>
   );
