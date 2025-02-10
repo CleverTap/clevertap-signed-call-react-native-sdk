@@ -8,7 +8,8 @@
     "start": "react-native start",
     "pods": "pod-install --quiet",
     "reset": "react-native start --reset-cache",
-    "androidBundle":"react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle"
+    "androidBundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
+    "iosBundle":"react-native bundle --dev false --entry-file index.js --bundle-output ios/main.jsbundle --platform ios"
   },
   "reactNativePermissionsIOS": [
     "Camera",

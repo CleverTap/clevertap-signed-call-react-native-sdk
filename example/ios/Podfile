@@ -30,8 +30,8 @@ target 'ClevertapSignedCallReactNativeExample' do
   )
 
 
-  pod 'Permission-Microphone', :path => '../node_modules/react-native-permissions/ios/Microphone/Permission-Microphone.podspec'
-  pod 'Permission-Camera', :path => '../node_modules/react-native-permissions/ios/Camera/Permission-Camera.podspec'
+  pod 'Permission-Microphone', :path => '../node_modules/react-native-permissions/ios/Microphone'
+  #pod 'Permission-Camera', :path => '../node_modules/react-native-permissions/ios/Camera'
 
   pre_install do |installer|
     Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
