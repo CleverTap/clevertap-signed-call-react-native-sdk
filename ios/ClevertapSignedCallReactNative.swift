@@ -88,15 +88,16 @@ class CleverTapSignedCall: RCTEventEmitter {
         
         initOptionsDict["accountID"] = initProperties["accountId"]
         
-        if let brandingDetails = initProperties["overrideDefaultBranding"] as? [String: Any?],
-        let bgColor = brandingDetails["bgColor"] as? String,
-           let fontColor = brandingDetails["fontColor"] as? String,
-           let logoUrl = brandingDetails["logoUrl"] as? String,
-           let showPoweredBySignedCall = brandingDetails["showPoweredBySignedCall"] as? Bool,
-           let buttonTheme = brandingDetails["buttonTheme"] as? String {
-            SignedCall.overrideDefaultBranding = SCCallScreenBranding(bgColor: bgColor, fontColor: fontColor, logo: logoUrl, buttonTheme: buttonTheme == "light" ? .light : .dark)
-            SignedCall.overrideDefaultBranding?.setDisplayPoweredBySignedCall(showPoweredBySignedCall)
-        }
+      if let brandingDetails = initProperties["overrideDefaultBranding"] as? [String: Any?]{
+        let bgColor = brandingDetails["bgColor"] as? String
+        let fontColor = brandingDetails["fontColor"] as? String
+        let logoUrl = brandingDetails["logoUrl"] as? String
+        let showPoweredBySignedCall = brandingDetails["showPoweredBySignedCall"] as? Bool
+        let buttonTheme = brandingDetails["buttonTheme"] as? String ?? "light"
+        SignedCall.overrideDefaultBranding = SCCallScreenBranding(bgColor: bgColor, fontColor: fontColor, logo: logoUrl, buttonTheme: buttonTheme == "light" ? .light : .dark)
+        SignedCall.overrideDefaultBranding?.setDisplayPoweredBySignedCall(showPoweredBySignedCall ?? true)
+      }
+         
         
         
         SignedCall.initSDK(withInitOptions: initOptionsDict) { result in
