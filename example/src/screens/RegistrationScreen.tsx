@@ -222,7 +222,7 @@ export default function RegistrationPage(registrationPageProps: RegistrationPage
   };
 
   return (
-    <ScrollView style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer} keyboardShouldPersistTaps="handled">
       <Text style={styles.mainHeader}>CUID Registration</Text>
       <View style={{ height: 20 }} />
       <View style={styles.mainSection}>

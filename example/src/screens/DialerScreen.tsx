@@ -110,7 +110,7 @@ const DialerScreen = (dialerScreenProps: DialerScreenProps) => {
   }
 
   return (
-    <ScrollView style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer} keyboardShouldPersistTaps="handled">
       <Text style={styles.mainHeader}>CUID: {initiatorCuid}</Text>
       <View style={{ height: 20 }} />
 
@@ -185,11 +185,12 @@ const DialerScreen = (dialerScreenProps: DialerScreenProps) => {
             title="Initiate VoIP Call"
             color="red"
             onPress={() => {
-              Keyboard.dismiss();
               requestPermissions(() => {
                 //permissions are granted
                 initiateVoIPCall();
+                // Keyboard.dismiss();
               });
+              
             }}
             disabled={receiverCuid.length === 0 || callContext.length === 0}
           />
