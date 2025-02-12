@@ -26,14 +26,9 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
 
   @ReactMethod
   fun removeListeners(count: Int?) {
-    moduleImpl.removeListeners(count.toInt())
+    moduleImpl.removeListeners(count)
   }
 
-
-  @SuppressLint("RestrictedApi")
-  private fun registerListeners(context: ReactContext) {
-    moduleImpl.registerListeners(context)
-  }
 
   override fun getConstants(): MutableMap<String, String> {
    return moduleImpl.getConstants()
