@@ -21,12 +21,12 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
 
   @ReactMethod
   fun addListener(eventName: String?) {
-    // Keep: Required for RN built in Event Emitter Calls.
+    moduleImpl.addListener(eventName)
   }
 
   @ReactMethod
   fun removeListeners(count: Int?) {
-    // Keep: Required for RN built in Event Emitter Calls.
+    moduleImpl.removeListeners(count.toInt())
   }
 
 

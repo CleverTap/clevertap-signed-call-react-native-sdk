@@ -64,6 +64,14 @@ class CleverTapSignedCallModule(context: ReactApplicationContext): NativeCleverT
     moduleImpl.dismissMissedCallNotification(promise)
   }
 
+  override fun addListener(eventType: String?) {
+    moduleImpl.addListener(eventType)
+  }
+
+  override fun removeListeners(count: Double) {
+   moduleImpl.removeListeners(count.toInt())
+  }
+
   override fun getTypedExportedConstants(): MutableMap<String, Any>  = moduleImpl.getConstants() as MutableMap<String, Any>
 
 
