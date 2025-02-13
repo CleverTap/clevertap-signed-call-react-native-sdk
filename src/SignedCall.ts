@@ -1,6 +1,6 @@
 'use strict';
 
-import { NativeEventEmitter, Platform } from 'react-native';
+import { DeviceEventEmitter,NativeEventEmitter, Platform } from 'react-native';
 import { LogLevel } from './models/LogLevel';
 import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
@@ -23,8 +23,11 @@ import {
 
 const CleverTapSignedCall = require('./NativeCleverTapSignedCallModule').default;
 
-const eventEmitter = new NativeEventEmitter(CleverTapSignedCall);
 
+const eventEmitter = Platform.select({
+  ios: new NativeEventEmitter(CleverTapSignedCall),
+  android: DeviceEventEmitter
+});
 /**
  * Passes the CleverTap Signed Call React Native SDK name and the current version for version tracking
  * @param {string} sdkName - SDK name's literal
