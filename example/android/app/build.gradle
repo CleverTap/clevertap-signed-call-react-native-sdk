@@ -145,10 +145,9 @@ dependencies {
   // The version of react-native is set by the React Native Gradle Plugin
   implementation("com.facebook.react:react-android")
 
-  implementation "com.clevertap.android:clevertap-android-sdk:6.2.1"
+  implementation ("androidx.core:core:1.13.0")
 //  implementation 'com.google.firebase:firebase-crashlytics'
-  implementation "com.clevertap.android:clevertap-signedcall-sdk:0.0.7.6"
-//    implementation project (":clevertap-signedcall")
+  implementation "com.clevertap.android:clevertap-signedcall-sdk:0.0.7.7"
   implementation('io.socket:socket.io-client:2.1.0') {
     exclude group: 'org.json', module: 'json'
   }

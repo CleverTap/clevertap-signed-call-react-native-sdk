@@ -10,6 +10,7 @@ import {
   Platform,
   Switch,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { useState } from 'react';
 import styles from '../styles/style';
@@ -27,7 +28,11 @@ import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isDeviceVersionTargetsBelow } from '../Helpers';
 
-export default function RegistrationPage({ navigation }: any) {
+type RegistrationPageProps = {
+  navigateToDialer: (cuid: string) => void
+}
+
+export default function RegistrationPage(registrationPageProps: RegistrationPageProps) {
   const [cuid, setCuid] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -160,7 +165,7 @@ export default function RegistrationPage({ navigation }: any) {
             swipeOffBehaviour.toString()
           );
           //navigates to the Dialer Screen with registered cuid
-          navigation.replace('Dialer', { registeredCuid: cuid });
+          registrationPageProps.navigateToDialer(cuid)
         } else {
           console.log('Signed Call initialization failed: ', response.error);
           Alert.alert(
@@ -217,7 +222,7 @@ export default function RegistrationPage({ navigation }: any) {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer} keyboardShouldPersistTaps="handled">
       <Text style={styles.mainHeader}>CUID Registration</Text>
       <View style={{ height: 20 }} />
       <View style={styles.mainSection}>
@@ -289,7 +294,7 @@ export default function RegistrationPage({ navigation }: any) {
           </>
         )}
 
-        <View style={styles.horizontalAlignment}>
+        {Platform.OS === "android" && (<View style={styles.horizontalAlignment}>
           <Text style={{ textAlign: 'center', fontSize: 12 }}>
             Show loading screen
           </Text>
@@ -300,7 +305,7 @@ export default function RegistrationPage({ navigation }: any) {
             onValueChange={(value) => setCallScreenOnSignalling(value)}
             value={callScreenOnSignalling}
           />
-        </View>
+        </View>)}
         <View style={styles.horizontalAlignment}>
           <Text style={{ textAlign: 'center', fontSize: 12 }}>
             Hide Powered By Signed Call
@@ -314,43 +319,46 @@ export default function RegistrationPage({ navigation }: any) {
           />
         </View>
 
-        <View style={styles.horizontalAlignment}>
-          <Text style={{ textAlign: 'center', fontSize: 12 }}>
-            Required Notification Permission
-          </Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#008000' }}
-            thumbColor={notificationPermissionRequired ? '#f4f3f4' : '#FFFFFF'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={(required) =>
-              setNotificationPermissionRequired(required)
-            }
-            value={notificationPermissionRequired}
-          />
-        </View>
+        {Platform.OS === "android" && (<>
+          <View style={styles.horizontalAlignment}>
+            <Text style={{ textAlign: 'center', fontSize: 12 }}>
+              Required Notification Permission
+            </Text>
+            <Switch
+              trackColor={{ false: '#767577', true: '#008000' }}
+              thumbColor={notificationPermissionRequired ? '#f4f3f4' : '#FFFFFF'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={(required) =>
+                setNotificationPermissionRequired(required)
+              }
+              value={notificationPermissionRequired}
+            />
+          </View>
 
-        <View style={styles.horizontalAlignment}>
-          <Text style={{ textAlign: 'center', fontSize: 12 }}>
-            Persist Call on Swipe Off in self-managed FG Service?
-          </Text>
-          <Switch
-            trackColor={{ false: '#767577', true: '#008000' }}
-            thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={(required) =>
-              setSwipeOffBehaviour(
-                required
-                  ? SCSwipeOffBehaviour.PersistCall
-                  : SCSwipeOffBehaviour.EndCall
-              )
-            }
-            value={
-              swipeOffBehaviour === SCSwipeOffBehaviour.PersistCall
-                ? true
-                : false
-            }
-          />
-        </View>
+          <View style={styles.horizontalAlignment}>
+            <Text style={{ textAlign: 'center', fontSize: 12 }}>
+              Persist Call on Swipe Off in self-managed FG Service?
+            </Text>
+            <Switch
+              trackColor={{ false: '#767577', true: '#008000' }}
+              thumbColor={canHidePoweredBySignedCall ? '#f4f3f4' : '#FFFFFF'}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={(required) =>
+                setSwipeOffBehaviour(
+                  required
+                    ? SCSwipeOffBehaviour.PersistCall
+                    : SCSwipeOffBehaviour.EndCall
+                )
+              }
+              value={
+                swipeOffBehaviour === SCSwipeOffBehaviour.PersistCall
+                  ? true
+                  : false
+              }
+            />
+          </View>
+        </>
+        )}
         <View style={styles.colorRow}>
           <TouchableOpacity
             style={[styles.button, { backgroundColor: buttonColors.fontColor }]}
@@ -365,13 +373,18 @@ export default function RegistrationPage({ navigation }: any) {
           >
             <Text style={styles.buttonText}>Bg Color</Text>
           </TouchableOpacity>
-          <Text style={styles.separator}>|</Text>
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: buttonColors.ccColor }]}
-            onPress={() => handleColorChange('ccColor')}
-          >
-            <Text style={styles.buttonText}>CC Color</Text>
-          </TouchableOpacity>
+          {Platform.OS === "android" && (
+            <>
+              <Text style={styles.separator}>|</Text>
+              <TouchableOpacity
+                style={[styles.button, { backgroundColor: buttonColors.ccColor }]}
+                onPress={() => handleColorChange('ccColor')}
+              >
+                <Text style={styles.buttonText}>CC Color</Text>
+              </TouchableOpacity>
+            </>
+          )
+          }
           <Text style={styles.separator}>|</Text>
           <TouchableOpacity
             style={[styles.button, { backgroundColor: buttonColors.btnTheme }]}
@@ -381,8 +394,8 @@ export default function RegistrationPage({ navigation }: any) {
               {buttonTheme === null
                 ? 'No Theme'
                 : buttonTheme === '#000000'
-                ? 'BLACK THEME'
-                : 'WHITE THEME'}
+                  ? 'BLACK THEME'
+                  : 'WHITE THEME'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -399,7 +412,7 @@ export default function RegistrationPage({ navigation }: any) {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 
   function getInitProperties(): any {

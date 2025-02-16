@@ -9,8 +9,10 @@ import {
   Keyboard,
   Platform,
   Switch,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
+import Toast from 'react-native-simple-toast';
 import styles from '../styles/style';
 import {
   SignedCall,
@@ -20,9 +22,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { requestPermissions } from '../Helpers';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
 
-const DialerScreen = ({ route, navigation }: any) => {
-  const { registeredCuid } = route.params;
+type DialerScreenProps = {
+  getCuid: () => string,
+  navigateToRegistration: () => void
+}
+const DialerScreen = (dialerScreenProps: DialerScreenProps) => {
 
+  const [initiatorCuid, setInitiatorCuid] = React.useState('');
   const [receiverCuid, setReceiverCuid] = React.useState('');
   const [callContext, setCallContext] = React.useState('');
   const [remoteCallContext, setRemoteCallContext] = React.useState(null);
@@ -31,6 +37,18 @@ const DialerScreen = ({ route, navigation }: any) => {
     React.useState(false);
 
   React.useEffect(() => {
+    let message = "Signed Call is not initalized"
+    SignedCall.isInitialized().then((isInitialized: boolean) => {
+      if (isInitialized) {
+        message = "Signed Call is initalized"
+      }
+      Toast.show(
+        message,
+        Toast.SHORT
+      );
+    }).catch((e:Error)=>{
+    })
+    setInitiatorCuid(dialerScreenProps.getCuid())
     // deactivateHandlers gets called on component unmount
     return () => {
       deactivateHandlers();
@@ -61,8 +79,8 @@ const DialerScreen = ({ route, navigation }: any) => {
           Alert.alert('VoIP call is failed!', response.error?.errorMessage);
         }
       })
-      .catch((e: any) => {
-        console.error(e);
+      .catch((e: Error) => {
+        console.log(e);
       });
   }
 
@@ -70,7 +88,7 @@ const DialerScreen = ({ route, navigation }: any) => {
     SignedCall.logout();
     AsyncStorage.clear();
     //navigates to the Registration Screen
-    navigation.replace('Registration', {});
+    dialerScreenProps.navigateToRegistration()
   }
 
   function startForegroundService() {
@@ -92,8 +110,8 @@ const DialerScreen = ({ route, navigation }: any) => {
   }
 
   return (
-    <View style={styles.mainContainer}>
-      <Text style={styles.mainHeader}>CUID: {registeredCuid}</Text>
+    <ScrollView style={styles.mainContainer} keyboardShouldPersistTaps="handled">
+      <Text style={styles.mainHeader}>CUID: {initiatorCuid}</Text>
       <View style={{ height: 20 }} />
 
       <View style={styles.mainSection}>
@@ -167,11 +185,12 @@ const DialerScreen = ({ route, navigation }: any) => {
             title="Initiate VoIP Call"
             color="red"
             onPress={() => {
-              Keyboard.dismiss();
               requestPermissions(() => {
                 //permissions are granted
                 initiateVoIPCall();
+                // Keyboard.dismiss();
               });
+              
             }}
             disabled={receiverCuid.length === 0 || callContext.length === 0}
           />
@@ -180,7 +199,7 @@ const DialerScreen = ({ route, navigation }: any) => {
           <Button
             title="Disconnect Signalling Socket"
             color="blue"
-            onPress={() => SignedCall.disconnectSignallingSocket()}
+            onPress={async () => await SignedCall.disconnectSignallingSocket()}
           />
         </View>
         {Platform.OS === 'android' && (
@@ -207,8 +226,29 @@ const DialerScreen = ({ route, navigation }: any) => {
         <View style={styles.buttonContainer}>
           <Button title="Logout" color="red" onPress={() => logoutSession()} />
         </View>
+        {Platform.OS === 'android' && (
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Dismiss missed call notification"
+              color="green"
+              onPress={async () => {
+                const result = await SignedCall.dismissMissedCallNotification();
+                if (!result) {
+                  console.log(
+                    'VoIP call is failed: ',
+                    'Invalid operation to get back to call'
+                  );
+                  Alert.alert(
+                    'No active call!',
+                    'Invalid operation to get back to call'
+                  );
+                }
+              }}
+            />
+          </View>
+        )}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

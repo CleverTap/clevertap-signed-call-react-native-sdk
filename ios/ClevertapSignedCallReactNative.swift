@@ -3,6 +3,8 @@ import CleverTapSDK
 import React
 import OSLog
 
+import Foundation
+
 @objc(CleverTapSignedCall)
 class CleverTapSignedCall: RCTEventEmitter {
     
@@ -15,14 +17,25 @@ class CleverTapSignedCall: RCTEventEmitter {
         super.init()
         NotificationCenter.default.addObserver(self, selector: #selector(self.callStatus(notification:)), name: SCConstant.SCCallStatusDidUpdate, object: nil)
     }
-    @objc(trackSdkVersion:withsdkVersion:)
-    func trackSdkVersion(sdkName: String, sdkVersion: Int) -> Void {
+  
+    @objc(getBackToCall:reject:)
+    func getBackToCall(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+          
+    }
+  
+    @objc(getCallState:reject:)
+    func getCallState(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+          
+    }
+  
+  @objc(trackSdkVersion:sdkVersion:resolve:reject:)
+    func trackSdkVersion(sdkName: String, sdkVersion: Double,resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method trackSDKVersion to track the SDK Version", log: .default, type: .default)
         CleverTap().setCustomSdkVersion(sdkName, version: Int32(sdkVersion))
     }
     
     @objc(setDebugLevel:)
-    func setDebugLevel(logLevel: Int) -> Void {
+  func setDebugLevel(logLevel: Double) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method setDebugLevel with value: %{public}@", log: .default, type: .default, logLevel.description)
         guard logLevel >= 0 else {
             SignedCall.isLoggingEnabled = false
@@ -31,7 +44,7 @@ class CleverTapSignedCall: RCTEventEmitter {
         SignedCall.isLoggingEnabled = true
     }
     
-    @objc(call:withContext:withCallProperties:withResolver:withRejecter:)
+  @objc(call:callContext:callProperties:resolve:reject:)
     func call(receiverCuid: String?, callContext: String?, callProperties: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         guard let callContext = callContext, let receiverCuid = receiverCuid else {
             os_log("[CT]:[SignedCall]:[RN] Handle method call, key: callContext and receiverCuid not available", log: logValue, type: .default)
@@ -65,25 +78,26 @@ class CleverTapSignedCall: RCTEventEmitter {
         }
     }
     
-    @objc(initialize:withResolver:withRejecter:)
-    func initialize(initOptions: NSDictionary, resolve: @escaping RCTPromiseResolveBlock,reject: @escaping RCTPromiseRejectBlock) -> Void {
+    @objc(initialize:resolve:reject:)
+    func initialize(initProperties: NSDictionary, resolve: @escaping RCTPromiseResolveBlock,reject: @escaping RCTPromiseRejectBlock) -> Void {
         
-        guard var initOptionsDict = initOptions as? [String: Any?] else {
+        guard var initOptionsDict = initProperties as? [String: Any?] else {
             os_log("[CT]:[SignedCall]:[RN] Handle method initialize, key: initOptions not available", log: logValue, type: .default)
             return
         }
         
-        initOptionsDict["accountID"] = initOptions["accountId"]
+        initOptionsDict["accountID"] = initProperties["accountId"]
         
-        if let brandingDetails = initOptions["overrideDefaultBranding"] as? [String: Any?],
-        let bgColor = brandingDetails["bgColor"] as? String,
-           let fontColor = brandingDetails["fontColor"] as? String,
-           let logoUrl = brandingDetails["logoUrl"] as? String,
-           let showPoweredBySignedCall = brandingDetails["showPoweredBySignedCall"] as? Bool,
-           let buttonTheme = brandingDetails["buttonTheme"] as? String {
-            SignedCall.overrideDefaultBranding = SCCallScreenBranding(bgColor: bgColor, fontColor: fontColor, logo: logoUrl, buttonTheme: buttonTheme == "light" ? .light : .dark)
-            SignedCall.overrideDefaultBranding?.setDisplayPoweredBySignedCall(showPoweredBySignedCall)
-        }
+      if let brandingDetails = initProperties["overrideDefaultBranding"] as? [String: Any?]{
+        let bgColor = brandingDetails["bgColor"] as? String
+        let fontColor = brandingDetails["fontColor"] as? String
+        let logoUrl = brandingDetails["logoUrl"] as? String
+        let showPoweredBySignedCall = brandingDetails["showPoweredBySignedCall"] as? Bool
+        let buttonTheme = brandingDetails["buttonTheme"] as? String ?? "light"
+        SignedCall.overrideDefaultBranding = SCCallScreenBranding(bgColor: bgColor, fontColor: fontColor, logo: logoUrl, buttonTheme: buttonTheme == "light" ? .light : .dark)
+        SignedCall.overrideDefaultBranding?.setDisplayPoweredBySignedCall(showPoweredBySignedCall ?? true)
+      }
+         
         
         
         SignedCall.initSDK(withInitOptions: initOptionsDict) { result in
@@ -98,22 +112,25 @@ class CleverTapSignedCall: RCTEventEmitter {
         }
     }
     
-    @objc(logout)
-    func logout() -> Void {
+  @objc(logout:reject:)
+    func logout(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method logout", log: logValue, type: .default)
         SignedCall.logout()
+        resolve(nil)
     }
     
-    @objc(disconnectSignallingSocket)
-    func disconnectSignallingSocket() -> Void {
+  @objc(disconnectSignallingSocket:reject:)
+    func disconnectSignallingSocket(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method disconnectSignallingSocket", log: logValue, type: .default)
         SignedCall.disconnectSignallingSocket()
+        resolve(nil)
     }
     
-    @objc(hangupCall)
-    func hangupCall() -> Void {
+  @objc(hangupCall:reject:)
+    func hangupCall(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method hangupCall", log: logValue, type: .default)
         SignedCall.hangup()
+        resolve(nil)
     }
     
     // MARK: - Call Event Handling
@@ -156,5 +173,13 @@ class CleverTapSignedCall: RCTEventEmitter {
         if hasListeners {
             sendEvent(withName: SCConstant.onCallStatusChanged, body: callDetails)
         }
+    }
+  
+  @objc func isInitialized(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+      
+    }
+
+    @objc func dismissMissedCallNotification(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+      
     }
 }

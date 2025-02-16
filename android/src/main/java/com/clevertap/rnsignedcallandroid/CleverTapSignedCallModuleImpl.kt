@@ -32,6 +32,10 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
   private lateinit var outgoingCallResponse: OutgoingCallResponse
 
   companion object {
+    /**
+     * Exports the Name of the Android module. TypeScript/Javascript part of the package used this
+     * name to communicate with this NativeModule class.
+     */
     const val NAME = "CleverTapSignedCall"
     const val ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED = "CleverTap Instance is not initialized"
   }
@@ -73,10 +77,14 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
   }
 
   @SuppressLint("RestrictedApi")
-  fun trackSdkVersion(sdkName: String, sdkVersion: Int) {
-    cleverTapAPI?.let { cleverTapAPI!!.setCustomSdkVersion(sdkName, sdkVersion) }
+  fun trackSdkVersion(sdkName: String, sdkVersion: Int,promise: Promise) {
+    cleverTapAPI?.let {
+     cleverTapAPI!!.setCustomSdkVersion(sdkName, sdkVersion)
+      promise.resolve(null)
+    }
       ?: run {
         log(message = "$ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED to track the SDK Version")
+        promise.reject("$ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED to track the SDK Version")
       }
   }
 
@@ -168,25 +176,58 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
   }
 
   /** Logs out the Signed Call SDK session */
-  fun logout() {
-    getSignedCallAPI().logout(reactContext)
+  fun logout(promise: Promise) {
+    promiseHandler(getSignedCallAPI().logout(reactContext.applicationContext),promise)
   }
 
   /** Ends the active call, if any. */
-  fun hangupCall() {
-    getSignedCallAPI().callController?.endCall()
+  fun hangupCall(promise: Promise) {
+    promise.resolve(getSignedCallAPI().callController?.endCall())
   }
 
   /** Disconnects the signalling socket */
-  fun disconnectSignallingSocket() {
-    getSignedCallAPI().disconnectSignallingSocket(reactContext)
+  fun disconnectSignallingSocket(promise: Promise) {
+    promise.resolve(getSignedCallAPI().disconnectSignallingSocket(reactContext.applicationContext))
   }
 
+  /** Exports constants for Typescript or Javascript part of this package. */
   fun getConstants(): MutableMap<String, String> {
     return mutableMapOf(
       ON_CALL_STATUS_CHANGED to ON_CALL_STATUS_CHANGED,
       ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED
     )
+  }
+
+  /**
+   * Checks if the Signed Call SDK is initialized.
+   *
+   */
+  fun isInitialized(promise: Promise) {
+   promiseHandler(getSignedCallAPI().isInitialized(reactContext.applicationContext),promise)
+  }
+
+  /**
+   * Dismisses the missed call notification.
+   *
+   * This method is intended to be called after a VoIP call use case is completed
+   *
+   */
+  fun dismissMissedCallNotification(promise: Promise) {
+    promiseHandler(getSignedCallAPI().dismissMissedCallNotification(reactContext.applicationContext),promise)
+  }
+
+
+
+  private fun promiseHandler(promiseFunction:Any, promise: Promise) {
+    try {
+      when(promiseFunction) {
+        is Unit -> promise.resolve(null)
+        else -> promise.resolve(promiseFunction)
+      }
+
+    } catch (e:Throwable) {
+      promise.reject(e)
+    }
   }
 
 }

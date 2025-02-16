@@ -82,8 +82,27 @@ const activateHandlers = () => {
       SignedCall.SignedCallOnMissedCallActionClicked,
       (result) => {
         Toast.show(result.action.actionLabel + ' is clicked!', Toast.SHORT);
-
         console.log('SignedCallOnMissedCallActionClicked', result);
+        let receiverCuid = result.callDetails.callerCuid
+        let callContext = result.callDetails.callContext
+        let callProperties = {
+          remote_context: result.callDetails.remoteContext
+        }
+        SignedCall.isInitialized().then(
+          (isInitialized) => {
+            if(isInitialized) {
+              SignedCall.call(receiverCuid,callContext,{}).then(()=>{
+                console.log('Successfully placed callback')
+              }).catch((e) => {
+                  console.log("Error placing callback")
+              })
+            } else {
+              SignedCall.initialize({}).then(()=>{
+                SignedCall.call(receiverCuid,callContext,callProperties)
+              })
+            }
+          }
+        )
       }
     );
   }

@@ -1,11 +1,10 @@
 'use strict';
 
-import { NativeEventEmitter } from 'react-native';
+import { DeviceEventEmitter,NativeEventEmitter, Platform } from 'react-native';
 import { LogLevel } from './models/LogLevel';
 import { MissedCallActionClickResult } from './models/MissedCallAction';
 import { SignedCallResponse } from './models/SignedCallResponse';
 import { SignedCallLogger } from './utils/SignedCallLogger';
-import { Constants } from './Constants';
 import { CallDirection, CallEventResult } from './models/CallEventResult';
 import { CallEvent } from './models/CallEvent';
 import { SCCallState, SCCallStateUtil } from './models/SCCallState';
@@ -22,28 +21,20 @@ import {
   SignalingChannelUtil,
 } from './models/SignalingChannel';
 
-// const CleverTapSignedCall = NativeModules.CleverTapSignedCall
-//   ? NativeModules.CleverTapSignedCall
-//   : new Proxy(
-//       {},
-//       {
-//         get() {
-//           throw new Error(Constants.LINKING_ERROR);
-//         },
-//       }
-//     );
-
 const CleverTapSignedCall = require('./NativeCleverTapSignedCallModule').default;
 
-const eventEmitter = new NativeEventEmitter(CleverTapSignedCall);
 
+const eventEmitter = Platform.select({
+  ios: new NativeEventEmitter(CleverTapSignedCall),
+  android: DeviceEventEmitter
+});
 /**
  * Passes the CleverTap Signed Call React Native SDK name and the current version for version tracking
  * @param {string} sdkName - SDK name's literal
  * @param {number} sdkVersion - The updated SDK version. /// If the current version is X.X.X then pass as X0X0X
  */
 const sdkName = 'ctscsdkversion-react-native';
-const sdkVersion = 76;
+const sdkVersion = 77;
 CleverTapSignedCall.trackSdkVersion(sdkName, sdkVersion);
 
 class SignedCall {
@@ -57,9 +48,9 @@ class SignedCall {
    *
    * @param {LogLevel} logLevel  an enum value from LogLevel class
    */
-  static setDebugLevel(logLevel: LogLevel) {
+  static async setDebugLevel(logLevel: LogLevel):Promise<void> {
     SignedCallLogger.setLogLevel(logLevel);
-    CleverTapSignedCall.setDebugLevel(logLevel);
+    await CleverTapSignedCall.setDebugLevel(logLevel);
   }
 
   /**
@@ -94,27 +85,46 @@ class SignedCall {
     });
   }
 
-  static getBackToCall(): boolean {
-    return CleverTapSignedCall.getBackToCall();
+  /**
+   * Attempts to return to the active call screen. Available only on Android
+   *
+   * This method checks if there is an active call and if the client is on VoIP call.
+   * If both conditions are met, it starts the call screen activity.
+   *
+   */
+  static async getBackToCall(): Promise<boolean> {
+    if (Platform.OS == "android") {
+      return await CleverTapSignedCall.getBackToCall();
+    } else {
+      throw new Error("getBackToCall function is available only on android")
+    }
   }
 
+  /**
+   * Retrieves the current call state. Available only on Android
+   * @return The current call state.
+   */
   static async getCallState(): Promise<SCCallState | null> {
-    const callState = await CleverTapSignedCall.getCallState();
-    return SCCallStateUtil.fromString(callState);
+    if (Platform.OS == "android") {
+      const callState = await CleverTapSignedCall.getCallState();
+      return SCCallStateUtil.fromString(callState);
+    } else {
+      throw new Error ("getCallState function is available only on android")
+    }
   }
 
   /**
    * Logs out the user by invalidating the active Signed Call session
    */
-  static logout() {
-    CleverTapSignedCall.logout();
+  static async logout(): Promise<void> {
+    await CleverTapSignedCall.logout();
   }
 
   /**
    * Ends the active call, if any.
    */
-  static hangupCall() {
-    CleverTapSignedCall.hangupCall();
+  static async hangupCall(): Promise<void> {
+    await CleverTapSignedCall.hangupCall();
   }
 
   /**
@@ -131,8 +141,8 @@ class SignedCall {
    *
    * Once this method is called, SDK re-initialization is required to undo its behavior.
    */
-  static disconnectSignallingSocket() {
-    CleverTapSignedCall.disconnectSignallingSocket();
+  static async disconnectSignallingSocket(): Promise<void> {
+    await CleverTapSignedCall.disconnectSignallingSocket();
   }
 
   /**
@@ -166,6 +176,33 @@ class SignedCall {
   static removeListener(eventName: string): void {
     eventEmitter.removeAllListeners(eventName);
   }
+
+
+  /**
+   * Checks if the Signed Call SDK is initialized. Available only on Android
+   *
+   * @return {@code true} if the SDK is enabled and the session config is available, otherwise {@code false}.
+   */
+  static async isInitialized(): Promise<boolean> {
+    if (Platform.OS == "android") {
+      return await CleverTapSignedCall.isInitialized();
+    } 
+    throw new Error("isInitialized is available only on android")
+  }
+
+  /**
+   * Dismisses the missed call notification. Available only on Android
+   *
+   * This method is intended to be called after a VoIP call use case is completed
+   *
+   */
+  static async dismissMissedCallNotification(): Promise<boolean> {
+    if (Platform.OS == "android") {
+      return await CleverTapSignedCall.dismissMissedCallNotification();
+    }
+    throw new Error("dismissMissedCallNotification is available only on android")
+  }
+
 }
 
 export {
