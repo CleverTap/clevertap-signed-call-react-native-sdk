@@ -32,7 +32,7 @@ class CleverTapSignedCallModule(context: ReactApplicationContext): NativeCleverT
   }
 
   override fun getCallState(promise: Promise) {
-    moduleImpl.getBackToCall(promise)
+    moduleImpl.getCallState(promise)
   }
 
   override fun logout(promise: Promise) {
