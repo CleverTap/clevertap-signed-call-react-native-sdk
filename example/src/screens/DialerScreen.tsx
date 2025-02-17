@@ -49,19 +49,7 @@ const DialerScreen = (dialerScreenProps: DialerScreenProps) => {
     }).catch((e:Error)=>{
     })
     setInitiatorCuid(dialerScreenProps.getCuid())
-    // deactivateHandlers gets called on component unmount
-    return () => {
-      deactivateHandlers();
-    };
   }, []);
-
-  function deactivateHandlers() {
-    //cleanup to remove event listeners
-    SignedCall.removeListener(SignedCall.SignedCallOnCallStatusChanged);
-    if (Platform.OS === 'android') {
-      SignedCall.removeListener(SignedCall.SignedCallOnMissedCallActionClicked);
-    }
-  }
 
   function initiateVoIPCall() {
     let callProperties: { [k: string]: any } = {};
