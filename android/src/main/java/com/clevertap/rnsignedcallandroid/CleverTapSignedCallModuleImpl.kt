@@ -62,7 +62,7 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
   }
 
   @SuppressLint("RestrictedApi")
-   fun registerListeners(context: ReactContext) {
+  fun registerListeners(context: ReactContext) {
     if (!SignedCallUtils.isAppInBackground()) {
       SignedCallAPI.getInstance().registerVoIPCallStatusListener { data ->
         log(message = "SignedCallOnCallStatusListener is invoked in foreground or background: $data")
@@ -77,9 +77,9 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
   }
 
   @SuppressLint("RestrictedApi")
-  fun trackSdkVersion(sdkName: String, sdkVersion: Int,promise: Promise) {
+  fun trackSdkVersion(sdkName: String, sdkVersion: Int, promise: Promise) {
     cleverTapAPI?.let {
-     cleverTapAPI!!.setCustomSdkVersion(sdkName, sdkVersion)
+      cleverTapAPI!!.setCustomSdkVersion(sdkName, sdkVersion)
       promise.resolve(null)
     }
       ?: run {
@@ -99,7 +99,8 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     initProperties?.let {
       try {
-        val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it, reactContext.applicationContext)
+        val initConfiguration: SignedCallInitConfiguration? =
+          getInitConfigFromReadableMap(it, reactContext.applicationContext)
         signedCallAPI.init(
           reactContext.applicationContext,
           initConfiguration,
@@ -133,7 +134,7 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
     try {
       val callOptions = callProperties?.toJson()
 
-      outgoingCallResponse = object: OutgoingCallResponse {
+      outgoingCallResponse = object : OutgoingCallResponse {
         override fun onSuccess() {
           promise.resolve(signedCallResponseToWritableMap(exception = null))
         }
@@ -164,7 +165,7 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
    * If both conditions are met, it starts the call screen activity.
    */
   fun getBackToCall(promise: Promise) {
-    promise.resolve(getSignedCallAPI().callController?.getBackToCall(reactContext))
+    promiseHandler(getSignedCallAPI().callController?.getBackToCall(reactContext), promise)
   }
 
   /**
@@ -172,22 +173,25 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
    * @return The current call state.
    */
   fun getCallState(promise: Promise) {
-    promise.resolve(getSignedCallAPI().callController?.callState?.formattedCallState())
+    promiseHandler(getSignedCallAPI().callController?.callState?.formattedCallState(), promise)
   }
 
   /** Logs out the Signed Call SDK session */
   fun logout(promise: Promise) {
-    promiseHandler(getSignedCallAPI().logout(reactContext.applicationContext),promise)
+    promiseHandler(getSignedCallAPI().logout(reactContext.applicationContext), promise)
   }
 
   /** Ends the active call, if any. */
   fun hangupCall(promise: Promise) {
-    promise.resolve(getSignedCallAPI().callController?.endCall())
+    promiseHandler(getSignedCallAPI().callController?.endCall(), promise)
   }
 
   /** Disconnects the signalling socket */
   fun disconnectSignallingSocket(promise: Promise) {
-    promise.resolve(getSignedCallAPI().disconnectSignallingSocket(reactContext.applicationContext))
+    promiseHandler(
+      getSignedCallAPI().disconnectSignallingSocket(reactContext.applicationContext),
+      promise
+    )
   }
 
   /** Exports constants for Typescript or Javascript part of this package. */
@@ -203,7 +207,7 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
    *
    */
   fun isInitialized(promise: Promise) {
-   promiseHandler(getSignedCallAPI().isInitialized(reactContext.applicationContext),promise)
+    promiseHandler(getSignedCallAPI().isInitialized(reactContext.applicationContext), promise)
   }
 
   /**
@@ -213,19 +217,21 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
    *
    */
   fun dismissMissedCallNotification(promise: Promise) {
-    promiseHandler(getSignedCallAPI().dismissMissedCallNotification(reactContext.applicationContext),promise)
+    promiseHandler(
+      getSignedCallAPI().dismissMissedCallNotification(reactContext.applicationContext),
+      promise
+    )
   }
 
 
-
-  private fun promiseHandler(promiseFunction:Any, promise: Promise) {
+  private fun promiseHandler(promiseFunction: Any?, promise: Promise) {
     try {
-      when(promiseFunction) {
+      when (promiseFunction) {
         is Unit -> promise.resolve(null)
         else -> promise.resolve(promiseFunction)
       }
 
-    } catch (e:Throwable) {
+    } catch (e: Throwable) {
       promise.reject(e)
     }
   }
