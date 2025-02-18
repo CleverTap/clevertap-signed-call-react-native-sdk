@@ -9,6 +9,7 @@ import {
 import Toast from 'react-native-simple-toast';
 import { Platform } from 'react-native';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
+import { Constants } from './src/Constants';
 
 const activateHandlers = () => {
   //To keep track on changes in the VoIP call's state
@@ -80,36 +81,42 @@ const activateHandlers = () => {
     //To keep track on click over missed call notification
     SignedCall.addListener(
       SignedCall.SignedCallOnMissedCallActionClicked,
-      (result) => {
+      async (result) => {
+        try{
         Toast.show(result.action.actionLabel + ' is clicked!', Toast.SHORT);
         console.log('SignedCallOnMissedCallActionClicked', result);
         let receiverCuid = result.callDetails.callerCuid
         let callContext = result.callDetails.callContext
         let callProperties = {
-          remote_context: result.callDetails.remoteContext
+          remote_context: result.callDetails.remoteContext,
+          receiver_image: result.callDetails.initiatorImage,
+          initiator_image: result.callDetails.receiverImage
         }
-        SignedCall.isInitialized().then(
-          (isInitialized) => {
-            if(isInitialized) {
-              SignedCall.call(receiverCuid,callContext,{}).then(()=>{
-                console.log('Successfully placed callback')
-              }).catch((e) => {
-                  console.log("Error placing callback")
-              })
-            } else {
-              SignedCall.initialize({
-                accountId: Constants.SC_ACCOUNT_ID,
-                apiKey: Constants.SC_API_KEY,
-                cuid: result.callDetails.calleeCuid,
-                allowPersistSocketConnection: true,
-                notificationPermissionRequired: true,
-                production: true,
-              }).then(()=>{
-                SignedCall.call(receiverCuid,callContext,callProperties)
-              })
-            }
-          }
-        )
+        callProperties =  Object.fromEntries(
+          Object.entries(callProperties).filter(([key, value]) => value !== null)
+        );
+        const isInitialized = await SignedCall.isInitialized();
+        console.log("isInitialized",isInitialized)
+        if(isInitialized) {
+          console.log("callProperties",callProperties)
+          await SignedCall.call(receiverCuid,callContext,callProperties)
+          console.log("placing call")
+        } else {
+          await SignedCall.initialize({
+            accountId: Constants.SC_ACCOUNT_ID,
+            apiKey: Constants.SC_API_KEY,
+            cuid: result.callDetails.calleeCuid,
+            allowPersistSocketConnection: true,
+            notificationPermissionRequired: true,
+            production: true,
+          })
+          console.log("Initalization completes")
+          console.log("placing call")
+          await SignedCall.call(receiverCuid,callContext,callProperties)
+        }
+      }catch(e) {
+        console.log("Error in handling missed call notification click ",e)
+      }
       }
     );
   }
