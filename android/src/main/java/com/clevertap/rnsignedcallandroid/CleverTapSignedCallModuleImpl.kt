@@ -178,7 +178,8 @@ class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationCo
 
   /** Logs out the Signed Call SDK session */
   fun logout(promise: Promise) {
-    promiseHandler(getSignedCallAPI().logout(reactContext.applicationContext), promise)
+    getSignedCallAPI().logout(reactContext.applicationContext)
+    promiseHandler(true, promise)
   }
 
   /** Ends the active call, if any. */

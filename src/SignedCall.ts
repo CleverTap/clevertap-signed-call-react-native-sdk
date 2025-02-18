@@ -34,7 +34,7 @@ const eventEmitter = Platform.select({
  * @param {number} sdkVersion - The updated SDK version. /// If the current version is X.X.X then pass as X0X0X
  */
 const sdkName = 'ctscsdkversion-react-native';
-const sdkVersion = 77;
+const sdkVersion = 80;
 CleverTapSignedCall.trackSdkVersion(sdkName, sdkVersion);
 
 class SignedCall {
@@ -116,8 +116,8 @@ class SignedCall {
   /**
    * Logs out the user by invalidating the active Signed Call session
    */
-  static async logout(): Promise<void> {
-    await CleverTapSignedCall.logout();
+  static async logout(): Promise<boolean> {
+    return await CleverTapSignedCall.logout();
   }
 
   /**

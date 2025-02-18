@@ -2,27 +2,33 @@ package com.clevertap.rnsignedcallandroid.internal.util
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
-import com.facebook.infer.annotation.Assertions
 import com.facebook.react.ReactApplication
 import com.facebook.react.ReactInstanceEventListener
 import com.facebook.react.ReactInstanceManager
 import com.facebook.react.ReactNativeHost
 import com.facebook.react.bridge.ReactContext
+import kotlin.jvm.Throws
 
 
 object ReactContextHandler {
 
-  private const val TAG = "ReactContextHandler"
-
-  fun execute(context: Context, runnable: (reactContext:ReactContext) -> Unit) {
+  /**
+   * Executes the @param runnable with reactContext even in killed state of app
+   * @throws Exception if reactContext cannot be fetched or created
+   *
+   */
+  @Throws(Exception::class)
+  fun execute(
+    context: Context,
+    runnable: (reactContext: ReactContext) -> Unit,
+  ) {
     val reactContext = getReactContext(context)
     if (reactContext != null) {
       runnable(reactContext)
       return
     }
-    val reactHost: Any = getReactHost(context) ?: {
-      Utils.log(message = "Failed to get React Host")
+    val reactHost: Any = getReactHost(context) ?: run {
+      throw Exception("Failed to get React Host")
     }
     if (isBridgelessArchitectureEnabled()) { // NEW arch
       val callback: ReactInstanceEventListener =
@@ -38,7 +44,7 @@ object ReactContextHandler {
                   )
               removeReactInstanceEventListener.invoke(reactHost, this)
             } catch (e: Exception) {
-              Utils.log(message = "reflection error A: $e")
+              throw e
             }
           }
         }
@@ -51,7 +57,7 @@ object ReactContextHandler {
         val startReactHost = reactHost.javaClass.getMethod("start")
         startReactHost.invoke(reactHost)
       } catch (e: Exception) {
-        Utils.log(message = "reflection error ReactHost start: " + e.message)
+        throw e
       }
     } else { // OLD arch
       val reactInstanceManager: ReactInstanceManager =
@@ -72,7 +78,6 @@ object ReactContextHandler {
   fun getReactContext(context: Context): ReactContext? {
     if (isBridgelessArchitectureEnabled()) {
       val reactHost = getReactHost(context)
-      Assertions.assertNotNull(reactHost, "getReactHost() is null in New Architecture")
       try {
         checkNotNull(reactHost)
         val getCurrentReactContext = reactHost.javaClass.getMethod("getCurrentReactContext")
@@ -88,8 +93,7 @@ object ReactContextHandler {
   }
 
   /**
-   * Return true if this app is running with RN's bridgeless architecture. Cheers to @mikehardy for
-   * this idea.
+   * Return true if this app is running with RN's bridgeless architecture.
    *
    * @return true if new arch bridgeless mode is enabled
    */
@@ -105,7 +109,7 @@ object ReactContextHandler {
     }
   }
 
-  /** Get the {ReactHost} used by this app. ure and returns null if not.  */
+  /** Get the {ReactHost} used by this app and returns null if not.  */
   private fun getReactHost(context: Context): Any? {
     try {
       val getReactHost = context.applicationContext.javaClass.getMethod("getReactHost")

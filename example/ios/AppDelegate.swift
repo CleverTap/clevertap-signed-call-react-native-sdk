@@ -2,7 +2,6 @@
 //  AppDelegate.swift
 //  ClevertapSignedCallReactNativeExample
 //
-//  Created by Shrinath Gupta on 08/02/25.
 //
 
 

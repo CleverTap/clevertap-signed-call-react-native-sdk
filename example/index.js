@@ -97,7 +97,14 @@ const activateHandlers = () => {
                   console.log("Error placing callback")
               })
             } else {
-              SignedCall.initialize({}).then(()=>{
+              SignedCall.initialize({
+                accountId: Constants.SC_ACCOUNT_ID,
+                apiKey: Constants.SC_API_KEY,
+                cuid: result.callDetails.calleeCuid,
+                allowPersistSocketConnection: true,
+                notificationPermissionRequired: true,
+                production: true,
+              }).then(()=>{
                 SignedCall.call(receiverCuid,callContext,callProperties)
               })
             }

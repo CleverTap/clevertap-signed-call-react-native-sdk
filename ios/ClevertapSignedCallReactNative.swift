@@ -20,18 +20,19 @@ class CleverTapSignedCall: RCTEventEmitter {
   
     @objc(getBackToCall:reject:)
     func getBackToCall(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-          
+      // Signed Call getBackToCall is no-op in iOS
     }
   
     @objc(getCallState:reject:)
     func getCallState(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-          
+      // Signed Call getCallState is no-op in iOS
     }
   
   @objc(trackSdkVersion:sdkVersion:resolve:reject:)
     func trackSdkVersion(sdkName: String, sdkVersion: Double,resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method trackSDKVersion to track the SDK Version", log: .default, type: .default)
         CleverTap().setCustomSdkVersion(sdkName, version: Int32(sdkVersion))
+        resolve(nil)
     }
     
     @objc(setDebugLevel:)
@@ -48,6 +49,7 @@ class CleverTapSignedCall: RCTEventEmitter {
     func call(receiverCuid: String?, callContext: String?, callProperties: NSDictionary, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         guard let callContext = callContext, let receiverCuid = receiverCuid else {
             os_log("[CT]:[SignedCall]:[RN] Handle method call, key: callContext and receiverCuid not available", log: logValue, type: .default)
+            reject(nil,"key: callContext and receiverCuid not available",nil)
             return
         }
       
@@ -83,6 +85,7 @@ class CleverTapSignedCall: RCTEventEmitter {
         
         guard var initOptionsDict = initProperties as? [String: Any?] else {
             os_log("[CT]:[SignedCall]:[RN] Handle method initialize, key: initOptions not available", log: logValue, type: .default)
+            reject(nil,"initOptions not available",nil)
             return
         }
         
@@ -116,7 +119,7 @@ class CleverTapSignedCall: RCTEventEmitter {
     func logout(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) -> Void {
         os_log("[CT]:[SignedCall]:[RN] Handle method logout", log: logValue, type: .default)
         SignedCall.logout()
-        resolve(nil)
+        resolve(true)
     }
     
   @objc(disconnectSignallingSocket:reject:)
@@ -176,10 +179,10 @@ class CleverTapSignedCall: RCTEventEmitter {
     }
   
   @objc func isInitialized(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-      
+    // Signed Call isInitialized is no-op in iOS
     }
 
     @objc func dismissMissedCallNotification(resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
-      
+      // Signed Call dismissMissedCallNotification is no-op in iOS
     }
 }

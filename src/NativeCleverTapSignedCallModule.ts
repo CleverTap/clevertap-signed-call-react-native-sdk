@@ -1,64 +1,11 @@
 import { TurboModuleRegistry, type TurboModule } from "react-native";
 import type { SignedCallResponse } from "./models/SignedCallResponse";
 import { type SCCallState } from "./SignedCall";
-
-type CallBranding = {
-    bgColor: string,
-    fontColor: string,
-    logoUrl: string,
-    buttonTheme: string,
-    cancelCountdownColor: string
-    showPoweredBySignedCall: boolean
-}
-
-type PushPrimer = {
-    inAppType: string,
-    titleText: string,
-    messageText: string,
-    followDeviceOrientation: boolean,
-    positiveBtnText: string,
-    negativeBtnText: string,
-    fallbackToSettings: boolean,
-}
-
-type FCMNotification = {
-    title: string,
-    subtitle: string,
-    largeIcon: string,
-    cancelCtaLabel: string
-}
-
-type InitProperties = {
-    accountId: string,
-    apiKey: string,
-    cuid: string,
-    overrideDefaultBranding: CallBranding,
-    allowPersistSocketConnection: boolean,
-    promptPushPrimer: PushPrimer,
-    missedCallActions: FCMNotification | null,
-    callScreenOnSignalling: boolean,
-    notificationPermissionRequired: boolean,
-    swipeOffBehaviourInForegroundService: string,
-    fcmProcessingMode: string,
-    fcmProcessingNotification: FCMNotification,
-    production: boolean
-}
-
-
-type CallProperties = {
-    remote_context: string
-}
-
-type SignedCallConstants = {
-    SignedCallOnMissedCallActionClicked: string,
-    SignedCallOnCallStatusChanged: string
-}
-
 export interface Spec extends TurboModule {
 
     getConstants(): SignedCallConstants
 
-    initialize(initProperties: InitProperties): Promise<SignedCallResponse>
+    initialize(initProperties: AndroidInitProperties | iOSInitProperties): Promise<SignedCallResponse>
 
     call(
         receiverCuid: string,
@@ -70,7 +17,7 @@ export interface Spec extends TurboModule {
 
     getCallState(): Promise<SCCallState | null>
 
-    logout(): Promise<void>
+    logout(): Promise<boolean>
 
     hangupCall(): Promise<void>
 
@@ -95,3 +42,77 @@ export interface Spec extends TurboModule {
 export default TurboModuleRegistry.getEnforcing<Spec>(
     'CleverTapSignedCall',
 );
+
+type AndroidInitProperties = {
+    accountId: string,
+    apiKey: string,
+    cuid: string,
+    allowPersistSocketConnection: boolean,
+    notificationPermissionRequired: boolean,
+    appId: string | null,
+    name:string | null,
+    ringtone: string | null,
+    promptReceiverReadPhoneStatePermission: boolean | null,
+    overrideDefaultBranding: CallBranding | null,
+    missedCallActions: MissedCallActions | null,
+    promptPushPrimer: PushPrimer | null,
+    callScreenOnSignalling: boolean | null,
+    // EndCall or PersistCall
+    swipeOffBehaviourInForegroundService: string | null,
+    // foreground or background
+    fcmProcessingMode: string | null,
+    fcmProcessingNotification: FCMNotification | null,
+}
+
+type iOSInitProperties = {
+    accountId: string,
+    apiKey: string,
+    cuid: string,
+    production:boolean,
+    overrideDefaultBranding: CallBranding | null,
+}
+
+type CallBranding = {
+    bgColor: string | null,
+    fontColor: string  | null,
+    logoUrl: string  | null,
+    // dark or light
+    buttonTheme: string  | null,
+    // cancelCountdownColor is NA for iOS
+    cancelCountdownColor: string  | null,
+    showPoweredBySignedCall: boolean  | null
+}
+
+type actionLabel = string;
+
+type MissedCallActions = {
+    [actionId: string]:actionLabel
+}
+
+ type PushPrimer = {
+    inAppType: string,
+    titleText: string,
+    messageText: string,
+    followDeviceOrientation: boolean,
+    positiveBtnText: string,
+    negativeBtnText: string,
+    fallbackToSettings: boolean,
+}
+
+ type FCMNotification = {
+    title: string,
+    subtitle: string,
+    largeIcon: string,
+    cancelCtaLabel: string
+}
+
+type CallProperties = {
+    remote_context: string,
+    receiver_image: string,
+    initiator_image:string
+}
+
+type SignedCallConstants = {
+    SignedCallOnMissedCallActionClicked: string,
+    SignedCallOnCallStatusChanged: string
+}

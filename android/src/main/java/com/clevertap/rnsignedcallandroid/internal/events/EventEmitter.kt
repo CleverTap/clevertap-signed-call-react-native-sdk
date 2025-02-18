@@ -4,9 +4,6 @@ import android.content.Context
 import com.clevertap.rnsignedcallandroid.internal.EventName
 import com.clevertap.rnsignedcallandroid.internal.util.ReactContextHandler
 import com.clevertap.rnsignedcallandroid.internal.util.Utils.log
-import com.facebook.react.ReactApplication
-import com.facebook.react.ReactInstanceEventListener
-import com.facebook.react.ReactNativeHost
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.WritableMap
 import com.facebook.react.modules.core.DeviceEventManagerModule
@@ -24,9 +21,9 @@ internal object EventEmitter {
    */
   fun emit(context: Context, @EventName event: String, payload: WritableMap) {
     try {
-     ReactContextHandler.execute(context) { reactContext ->
+     ReactContextHandler.execute(context, runnable = { reactContext ->
        sendEmit(reactContext, event, payload)
-     }
+     })
     } catch (t: Throwable) {
       log(message = "An exception occurred while emitting the $event with params: $payload: " + t.localizedMessage)
     }
