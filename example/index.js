@@ -10,6 +10,7 @@ import Toast from 'react-native-simple-toast';
 import { Platform } from 'react-native';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
 import { Constants } from './src/Constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const activateHandlers = () => {
   //To keep track on changes in the VoIP call's state
@@ -102,14 +103,20 @@ const activateHandlers = () => {
           await SignedCall.call(receiverCuid,callContext,callProperties)
           console.log("placing call")
         } else {
-          await SignedCall.initialize({
-            accountId: Constants.SC_ACCOUNT_ID,
-            apiKey: Constants.SC_API_KEY,
-            cuid: result.callDetails.calleeCuid,
-            allowPersistSocketConnection: true,
-            notificationPermissionRequired: true,
-            production: true,
-          })
+          let properties = await AsyncStorage.getItem(Constants.KEY_SC_DETAILS)
+          if(properties == null) {
+            properties = {
+              accountId: Constants.SC_ACCOUNT_ID,
+              apiKey: Constants.SC_API_KEY,
+              cuid: result.callDetails.calleeCuid,
+              allowPersistSocketConnection: true,
+              notificationPermissionRequired: true,
+              production: true,
+            }
+          } else {
+            properties = JSON.parse(properties)
+          }
+          await SignedCall.initialize(properties)
           console.log("Initalization completes")
           console.log("placing call")
           await SignedCall.call(receiverCuid,callContext,callProperties)

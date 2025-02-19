@@ -24,7 +24,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - clevertap-signed-call-react-native (0.7.7):
+  - clevertap-signed-call-react-native (0.8.0):
     - CleverTap-SignedCall-SDK (= 0.0.9)
     - DoubleConversion
     - glog
@@ -1875,7 +1875,7 @@ SPEC CHECKSUMS:
   boost: 7e761d76ca2ce687f7cc98e698152abd03a18f90
   CleverTap-iOS-SDK: 09d1762523c87c14ffbd82b69b070afbe6e3d845
   clevertap-react-native: 14387a3c8366964509a3bccead44b0dd716e60e4
-  clevertap-signed-call-react-native: c6de3818cfe16a0ea7f6c01ca2ca25ef257c3187
+  clevertap-signed-call-react-native: 2a01f45dea01c04bd4a029b99f48c32c31620f91
   CleverTap-SignedCall-SDK: 96f5bf2a9e1ec7781aa8c552f4ca93b5dca0dc75
   CTSimplePing: 3536d59dc78d9435319915668c251357c12bcea8
   CTSoftPhone: d7656787bd49c5d60775e4d7e20d80fd667c8b22
