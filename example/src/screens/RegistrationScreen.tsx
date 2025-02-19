@@ -69,49 +69,8 @@ export default function RegistrationPage(registrationPageProps: RegistrationPage
     }));
   };
 
-  const checkLoggedInState = async () => {
-    try {
-      const loggedInCuid = await AsyncStorage.getItem(
-        Constants.KEY_LOGGED_IN_CUID
-      );
-      const storedPoweredBySignedCallPref = await AsyncStorage.getItem(
-        Constants.KEY_CAN_HIDE_POWERED_BY_SIGNED_CALL
-      );
-      const storedNotificationPermissionPref = await AsyncStorage.getItem(
-        Constants.KEY_NOTIFICATION_PERMISSION_REQUIRED
-      );
-      const storedSwipeOffBehaviourPref = await AsyncStorage.getItem(
-        Constants.KEY_SWIPE_OFF_BEHAVIOUR
-      );
-
-      if (loggedInCuid !== null) {
-        setCuid(loggedInCuid);
-      }
-
-      if (storedPoweredBySignedCallPref !== null) {
-        setHidePoweredBySignedCall(storedPoweredBySignedCallPref === 'true');
-      }
-
-      if (storedNotificationPermissionPref !== null) {
-        setNotificationPermissionRequired(
-          storedNotificationPermissionPref === 'true'
-        );
-      }
-
-      if (storedSwipeOffBehaviourPref !== null) {
-        setSwipeOffBehaviour(
-          SCSwipeOffBehaviourUtil.fromString(storedSwipeOffBehaviourPref)
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   React.useEffect(() => {
     activateHandlers();
-    checkLoggedInState();
-
     // below return function gets called on component unmount
     return () => {
       deactivateHandlers();
@@ -150,20 +109,7 @@ export default function RegistrationPage(registrationPageProps: RegistrationPage
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           console.log('Signed Call SDK initialized: ', response);
-
-          AsyncStorage.setItem(Constants.KEY_LOGGED_IN_CUID, cuid);
-          AsyncStorage.setItem(
-            Constants.KEY_CAN_HIDE_POWERED_BY_SIGNED_CALL,
-            canHidePoweredBySignedCall.toString()
-          );
-          AsyncStorage.setItem(
-            Constants.KEY_NOTIFICATION_PERMISSION_REQUIRED,
-            notificationPermissionRequired.toString()
-          );
-          AsyncStorage.setItem(
-            Constants.KEY_SWIPE_OFF_BEHAVIOUR,
-            swipeOffBehaviour.toString()
-          );
+          AsyncStorage.setItem(Constants.KEY_SC_DETAILS,JSON.stringify(getInitProperties()))
           //navigates to the Dialer Screen with registered cuid
           registrationPageProps.navigateToDialer(cuid)
         } else {
