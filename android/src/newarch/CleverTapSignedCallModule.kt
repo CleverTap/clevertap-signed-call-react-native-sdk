@@ -32,35 +32,44 @@ class CleverTapSignedCallModule(context: ReactApplicationContext): NativeCleverT
   }
 
   override fun getCallState(promise: Promise) {
-    moduleImpl.getBackToCall(promise)
+    moduleImpl.getCallState(promise)
   }
 
-  override fun logout() {
-   moduleImpl.logout()
+  override fun logout(promise: Promise) {
+   moduleImpl.logout(promise)
   }
 
-  override fun hangupCall() {
-   moduleImpl.hangupCall()
+  override fun hangupCall(promise: Promise) {
+   moduleImpl.hangupCall(promise)
   }
 
-  override fun disconnectSignallingSocket() {
-    moduleImpl.disconnectSignallingSocket()
+  override fun disconnectSignallingSocket(promise: Promise) {
+    moduleImpl.disconnectSignallingSocket(promise)
   }
 
-  override fun addListener(eventName: String?, handler: Callback?) {
-    TODO("Not yet implemented")
+
+  override fun trackSdkVersion(sdkName: String, sdkVersion: Double,promise: Promise) {
+   moduleImpl.trackSdkVersion(sdkName,sdkVersion.toInt(),promise)
   }
 
-  override fun removeListener(eventName: String?) {
-    TODO("Not yet implemented")
-  }
-
-  override fun trackSdkVersion(sdkName: String, sdkVersion: Double) {
-   moduleImpl.trackSdkVersion(sdkName,sdkVersion.toInt())
-  }
-
-  override fun setDebugLevel(logLevel: Double) {
+  override fun setDebugLevel(logLevel: Double,promise: Promise) {
    moduleImpl.setDebugLevel(logLevel.toInt())
+  }
+
+  override fun isInitialized(promise: Promise) {
+    moduleImpl.isInitialized(promise)
+  }
+
+  override fun dismissMissedCallNotification(promise: Promise) {
+    moduleImpl.dismissMissedCallNotification(promise)
+  }
+
+  override fun addListener(eventType: String?) {
+    moduleImpl.addListener(eventType)
+  }
+
+  override fun removeListeners(count: Double) {
+   moduleImpl.removeListeners(count.toInt())
   }
 
   override fun getTypedExportedConstants(): MutableMap<String, Any>  = moduleImpl.getConstants() as MutableMap<String, Any>

@@ -1,30 +1,38 @@
-require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+ENV['RCT_NEW_ARCH_ENABLED'] = '1'
 
-platform :ios, '13.0'
-install! 'cocoapods', :deterministic_uuids => false
+# Resolve react_native_pods.rb with node to allow for hoisting
+require Pod::Executable.execute_command('node', ['-p',
+  'require.resolve(
+    "react-native/scripts/react_native_pods.rb",
+    {paths: [process.argv[1]]},
+  )', __dir__]).strip
+
+platform :ios, min_ios_version_supported
+prepare_react_native_project!
+
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
+end
 
 source 'https://github.com/CleverTap/podspecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'ClevertapSignedCallReactNativeExample' do
-  config = use_native_modules!
-  use_react_native!(:path => config[:reactNativePath],
-                    :hermes_enabled => false,
-                    :flipper_configuration => FlipperConfiguration.disabled,
-                    # An absolute path to your application root.
-                    :app_path => "#{Pod::Config.instance.installation_root}/.."
-                    )
-  
-  target 'ClevertapSignedCallReactNativeExampleTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-  
   use_frameworks!
-  pod 'Permission-Microphone', :path => '../node_modules/react-native-permissions/ios/Microphone/Permission-Microphone.podspec'
-  pod 'Permission-Camera', :path => '../node_modules/react-native-permissions/ios/Camera/Permission-Camera.podspec'
-  
+  config = use_native_modules!
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
+
+
+  pod 'Permission-Microphone', :path => '../node_modules/react-native-permissions/ios/Microphone'
+  #pod 'Permission-Camera', :path => '../node_modules/react-native-permissions/ios/Camera'
+
   pre_install do |installer|
     Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
     
@@ -36,11 +44,18 @@ target 'ClevertapSignedCallReactNativeExample' do
     end
   end
 end
-    
-    
+
 post_install do |installer|
-  
+  system("chmod -R u+w Pods/RCT-Folly")
+  Dir.glob("Pods/RCT-Folly/folly/Portability.h").each do |file|
+    text = File.read(file)
+    new_contents = text.gsub('#define FOLLY_HAS_COROUTINES 1', '#define FOLLY_HAS_COROUTINES 0')
+    File.open(file, "w") { |file| file.puts new_contents }
+  end
   installer.pods_project.targets.each do |target|
+    if target.name == 'clevertap-react-native' 
+      target.add_system_framework('CoreLocation')
+    end
     target.build_configurations.each do |config|
       config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
@@ -55,9 +70,12 @@ post_install do |installer|
       config.build_settings['HEADER_SEARCH_PATHS'] << '"$(PODS_CONFIGURATION_BUILD_DIR)/React-bridging/react_bridging.framework/Headers" '
     end
   end
-  react_native_post_install(installer)
-  __apply_Xcode_12_5_M1_post_install_workaround(installer)
+  # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
+  react_native_post_install(
+    installer,
+    config[:reactNativePath],
+    :mac_catalyst_enabled => false,
+    # :ccache_enabled => true
+  )
+  end
 end
-end
-
-
