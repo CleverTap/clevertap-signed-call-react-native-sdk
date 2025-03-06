@@ -1,13 +1,13 @@
 # Change Log
 
-### Version 0.8.0 (March 06, 2025)
+### Version 0.8.0 (March 07, 2025)
 
 ---
 **What's new**
 * **[Android Platform]**
   * Supports Signed Call Android SDK [v0.0.7.7](https://repo1.maven.org/maven2/com/clevertap/android/clevertap-signedcall-sdk/0.0.7.7/) which is compatible with CleverTap Android SDK [v7.0.2](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-702-october-10-2024).
-  * Adds new public API isInitialized(context), accessible via SignedCallAPI.getInstance() instance, to retrieve the initialization status.
-  * Adds new public API dismissMissedCallNotification(context), accessible via SignedCallAPI.getInstance() instance, to dismiss the missed call notification.
+  * Adds new public API `SignedCall.isInitialized()` to retrieve the initialization status.
+  * Adds new public API `SignedCall.dismissMissedCallNotification()` to dismiss the missed call notification.
  
 * **[iOS Platform]**
   * Supports [Signed Call iOS SDK v0.0.9](https://github.com/CleverTap/clevertap-signedcall-ios-sdk/blob/main/CHANGELOG.md#version-009-november-19-2024) which is compatible with [CleverTap iOS SDK v7.0.2](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-702-october-10-2024) and higher.
@@ -18,7 +18,7 @@
 
 **Bug Fixes**
 * **[Android Platform]**
-  * Addresses the [Notification trampoline restrictions](https://developer.android.com/about/versions/12/behavior-changes-12#notification-trampolines), introduced in Android 12 and above, which blocks the activity launches from the onMissedCallNotificationOpened(context, result) callback triggered upon clicking the missed call CTA.
+  * Addresses the [Notification trampoline restrictions](https://developer.android.com/about/versions/12/behavior-changes-12#notification-trampolines), introduced in Android 12 and above, which blocks the activity launches from the `SignedCall.SignedCallOnMissedCallActionClicked` callback triggered upon clicking the missed call CTA.
   * Fixes an issue where the call notification would disappear upon pressing the back button on certain devices.
 
 **Enhancements**
