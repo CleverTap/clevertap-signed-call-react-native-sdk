@@ -22,50 +22,37 @@ import com.clevertap.rnsignedcallandroid.internal.util.toJson
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableMap
 
-class CleverTapSignedCallModule(private val reactContext: ReactApplicationContext) :
-    ReactContextBaseJavaModule(reactContext) {
+
+class CleverTapSignedCallModuleImpl(private val reactContext: ReactApplicationContext) {
+
   private var mSignedCall: SignedCallAPI? = null
   private var cleverTapAPI: CleverTapAPI? = null
   private lateinit var outgoingCallResponse: OutgoingCallResponse
+
+  companion object {
+    /**
+     * Exports the Name of the Android module. TypeScript/Javascript part of the package used this
+     * name to communicate with this NativeModule class.
+     */
+    const val NAME = "CleverTapSignedCall"
+    const val ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED = "CleverTap Instance is not initialized"
+  }
 
   init {
     cleverTapAPI = CleverTapAPI.getDefaultInstance(reactContext)
     registerListeners(reactContext)
   }
 
-  companion object {
-    const val NAME = "CleverTapSignedCall"
-    const val ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED = "CleverTap Instance is not initialized"
-  }
 
-  /**
-   * Exports the Name of the Android module. TypeScript/Javascript part of the package used this
-   * name to communicate with this NativeModule class.
-   */
-  override fun getName(): String {
-    return NAME
-  }
-
-  @ReactMethod
   fun addListener(eventName: String?) {
     // Keep: Required for RN built in Event Emitter Calls.
   }
 
-  @ReactMethod
   fun removeListeners(count: Int?) {
     // Keep: Required for RN built in Event Emitter Calls.
   }
-
-  /** Exports constants for Typescript or Javascript part of this package. */
-  override fun getConstants(): MutableMap<String, String> =
-      hashMapOf(
-          ON_CALL_STATUS_CHANGED to ON_CALL_STATUS_CHANGED,
-          ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED
-      )
 
   private fun getSignedCallAPI(): SignedCallAPI {
     if (mSignedCall == null) {
@@ -75,7 +62,7 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   }
 
   @SuppressLint("RestrictedApi")
-  private fun registerListeners(context: ReactContext) {
+  fun registerListeners(context: ReactContext) {
     if (!SignedCallUtils.isAppInBackground()) {
       SignedCallAPI.getInstance().registerVoIPCallStatusListener { data ->
         log(message = "SignedCallOnCallStatusListener is invoked in foreground or background: $data")
@@ -90,15 +77,17 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   }
 
   @SuppressLint("RestrictedApi")
-  @ReactMethod
-  fun trackSdkVersion(sdkName: String, sdkVersion: Int) {
-    cleverTapAPI?.let { cleverTapAPI!!.setCustomSdkVersion(sdkName, sdkVersion) }
-        ?: run {
-          log(message = "$ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED to track the SDK Version")
-        }
+  fun trackSdkVersion(sdkName: String, sdkVersion: Int, promise: Promise) {
+    cleverTapAPI?.let {
+      cleverTapAPI!!.setCustomSdkVersion(sdkName, sdkVersion)
+      promise.resolve(null)
+    }
+      ?: run {
+        log(message = "$ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED to track the SDK Version")
+        promise.reject("$ERROR_CLEVERTAP_INSTANCE_NOT_INITIALIZED to track the SDK Version")
+      }
   }
 
-  @ReactMethod
   fun setDebugLevel(logLevel: Int) {
     SignedCallAPI.setDebugLevel(logLevel.toSignedCallLogLevel())
   }
@@ -106,25 +95,25 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   /**
    * Retrieves the init-properties from the readableMap and initializes the Signed Call Android SDK
    */
-  @ReactMethod
   fun initialize(initProperties: ReadableMap?, promise: Promise) {
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     initProperties?.let {
       try {
-        val initConfiguration: SignedCallInitConfiguration? = getInitConfigFromReadableMap(it, reactContext.applicationContext)
+        val initConfiguration: SignedCallInitConfiguration? =
+          getInitConfigFromReadableMap(it, reactContext.applicationContext)
         signedCallAPI.init(
-            reactContext.applicationContext,
-            initConfiguration,
-            cleverTapAPI,
-            object : SignedCallInitResponse {
-              override fun onSuccess() {
-                promise.resolve(signedCallResponseToWritableMap(exception = null))
-              }
-
-              override fun onFailure(initException: InitException) {
-                promise.resolve(signedCallResponseToWritableMap(initException))
-              }
+          reactContext.applicationContext,
+          initConfiguration,
+          cleverTapAPI,
+          object : SignedCallInitResponse {
+            override fun onSuccess() {
+              promise.resolve(signedCallResponseToWritableMap(exception = null))
             }
+
+            override fun onFailure(initException: InitException) {
+              promise.resolve(signedCallResponseToWritableMap(initException))
+            }
+          }
         )
       } catch (throwable: Throwable) {
         val errorMessage = "Exception while initializing the Signed Call native module"
@@ -135,18 +124,17 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
   }
 
   /** Sends the call-details to initiate a VoIP call */
-  @ReactMethod
   fun call(
-      receiverCuid: String,
-      callContext: String,
-      callProperties: ReadableMap?,
-      promise: Promise
+    receiverCuid: String,
+    callContext: String,
+    callProperties: ReadableMap?,
+    promise: Promise
   ) {
     val signedCallAPI: SignedCallAPI = getSignedCallAPI()
     try {
       val callOptions = callProperties?.toJson()
 
-      outgoingCallResponse = object: OutgoingCallResponse {
+      outgoingCallResponse = object : OutgoingCallResponse {
         override fun onSuccess() {
           promise.resolve(signedCallResponseToWritableMap(exception = null))
         }
@@ -157,11 +145,11 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
       }
 
       signedCallAPI.call(
-          reactContext,
-          receiverCuid,
-          callContext,
-          callOptions,
-          outgoingCallResponse
+        reactContext,
+        receiverCuid,
+        callContext,
+        callOptions,
+        outgoingCallResponse
       )
     } catch (throwable: Throwable) {
       val errorMessage = "Exception while initiating the VoIP Call"
@@ -176,35 +164,77 @@ class CleverTapSignedCallModule(private val reactContext: ReactApplicationContex
    * This method checks if there is an active call and if the client is on VoIP call.
    * If both conditions are met, it starts the call screen activity.
    */
-  @ReactMethod
   fun getBackToCall(promise: Promise) {
-    promise.resolve(getSignedCallAPI().callController?.getBackToCall(reactContext))
+    promiseHandler(getSignedCallAPI().callController?.getBackToCall(reactContext), promise)
   }
 
   /**
    * Retrieves the current call state.
    * @return The current call state.
    */
-  @ReactMethod
   fun getCallState(promise: Promise) {
-    promise.resolve(getSignedCallAPI().callController?.callState?.formattedCallState())
+    promiseHandler(getSignedCallAPI().callController?.callState?.formattedCallState(), promise)
   }
 
   /** Logs out the Signed Call SDK session */
-  @ReactMethod
-  fun logout() {
-    getSignedCallAPI().logout(reactContext)
+  fun logout(promise: Promise) {
+    getSignedCallAPI().logout(reactContext.applicationContext)
+    promiseHandler(true, promise)
   }
 
   /** Ends the active call, if any. */
-  @ReactMethod
-  fun hangupCall() {
-    getSignedCallAPI().callController?.endCall()
+  fun hangupCall(promise: Promise) {
+    promiseHandler(getSignedCallAPI().callController?.endCall(), promise)
   }
 
   /** Disconnects the signalling socket */
-  @ReactMethod
-  fun disconnectSignallingSocket() {
-    getSignedCallAPI().disconnectSignallingSocket(reactContext)
+  fun disconnectSignallingSocket(promise: Promise) {
+    promiseHandler(
+      getSignedCallAPI().disconnectSignallingSocket(reactContext.applicationContext),
+      promise
+    )
   }
+
+  /** Exports constants for Typescript or Javascript part of this package. */
+  fun getConstants(): MutableMap<String, String> {
+    return mutableMapOf(
+      ON_CALL_STATUS_CHANGED to ON_CALL_STATUS_CHANGED,
+      ON_MISSED_CALL_ACTION_CLICKED to ON_MISSED_CALL_ACTION_CLICKED
+    )
+  }
+
+  /**
+   * Checks if the Signed Call SDK is initialized.
+   *
+   */
+  fun isInitialized(promise: Promise) {
+    promiseHandler(getSignedCallAPI().isInitialized(reactContext.applicationContext), promise)
+  }
+
+  /**
+   * Dismisses the missed call notification.
+   *
+   * This method is intended to be called after a VoIP call use case is completed
+   *
+   */
+  fun dismissMissedCallNotification(promise: Promise) {
+    promiseHandler(
+      getSignedCallAPI().dismissMissedCallNotification(reactContext.applicationContext),
+      promise
+    )
+  }
+
+
+  private fun promiseHandler(promiseFunction: Any?, promise: Promise) {
+    try {
+      when (promiseFunction) {
+        is Unit -> promise.resolve(null)
+        else -> promise.resolve(promiseFunction)
+      }
+
+    } catch (e: Throwable) {
+      promise.reject(e)
+    }
+  }
+
 }
