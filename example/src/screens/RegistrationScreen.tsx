@@ -24,6 +24,7 @@ import { isDeviceVersionTargetsBelow } from '../Helpers';
 
 export default function RegistrationPage({ navigation }: any) {
   const [cuid, setCuid] = useState('');
+  const [segment, setSegment] = useState('');
   const [m2pTitle, setm2pTitle] = useState('M2P Title');
   const [m2pSubTitle, setm2pSubTitle] = useState('M2P Subtitle');
   const [m2pCancelCtaLabel, setm2pCancelCtaLabel] = useState('Cancel Call');
@@ -83,10 +84,11 @@ export default function RegistrationPage({ navigation }: any) {
           AsyncStorage.setItem(Constants.KEY_LOGGED_IN_CUID, cuid);
           CleverTap.profileSet({
             scCuid: cuid,
+            scSegment: segment
           });
 
           //navigates to the Dialer Screen with registered cuid
-          navigation.replace('Dialer', { registeredCuid: cuid });
+          navigation.replace('Dialer', { registeredCuid: cuid, registeredSegment: segment });
         } else {
           console.log('Signed Call initialization failed: ', response.error);
           Alert.alert(
@@ -138,6 +140,18 @@ export default function RegistrationPage({ navigation }: any) {
             value={cuid}
             onChangeText={(text) => {
               setCuid(text);
+            }}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text>Enter User Segment</Text>
+          <TextInput
+            style={styles.inputStyle}
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={segment}
+            onChangeText={(text) => {
+              setSegment(text);
             }}
           />
         </View>
