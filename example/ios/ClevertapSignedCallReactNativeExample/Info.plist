@@ -21,13 +21,15 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>138</string>
 	<key>CleverTapAccountID</key>
-	<string>CLEVERTAP_ACCOUNT_ID</string>
-	<key>CleverTapToken</key>
-	<string>CLEVERTAP_TOKEN</string>
+	<string>$(CLEVERTAP_ACCOUNT_ID)</string>
 	<key>CleverTapRegion</key>
-	<string>CLEVERTAP_REGION</string>
+	<string>$(CLEVERTAP_REGION)</string>
+	<key>CleverTapToken</key>
+	<string>$(CLEVERTAP_TOKEN)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
