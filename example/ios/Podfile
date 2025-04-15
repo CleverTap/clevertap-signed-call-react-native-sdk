@@ -1,59 +1,81 @@
-//
-//  AppDelegate.swift
-//  ClevertapSignedCallReactNativeExample
-//
-//
+ENV['RCT_NEW_ARCH_ENABLED'] = '0'
+
+# Resolve react_native_pods.rb with node to allow for hoisting
+require Pod::Executable.execute_command('node', ['-p',
+  'require.resolve(
+    "react-native/scripts/react_native_pods.rb",
+    {paths: [process.argv[1]]},
+  )', __dir__]).strip
+
+platform :ios, min_ios_version_supported
+prepare_react_native_project!
+
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
+end
+
+source 'https://github.com/CleverTap/podspecs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
+target 'ClevertapSignedCallReactNativeExample' do
+  use_frameworks!
+  config = use_native_modules!
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/.."
+  )
 
 
-import UIKit
-import React_RCTAppDelegate
-import ReactAppDependencyProvider
-import CleverTapSDK
-import SignedCallSDK
+  pod 'Permission-Microphone', :path => '../node_modules/react-native-permissions/ios/Microphone'
+  #pod 'Permission-Camera', :path => '../node_modules/react-native-permissions/ios/Camera'
 
-@main
-class AppDelegate: RCTAppDelegate {
-  override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    self.moduleName = "ClevertapSignedCallReactNativeExample"
-    self.dependencyProvider = RCTAppDependencyProvider()
-
-    // You can add your custom initial props in the dictionary below.
-    // They will be passed down to the ViewController used by React Native.
-    self.initialProps = [:]
-    let bridge = RCTBridge(delegate: self, launchOptions: launchOptions)
-            
-    let rootView = RCTRootView(bridge: bridge!, moduleName: moduleName!, initialProperties: initialProps)
+  pre_install do |installer|
+    Pod::Installer::Xcode::TargetValidator.send(:define_method, :verify_no_static_framework_transitive_dependencies) {}
     
-    if #available(iOS 13.0, *) {
-        rootView.backgroundColor = UIColor.systemBackground
-    } else {
-        rootView.backgroundColor = UIColor.white
-    }
-    
-    self.window = UIWindow(frame: UIScreen.main.bounds)
-    let rootViewController = UIViewController()
-    rootViewController.view = rootView
-    self.window.rootViewController = rootViewController
-    
-    SignedCall.cleverTapInstance = CleverTap.sharedInstance()
-    SignedCall.isLoggingEnabled = true
-    SignedCall.registerVoIP(appName: "Sample App")
-    SignedCall.rootViewController = self.window.rootViewController
-    
-    self.window.makeKeyAndVisible()
-    
-    return true
-  }
+    installer.pod_targets.each do |pod|
+      if pod.name.eql?('RNPermissions') || pod.name.start_with?('Permission-')
+        def pod.build_type;
+        Pod::BuildType.static_library
+      end
+    end
+  end
+end
 
-  override func sourceURL(for bridge: RCTBridge) -> URL? {
-    self.bundleURL()
-  }
-
-  override func bundleURL() -> URL? {
-#if DEBUG
-    RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
-#else
-    Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-#endif
-  }
-}
+post_install do |installer|
+  system("chmod -R u+w Pods/RCT-Folly")
+  Dir.glob("Pods/RCT-Folly/folly/Portability.h").each do |file|
+    text = File.read(file)
+    new_contents = text.gsub('#define FOLLY_HAS_COROUTINES 1', '#define FOLLY_HAS_COROUTINES 0')
+    File.open(file, "w") { |file| file.puts new_contents }
+  end
+  installer.pods_project.targets.each do |target|
+    if target.name == 'clevertap-react-native' 
+      target.add_system_framework('CoreLocation')
+    end
+    target.build_configurations.each do |config|
+      config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+    end
+  end
+  
+  installer.target_installation_results.pod_target_installation_results.each do |pod_name, target_installation_result|
+    target_installation_result.native_target.build_configurations.each do |config|
+      # For third party modules who have React-bridging dependency to search correct headers
+      config.build_settings['HEADER_SEARCH_PATHS'] ||= '$(inherited) '
+      config.build_settings['HEADER_SEARCH_PATHS'] << '"$(PODS_ROOT)/Headers/Private/React-bridging/react/bridging" '
+      config.build_settings['HEADER_SEARCH_PATHS'] << '"$(PODS_CONFIGURATION_BUILD_DIR)/React-bridging/react_bridging.framework/Headers" '
+    end
+  end
+  # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
+  react_native_post_install(
+    installer,
+    config[:reactNativePath],
+    :mac_catalyst_enabled => false,
+    # :ccache_enabled => true
+  )
+  end
+end
