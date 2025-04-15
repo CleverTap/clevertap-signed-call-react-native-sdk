@@ -41,6 +41,12 @@ export default function RegistrationPage({ navigation }: any) {
       if (loggedInCuid !== null) {
         setCuid(loggedInCuid);
       }
+      const segment = await AsyncStorage.getItem(
+        Constants.KEY_SEGMENT
+      )
+      if (segment !== null) {
+        setSegment(segment);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -80,8 +86,9 @@ export default function RegistrationPage({ navigation }: any) {
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           console.log('Signed Call SDK initialized: ', response);
-
+          AsyncStorage.setItem(Constants.KEY_SC_DETAILS, JSON.stringify(getInitProperties()))
           AsyncStorage.setItem(Constants.KEY_LOGGED_IN_CUID, cuid);
+          AsyncStorage.setItem(Constants.KEY_SEGMENT, segment);
           CleverTap.profileSet({
             scCuid: cuid,
             scSegment: segment
