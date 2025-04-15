@@ -20,7 +20,7 @@
     "@voximplant/react-native-foreground-service": "^3.0.2",
     "clevertap-react-native": "3.1.1",
     "react": "18.3.1",
-    "react-native": "0.77.0",
+    "react-native": "0.79.0",
     "react-native-dotenv": "^3.4.11",
     "react-native-permissions": "^3.8.0",
     "react-native-simple-toast": "^3.2.0",
