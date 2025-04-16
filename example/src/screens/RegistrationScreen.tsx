@@ -8,6 +8,7 @@ import {
   Keyboard,
   Platform,
   Switch,
+  ScrollView,
 } from 'react-native';
 import { useState } from 'react';
 import styles from '../styles/style';
@@ -131,7 +132,7 @@ export default function RegistrationPage({ navigation }: any) {
   }
 
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}  keyboardShouldPersistTaps="handled">
       <Text style={styles.mainHeader}>CUID Registration</Text>
       <Image
         style={styles.image}
@@ -226,7 +227,7 @@ export default function RegistrationPage({ navigation }: any) {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 
   function getInitProperties(): any {
