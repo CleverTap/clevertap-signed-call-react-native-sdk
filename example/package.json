@@ -22,7 +22,7 @@
     "react-native-dotenv": "^3.4.11",
     "react-native-permissions": "^3.8.0",
     "react-native-safe-area-context": "5.3.0",
-   "react-native-screens": "3.31.1",
+    "react-native-screens": "4.5.0",
     "react-native-simple-toast": "^3.2.0",
     "react-native-vector-icons": "^9.2.0"
   },
