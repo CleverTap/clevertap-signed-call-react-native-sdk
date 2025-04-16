@@ -1,5 +1,32 @@
 # Change Log
 
+### Version 0.0.7-m2p.0 (April 17, 2025)
+
+---
+
+**What's new**
+- **[Android Platform]**
+  * Supports [CleverTap Android SDK v7.3.1](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-731-march-27-2025).
+  > ‼️ **NOTE**
+  This and upcoming Signed Call releases will not be compatible with CleverTap SDK versions below v7.3.1. Please always refer the Signed Call integration document to check the compatible versions of CleverTap Android SDK.
+  * **Edge-to-Edge Support**: Supports [Edge-to-edge enforcement](https://developer.android.com/about/versions/15/behavior-changes-15#edge-to-edge) introduced in Android 15, ensuring proper inset handling for the call screen.
+  * Refactored the incoming call screen to use MotionLayout, allowing users to accept or decline calls with a swipe gesture.
+  * Raises `FCMTokenMissingException` exception in `SignedCallInitResponse.onFailure` callback if SDK fails to fetch the token during initialization.
+  * **CallStyle Notifications on Android 12 and Onwards:**
+    Replaced regular call notifications with the CallStyle notifications for incoming, outgoing and ongoing calls. This update adheres to the new standards for non-dismissible notifications as outlined in the Android 14 behavior changes. These notifications are given top priority in the notification shade or tray.
+
+**Bug Fixes**  
+- **[Android Platform]**
+  * Addresses the campaign failures during SDK processing on Android 7 and below.
+  * **Dialpad UI alignment:** Fixed an issue causing distortion in dialpad symmetry on certain devices. The UI is now properly aligned to ensure a consistent appearance across all supported screens.
+  * **Audio output routing:** Resolved an intermittent issue where campaign audio would start playing through the loudspeaker by default on certain devices. The SDK now consistently routes audio through the earpiece when a campaign call is answered.
+
+**Improvements**
+- **[Android Platform]**
+  * **Improved campaign delivery**: Increased campaign delivery by handling edge cases that previously led to campaign loss during processing failures at SDK. The SDK now also tracks failed campaigns with detailed failure reasons, enabling better analytics.
+  * The head-up call notification is no longer displayed on the call screen when tapped, but remains in the notification tray.
+
+
 ### Version 0.0.6-m2p.2 (December 09, 2024)
 
 ---
