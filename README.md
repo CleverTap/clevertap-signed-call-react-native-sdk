@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/@clevertap%2Fclevertap-signed-call-react-native.svg)](https://badge.fury.io/js/@clevertap%2Fclevertap-signed-call-react-native)
 <a href="https://github.com/CleverTap/clevertap-signed-call-react-native-sdk/releases">
-<img src="https://img.shields.io/badge/release-0.0.7--m2p.1-brightgreen" />
+<img src="https://img.shields.io/badge/release-0.0.7--m2p.0-brightgreen" />
 </a>
 [![npm downloads](https://img.shields.io/npm/dm/@clevertap%2Fclevertap-signed-call-react-native.svg)](https://www.npmjs.com/package/@clevertap/clevertap-signed-call-react-native/v/0.0.7-m2p.0)
 
