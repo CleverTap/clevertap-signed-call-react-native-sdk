@@ -8,6 +8,7 @@ import {
   Keyboard,
   Platform,
   Switch,
+  ScrollView,
 } from 'react-native';
 import { useState } from 'react';
 import styles from '../styles/style';
@@ -24,6 +25,7 @@ import { isDeviceVersionTargetsBelow } from '../Helpers';
 
 export default function RegistrationPage({ navigation }: any) {
   const [cuid, setCuid] = useState('');
+  const [segment, setSegment] = useState('');
   const [m2pTitle, setm2pTitle] = useState('M2P Title');
   const [m2pSubTitle, setm2pSubTitle] = useState('M2P Subtitle');
   const [m2pCancelCtaLabel, setm2pCancelCtaLabel] = useState('Cancel Call');
@@ -39,6 +41,12 @@ export default function RegistrationPage({ navigation }: any) {
       );
       if (loggedInCuid !== null) {
         setCuid(loggedInCuid);
+      }
+      const segment = await AsyncStorage.getItem(
+        Constants.KEY_SEGMENT
+      )
+      if (segment !== null) {
+        setSegment(segment);
       }
     } catch (error) {
       console.log(error);
@@ -79,14 +87,16 @@ export default function RegistrationPage({ navigation }: any) {
       .then((response: SignedCallResponse) => {
         if (response.isSuccessful) {
           console.log('Signed Call SDK initialized: ', response);
-
+          AsyncStorage.setItem(Constants.KEY_SC_DETAILS, JSON.stringify(getInitProperties()))
           AsyncStorage.setItem(Constants.KEY_LOGGED_IN_CUID, cuid);
+          AsyncStorage.setItem(Constants.KEY_SEGMENT, segment);
           CleverTap.profileSet({
             scCuid: cuid,
+            scSegment: segment
           });
 
           //navigates to the Dialer Screen with registered cuid
-          navigation.replace('Dialer', { registeredCuid: cuid });
+          navigation.replace('Dialer', { registeredCuid: cuid, registeredSegment: segment });
         } else {
           console.log('Signed Call initialization failed: ', response.error);
           Alert.alert(
@@ -122,7 +132,7 @@ export default function RegistrationPage({ navigation }: any) {
   }
 
   return (
-    <View style={styles.mainContainer}>
+    <ScrollView style={styles.mainContainer}  keyboardShouldPersistTaps="handled">
       <Text style={styles.mainHeader}>CUID Registration</Text>
       <Image
         style={styles.image}
@@ -138,6 +148,18 @@ export default function RegistrationPage({ navigation }: any) {
             value={cuid}
             onChangeText={(text) => {
               setCuid(text);
+            }}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text>Enter User Segment</Text>
+          <TextInput
+            style={styles.inputStyle}
+            autoCapitalize="none"
+            autoCorrect={false}
+            value={segment}
+            onChangeText={(text) => {
+              setSegment(text);
             }}
           />
         </View>
@@ -205,7 +227,7 @@ export default function RegistrationPage({ navigation }: any) {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 
   function getInitProperties(): any {

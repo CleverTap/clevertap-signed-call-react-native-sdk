@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.example.rnsignedcall">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -9,7 +8,8 @@
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
-      android:theme="@style/AppTheme">
+      android:theme="@style/AppTheme"
+      android:supportsRtl="true">
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -34,14 +34,14 @@
       </service>
 
       <!-- CleverTap Account Credentials -->
-             <meta-data
-            android:name="CLEVERTAP_ACCOUNT_ID"
-            android:value="679-8Z7-W66Z"/>
-        <meta-data
-            android:name="CLEVERTAP_TOKEN"
-            android:value="a1b-ca6"/>
-        <meta-data
-            android:name="CLEVERTAP_REGION"
-            android:value="sk1"/>
+      <meta-data
+        android:name="CLEVERTAP_ACCOUNT_ID"
+        android:value="${CLEVERTAP_ACCOUNT_ID}" />
+      <meta-data
+        android:name="CLEVERTAP_TOKEN"
+        android:value="${CLEVERTAP_TOKEN}" />
+      <meta-data
+        android:name="CLEVERTAP_REGION"
+        android:value="${CLEVERTAP_REGION}" />
     </application>
 </manifest>
