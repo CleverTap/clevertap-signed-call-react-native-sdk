@@ -1,10 +1,10 @@
 # CleverTap Signed Call React Native SDK
 
-[![npm version](https://badge.fury.io/js/clevertap-signed-call-react-native.svg)](https://badge.fury.io/js/clevertap-signed-call-react-native)
+[![npm version](https://badge.fury.io/js/@clevertap%2Fclevertap-signed-call-react-native.svg)](https://badge.fury.io/js/@clevertap%2Fclevertap-signed-call-react-native)
 <a href="https://github.com/CleverTap/clevertap-signed-call-react-native-sdk/releases">
-<img src="https://img.shields.io/github/release/CleverTap/clevertap-signed-call-react-native-sdk.svg" />
+<img src="https://img.shields.io/badge/release-0.0.7--m2p.0-brightgreen" />
 </a>
-[![npm downloads](https://img.shields.io/npm/dm/clevertap-signed-call-react-native-sdk.svg)](https://www.npmjs.com/package/clevertap-signed-call-react-native-sdk)
+[![npm downloads](https://img.shields.io/npm/dm/@clevertap%2Fclevertap-signed-call-react-native.svg)](https://www.npmjs.com/package/@clevertap/clevertap-signed-call-react-native/v/0.0.7-m2p.0)
 
 ## 👋 Introduction
 
