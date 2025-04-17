@@ -25,7 +25,7 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
     - For M2P Feature:
     ```text
-        npm install @clevertap/clevertap-signed-call-react-native@0.0.7-m2p.1
+        npm install @clevertap/clevertap-signed-call-react-native@0.0.7-m2p.0
     ```
 
 - Now, in your TypeScript or JavaScript code, you can use:
